@@ -1,0 +1,95 @@
+<main class="countries">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Страны</h2>
+         <div class="page-header__actions">
+            <button class="page-header__btn btn" data-filter-open>
+               Фильтр
+               <i class="icm-chevron"></i>
+            </button>
+            <a routerLink="/add-country" class="page-header__btn btn-green">
+               Добавить
+            </a>
+         </div>
+      </div>
+      <form
+         class="page-header__filter filter-header form"
+         data-filter-section
+         hidden
+      >
+         <div class="filter-header__actions">
+            <mat-form-field class="form__input">
+               <mat-label>Поиск по ID</mat-label>
+               <input matInput />
+            </mat-form-field>
+            <mat-form-field class="form__input">
+               <mat-label>Ф.И.О</mat-label>
+               <input matInput />
+            </mat-form-field>
+            <mat-form-field class="form__input form__select">
+               <mat-label>Сначала новые</mat-label>
+               <mat-select disableRipple>
+                  <mat-option>- -</mat-option>
+                  <mat-option [value]="1">1</mat-option>
+                  <mat-option [value]="2">2</mat-option>
+                  <mat-option [value]="3">3</mat-option>
+                  <mat-option [value]="4">4</mat-option>
+               </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form__input form__select">
+               <mat-label>Все пользователи</mat-label>
+               <mat-select disableRipple>
+                  <mat-option>- -</mat-option>
+                  <mat-option [value]="1">1</mat-option>
+                  <mat-option [value]="2">2</mat-option>
+                  <mat-option [value]="3">3</mat-option>
+                  <mat-option [value]="4">4</mat-option>
+               </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form__input form__select">
+               <mat-label>Трек активности</mat-label>
+               <mat-select disableRipple>
+                  <mat-option>- -</mat-option>
+                  <mat-option [value]="1">1 неделя</mat-option>
+                  <mat-option [value]="2">2 неделя</mat-option>
+                  <mat-option [value]="3">1 месяц</mat-option>
+                  <mat-option [value]="4">2 месяц</mat-option>
+                  <mat-option [value]="4">3 месяца</mat-option>
+               </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form__input">
+               <mat-label>Enter a date range</mat-label>
+               <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" />
+                  <input matEndDate placeholder="End date" />
+               </mat-date-range-input>
+               <mat-datepicker-toggle matIconSuffix [for]="picker">
+                  <i class="icm-calendar" matDatepickerToggleIcon></i>
+               </mat-datepicker-toggle>
+               <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+         </div>
+         <div class="filter-header__buttons">
+            <button class="filter-header__btn btn-green" type="button">
+               Применить
+            </button>
+            <button class="filter-header__btn btn-red" type="button">
+               Сбросить фильтры
+            </button>
+         </div>
+      </form>
+   </section>
+   <section class="table">
+      <ag-grid-angular
+         class="ag-theme-alpine"
+         style="height: 300px; width: 100%"
+         [rowData]="rowData"
+         [columnDefs]="colDefs"
+         [defaultColDef]="defaultColDef"
+         [rowSelection]="'multiple'"
+         [animateRows]="true"
+         [rowGroupPanelShow]="'always'"
+      >
+      </ag-grid-angular>
+   </section>
+</main>

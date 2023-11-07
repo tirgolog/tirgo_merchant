@@ -1,0 +1,26 @@
+<app-modal title="Новая транзакция">
+   <form class="add-transactions tw-grid">
+      <mat-form-field class="form__input">
+         <mat-label>Пользователь</mat-label>
+         <input matInput readonly name="nameuser" [value]="data.id + ' ' + data.name"/>
+      </mat-form-field>
+      <div class="sm:tw-flex tw-grid tw-gap-3">
+         <mat-form-field class="form__input tw-flex-1">
+            <mat-label>Сумма</mat-label>
+            <input matInput type="number" inputmode="tel" name="amount" [(ngModel)]="amount"/>
+         </mat-form-field>
+         <mat-form-field class="form__input form__select tw-flex-1">
+            <mat-label>Тип транзакции</mat-label>
+            <mat-select disableRipple (selectionChange)="selectType($event.value)">
+               <mat-option [value]="0">- -</mat-option>
+               <mat-option *ngFor="let row of helper.transactions_type" [value]="row.id">{{row.name}}</mat-option>
+            </mat-select>
+         </mat-form-field>
+      </div>
+      <mat-form-field class="form__input form__textarea">
+         <mat-label>Основание</mat-label>
+         <textarea matInput name="description" [(ngModel)]="description"></textarea>
+      </mat-form-field>
+      <button class="add-transactions__submit btn-green" (click)="addTransaction()">Добавить</button>
+   </form>
+</app-modal>

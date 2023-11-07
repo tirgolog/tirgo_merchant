@@ -1,0 +1,43 @@
+@import "base";
+
+.header {
+   display: flex;
+   align-items: center;
+   &__toggler {
+      padding: rem(10);
+      color: #fff;
+      border-radius: rem(5);
+
+      transition: all 0.2s ease 0s;
+      background: $mainWine;
+
+      transform: rotateY(180deg);
+
+      @media (min-width: $tablet) {
+         display: none;
+      }
+   }
+   &__profile {
+      color: #fff;
+
+      margin-left: auto;
+
+      .dropdown__title {
+         display: flex;
+         align-items: center;
+         i.icm-profile {
+            font-size: rem(26);
+            margin-left: rem(15);
+         }
+      }
+      .dropdown__items {
+         top: calc(100% + rem(10));
+         right: 0;
+      }
+      .dropdown__item {
+         &:last-child {
+            color: $mainRed;
+         }
+      }
+   }
+}

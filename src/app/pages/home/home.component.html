@@ -1,0 +1,86 @@
+<main class="home">
+   <section class="home__header">
+      <h1 class="home__title title" *ngIf="authService.currentUser">Добро пожаловать {{authService.currentUser.name}}</h1>
+   </section>
+   <section class="home__stats" *ngIf="authService.myrole">
+      <article class="home__stat stat-home">
+         <button class="stat-home__icon">
+            <i class="icm-users"></i>
+         </button>
+         <p class="stat-home__title">Пользователи</p>
+         <div class="stat-home__footer">
+            <h4 class="stat-home__numb">{{helper.users_count + helper.drivers_count}}</h4>
+         </div>
+      </article>
+      <article class="home__stat stat-home">
+         <button class="stat-home__icon">
+            <i class="icm-pilot"></i>
+         </button>
+         <p class="stat-home__title">Водители</p>
+         <div class="stat-home__footer">
+            <h4 class="stat-home__numb">{{helper.drivers_count}}</h4>
+            <a *ngIf="authService.myrole.drivers" routerLink="/drivers" class="stat-home__link">Подробнее</a>
+         </div>
+      </article>
+      <article class="home__stat stat-home">
+         <button class="stat-home__icon">
+            <i class="icm-user-cubik"></i>
+         </button>
+         <p class="stat-home__title">Грузоотправители</p>
+         <div class="stat-home__footer">
+            <h4 class="stat-home__numb">{{helper.users_count}}</h4>
+            <a *ngIf="authService.myrole.clients" routerLink="/shippers" class="stat-home__link">Подробнее</a>
+         </div>
+      </article>
+      <!--<article class="home__stat stat-home">
+         <button class="stat-home__icon">
+            <i class="icm-build"></i>
+         </button>
+         <p class="stat-home__title">Партнеры</p>
+         <div class="stat-home__footer">
+            <h4 class="stat-home__numb">{{helper.partners.length}}</h4>
+         </div>
+      </article>-->
+      <article class="home__stat stat-home">
+         <button class="stat-home__icon">
+            <i class="icm-list-blank"></i>
+         </button>
+         <p class="stat-home__title">Заказы</p>
+         <div class="stat-home__footer">
+            <h4 class="stat-home__numb">{{helper.orders_count}}</h4>
+            <a *ngIf="authService.myrole.orders" routerLink="/orders/100" class="stat-home__link">Подробнее</a>
+         </div>
+      </article>
+      <!--<article class="home__stat stat-home">
+         <button class="stat-home__icon">
+            <i class="icm-list-blank"></i>
+         </button>
+         <p class="stat-home__title">Архивные водители</p>
+         <div class="stat-home__footer">
+            <h4 class="stat-home__numb">{{helper.deletedusers_count}}</h4>
+            <a *ngIf="authService.myrole.drivers" routerLink="/archive" class="stat-home__link">Подробнее</a>
+         </div>
+      </article>-->
+   </section>
+   <section class="home__orders orders-home">
+      <h2 class="orders-home__title title">Заказы</h2>
+      <div class="orders-home__items">
+         <article class="orders-home__item item-orders" (click)="gotoOrders(0)">
+            <h4 class="item-orders__title">ОЖИДАЮЩИЕ</h4>
+            <p class="item-orders__count" style="color: #f97c00">{{waitcount}}</p>
+         </article>
+         <article class="orders-home__item item-orders" (click)="gotoOrders(1)">
+            <h4 class="item-orders__title">ВЫПОЛНЯЮТСЯ</h4>
+            <p class="item-orders__count" style="color: #26bfd8">{{runcount}}</p>
+         </article>
+         <article class="orders-home__item item-orders" (click)="gotoOrders(2)">
+            <h4 class="item-orders__title">ВЫПОЛНЕННЫЕ</h4>
+            <p class="item-orders__count" style="color: #2bcd50">{{endcount}}</p>
+         </article>
+         <article class="orders-home__item item-orders" (click)="gotoOrders(10)">
+            <h4 class="item-orders__title">ОТМЕНЫ</h4>
+            <p class="item-orders__count" style="color: #dc3535">{{cancelcount}}</p>
+         </article>
+      </div>
+   </section>
+</main>

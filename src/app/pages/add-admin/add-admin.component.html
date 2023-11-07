@@ -1,0 +1,149 @@
+<main class="add-admin">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Администраторы: {{data?'Изменение':'Добавление'}}</h2>
+      </div>
+   </section>
+   <form class="page-form">
+      <div class="page-form__main">
+         <div class="form__group">
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input">
+                  <mat-label>Ф.И.О</mat-label>
+                  <input matInput type="text" name="name" [(ngModel)]="name"/>
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Телефон</mat-label>
+                  <input matInput type="number" max="12" name="phone" [(ngModel)]="phone"/>
+               </mat-form-field>
+               <mat-form-field class="form__input form__select">
+                  <mat-label>Роль пользователя</mat-label>
+                  <mat-select disableRipple [value]="role">
+                     <mat-option>- -</mat-option>
+                     <ng-container *ngFor="let row of helper.roles">
+                        <mat-option [value]="row.id" (click)="role = +row.id">{{row.name}}</mat-option>
+                     </ng-container>
+                  </mat-select>
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Логин</mat-label>
+                  <input matInput type="text" name="username" [(ngModel)]="username"/>
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Пароль</mat-label>
+                  <input matInput type="text" name="password" [(ngModel)]="password"/>
+               </mat-form-field>
+               <div class="alert" *ngIf="editaid">Нажмите <span (click)="generPass()">сгенерировать</span> для изменения пароля у {{name}}. Далее нажмите сохранить.</div>
+            </div>
+         </div>
+         <!--<div class="form__group">
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input form__select">
+                  <mat-label>Тип</mat-label>
+                  <mat-select disableRipple>
+                     <mat-option>- -</mat-option>
+                     <mat-option [value]="1">1 неделя</mat-option>
+                     <mat-option [value]="2">2 неделя</mat-option>
+                     <mat-option [value]="3">1 месяц</mat-option>
+                     <mat-option [value]="4">2 месяц</mat-option>
+                     <mat-option [value]="4">3 месяца</mat-option>
+                  </mat-select>
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label> Номер договора</mat-label>
+                  <input matInput type="password" /> </mat-form-field
+               ><mat-form-field class="form__input">
+                  <mat-label> Номер договора</mat-label>
+                  <input matInput type="password" />
+               </mat-form-field>
+               <mat-form-field class="form__input tw-flex-1">
+                  <mat-label>Дата договора</mat-label>
+                  <input matInput [matDatepicker]="date_contract" />
+                  <mat-datepicker-toggle matIconSuffix [for]="date_contract">
+                     <i class="icm-calendar" matDatepickerToggleIcon></i>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #date_contract></mat-datepicker>
+               </mat-form-field>
+            </div>
+         </div>
+         <div class="form__group">
+            <div class="tw-grid tw-gap-4">
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Прикрепить селфи с паспортом</mat-label>
+                     <input matInput #doc_admin_1 />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                        type="file"
+                        hidden
+                        (change)="getFile($event.target, doc_admin_1)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Прикрепить селфи с паспортом</mat-label>
+                     <input matInput #doc_admin_2 />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                        type="file"
+                        hidden
+                        (change)="getFile($event.target, doc_admin_2)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Прикрепить селфи с паспортом</mat-label>
+                     <input matInput #doc_admin_3 />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                        type="file"
+                        hidden
+                        (change)="getFile($event.target, doc_admin_3)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Прикрепить селфи с паспортом</mat-label>
+                     <input matInput #doc_admin_4 />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                        type="file"
+                        hidden
+                        (change)="getFile($event.target, doc_admin_4)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <div class="form__status">
+                  <p>Статус</p>
+                  <div class="tw-flex">
+                     <label class="active">
+                        <input type="radio" hidden checked name="userStatus" />
+                        <span class="badge">Активный</span>
+                     </label>
+                     <label class="deactive">
+                        <input type="radio" hidden name="userStatus" />
+                        <span class="badge">Заблокировать</span>
+                     </label>
+                  </div>
+               </div>
+            </div>
+         </div>-->
+      </div>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-warning" *ngIf="data" (click)="banned()">{{ban ? 'Разблокировать':'Заблокировать'}}</button>
+         <button class="page-form__btn btn-red" (click)="dialog.closeAll()">Отменить</button>
+         <button class="page-form__btn btn-green" (click)="addUser()">Сохранить</button>
+      </div>
+   </form>
+</main>

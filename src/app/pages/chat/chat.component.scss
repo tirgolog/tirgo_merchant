@@ -1,0 +1,135 @@
+@import "base";
+
+.chat {
+   &__main {
+      padding: rem(20);
+      height: calc(100vh - 250px);
+   }
+   &__body {
+      border-radius: rem(10);
+
+      display: grid;
+      align-items: start;
+
+      grid-template-columns: 0.3fr 0.7fr;
+      box-shadow: 0 0 rem(4) rgba(#000, 0.2);
+
+   }
+   &__left {
+      align-self: stretch;
+      padding: rem(10) 0;
+      display: flex;
+      flex-direction: column;
+      border-right: rem(1) solid #b4b4b8;
+   }
+   &__search {
+      display: grid;
+      width: 100%;
+      padding: rem(10);
+   }
+   &__items {
+      display: grid;
+      gap: rem(10);
+   }
+   &__item {
+   }
+   &__right {
+      align-self: stretch;
+
+      display: flex;
+      flex-direction: column;
+   }
+   &__messages {
+      overflow: auto;
+      height: calc(100vh - 350px);
+      padding: rem(25);
+      flex: 1 1 auto;
+      flex-direction: column;
+      margin-bottom: 20px;
+      justify-content: flex-end;
+   }
+   &__message {
+      max-width: rem(320);
+      width: max-content;
+      background: #48556b;
+
+      padding: rem(8);
+      border-radius: rem(15);
+      color: #fff;
+      &:not(:last-child) {
+         margin-bottom: rem(15);
+      }
+      &._client {
+         border-bottom-left-radius: 0;
+      }
+      &._admin {
+         margin-left: auto;
+         border-bottom-right-radius: 0;
+      }
+   }
+   &__input {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+
+      height: rem(55);
+      padding: 0 rem(20);
+      box-shadow: 0 rem(-2) rem(4) rgba(#000, 0.1);
+
+      input {
+         align-self: stretch;
+         padding: 0 rem(10);
+         margin: 0 rem(15);
+         outline: 0;
+      }
+   }
+   &__file {
+      font-size: rem(22);
+      padding: rem(5);
+   }
+   &__send {
+      font-size: rem(22);
+      padding: rem(5);
+   }
+}
+
+.item-chat {
+   cursor: pointer;
+   display: grid;
+
+   align-content: center;
+
+   padding: rem(10);
+
+   grid-template-columns: auto 1fr;
+
+   &:hover {
+      background: #48556b;
+      .item-chat__name {
+         color: #fff;
+      }
+      .item-chat__text {
+         color: #fff;
+      }
+   }
+   &__img {
+      grid-row: 1 / 3;
+
+      width: rem(70);
+      height: rem(70);
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: rem(10);
+   }
+   &__name {
+      align-self: end;
+
+      font-size: rem(20);
+      margin-bottom: rem(5);
+   }
+   &__text {
+      b{
+         @include hide(20, 1);
+      }
+   }
+}

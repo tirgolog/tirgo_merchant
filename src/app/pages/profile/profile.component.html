@@ -1,0 +1,57 @@
+<main class="profile view">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Профиль</h2>
+      </div>
+   </section>
+   <section class="view__main page-form">
+      <div class="tw-grid xl:tw-grid-cols-2 tw-gap-4">
+         <div class="view__block sm:tw-w-2/3">
+            <h4 class="view__title title-sec">Информация</h4>
+            <div class="view__list">
+               <p class="tw-flex tw-justify-between">
+                  <span>ID</span>
+                  <span>{{ authService.currentUser?.id }}</span>
+               </p>
+               <p class="tw-flex tw-justify-between">
+                  <span>Ф.И.О</span>
+                  <span>{{ authService.currentUser?.username }}</span>
+               </p>
+               <p class="tw-flex tw-justify-between">
+                  <span>Логин</span>
+                  <span>{{ authService.currentUser?.name }}</span>
+               </p>
+            </div>
+            <div class="sm:tw-w-2/3 tw-mt-5">
+               <h3 class="form__title title-sec">Смена пароля</h3>
+               <div class="tw-grid tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Текущий пароль</mat-label>
+                     <input matInput [(ngModel)]="currentPassword" />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Новый пароль</mat-label>
+                     <input matInput [(ngModel)]="newPassword" />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Подтверждение нового пароля </mat-label>
+                     <input matInput [(ngModel)]="repeatNewPassword" />
+                  </mat-form-field>
+               </div>
+            </div>
+            <button
+               class="btn-green tw-mt-5"
+               [disabled]="
+                  (!currentPassword.length &&
+                  !newPassword.length &&
+                  !repeatNewPassword.length)
+                  || newPassword !== repeatNewPassword
+               "
+               (click)="changePassword()"
+            >
+               Сохранить
+            </button>
+         </div>
+      </div>
+   </section>
+</main>

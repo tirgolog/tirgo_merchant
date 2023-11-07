@@ -1,0 +1,9 @@
+@import "base";
+
+.push {
+   display: grid;
+   gap: rem(10);
+
+   &__submit {
+   }
+}

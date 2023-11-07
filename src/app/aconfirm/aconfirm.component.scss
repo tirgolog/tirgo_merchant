@@ -1,0 +1,29 @@
+.conform-dialog{
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  h2{
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  p{
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .buttons{
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    button{
+      width: 45%;
+    }
+  }
+}
+.one{
+  button{
+    width: 100% !important;
+  }
+}

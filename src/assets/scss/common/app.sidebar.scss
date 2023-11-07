@@ -1,0 +1,32 @@
+.app-sidebar {
+   border-radius: 25px;
+   box-shadow: 0 0 20px 10px rgba(34, 60, 80, 0.2);
+   margin: 15px;
+   position: fixed;
+   top: 0;
+   left: 0;
+   height: calc(100vh - 30px);
+   width: rem(300);
+
+   z-index: 10;
+
+   transition: all 0.2s ease 0s;
+
+   background: #fff;
+
+   overflow: auto;
+
+   &::-webkit-scrollbar {
+      display: none;
+   }
+   .menu-open & {
+      left: 0;
+   }
+
+   @media (max-width: $tablet) {
+      left: -100%;
+   }
+   @media (max-width: $mobile) {
+      width: 100%;
+   }
+}

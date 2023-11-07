@@ -1,0 +1,15 @@
+<header class="header">
+   <button class="header__toggler" (click)="toggleMenu()">
+      <i class="icm-db-arrows"></i>
+   </button>
+   <div class="header__profile dropdown" data-spollers>
+      <button class="dropdown__title" data-spoller data-spoller-close>
+         {{ authService.currentUser?.username }}
+         <i class="icm-profile"></i>
+      </button>
+      <div class="dropdown__items" hidden>
+         <a routerLink="/profile" class="dropdown__item">Профиль</a>
+         <button class="dropdown__item" (click)="logout()">Выход</button>
+      </div>
+   </div>
+</header>

@@ -1,0 +1,178 @@
+<main class="partner view">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Подробнее о Партнере</h2>
+      </div>
+   </section>
+   <section class="view__main" *ngIf="item">
+      <div class="view__top">
+         <div class="view__left">
+            <div class="view__data data-view view__block">
+               <div class="data-view__header">
+                  <img
+                     src="/assets/img/company.png"
+                     class="data-view__img"
+                     alt="Картинка"
+                  />
+                  <p class="data-view__name">{{item.title}}</p>
+                  <div class="data-view__rating">
+                     <i class="icm-star"></i> {{item.rating}}
+                  </div>
+               </div>
+            </div>
+            <div class="view__orders view__block">
+               <h4 class="view__title title-sec">Заказы</h4>
+               <div class="view__list">
+                  <div class="tw-flex tw-justify-between tw-items-center">
+                     <span>Всего</span>
+                     <p class="tw-flex tw-items-center">
+                        <span class="text-wine tw-pr-1">0</span>
+                        <button class="badge-wine">Обзор</button>
+                     </p>
+                  </div>
+                  <div class="tw-flex tw-justify-between tw-items-center">
+                     <span>Завершенные</span>
+                     <p class="tw-flex tw-items-center">
+                        <span class="text-green tw-pr-1">0</span>
+                        <button class="badge-wine">Обзор</button>
+                     </p>
+                  </div>
+                  <div class="tw-flex tw-justify-between tw-items-center">
+                     <span>Отрицательные</span>
+                     <p class="tw-flex tw-items-center">
+                        <span class="text-red tw-pr-1">0</span>
+                        <button class="badge-wine">Обзор</button>
+                     </p>
+                  </div>
+               </div>
+               <h4 class="view__title title-sec">Водители</h4>
+               <div class="view__list">
+                  <div class="tw-flex tw-justify-between tw-items-center">
+                     <span>Количество </span>
+                     <p class="tw-flex tw-items-center">
+                        <span class="text-wine tw-pr-1">0</span>
+                        <button class="badge-wine">Обзор</button>
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="view__right">
+            <div class="tw-grid tw-gap-5 tw-content-start">
+               <div class="view__informate view__block">
+                  <h4 class="view__title title-sec">Информация</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>ID</span>
+                        <span>2662</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Ф.И.О руководителя:</span>
+                        <span>{{item.directorname}}</span>
+                     </p>
+                     <div class="tw-flex tw-justify-between">
+                        <span>Статус</span>
+                        <span class="text-green">Активный</span>
+                     </div>
+                     <div class="tw-flex tw-justify-between">
+                        <span>Страна:</span>
+                        <span>Россия</span>
+                     </div>
+                     <div class="tw-flex tw-justify-between">
+                        <span>Город:</span>
+                        <span>Москва</span>
+                     </div>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Логин</span>
+                        <span>qwerty_uzbekistan2</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Количество транспорта:</span>
+                        <span>0</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Дата регистрации:</span>
+                        <span>22.11.2022</span>
+                     </p>
+                  </div>
+               </div>
+               <div class="view__informate view__block">
+                  <h4 class="view__title title-sec">Юридические данные</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>МФО:</span>
+                        <span>01036</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>ИНН:</span>
+                        <span>33870082</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>ОКЭД:</span>
+                        <span>48988</span>
+                     </p>
+                  </div>
+               </div>
+            </div>
+            <div class="tw-grid tw-gap-5 tw-content-start">
+               <div class="view__docs">
+                  <h4 class="view__title title-sec">Документы</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>Гувохнома:</span>
+                        <span>нет</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Лицензия:</span>
+                        <span>нет</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Договор о сотрудничестве:</span>
+                        <span>нет</span>
+                     </p>
+                  </div>
+               </div>
+               <div class="view__transport view__block">
+                  <h4 class="view__title title-sec">Банковские реквизиты</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>Расчетный счет:</span>
+                        <span>2209845635999521</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Наименование банка:</span>
+                        <span class="tw-text-right"
+                           >VOLАКБ Ипак Йули БанкVO</span
+                        >
+                     </p>
+                  </div>
+               </div>
+               <div class="view__contacts view__block">
+                  <h4 class="view__title title-sec">Контакты</h4>
+                  <div class="view__list">
+                     <div class="tw-flex tw-justify-between">
+                        <span>+998906323411</span>
+                        <div class="tw-flex tw-gap-2">
+                           <button class="tw-p-2">
+                              <i class="icm-telegram"></i>
+                           </button>
+                           <button class="tw-p-2">
+                              <i class="icm-whatsup"></i>
+                           </button>
+                        </div>
+                     </div>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Email</span>
+                        <span>Не указан</span>
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="view__buttons">
+         <button class="view__btn btn-red">Отменить</button>
+         <button class="view__btn btn-wine">Редактировать данные</button>
+      </div>
+   </section>
+</main>

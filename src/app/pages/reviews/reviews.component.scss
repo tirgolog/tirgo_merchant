@@ -1,0 +1,33 @@
+@import "base";
+
+.reviews {
+   &__items {
+      display: grid;
+      gap: rem(15);
+
+      @include fluid("padding", 20, 10);
+   }
+   &__item {
+   }
+}
+
+.item-reviews {
+   &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: rem(15);
+   }
+   &__id {
+      font-size: rem(24);
+   }
+   &__delete {
+   }
+   &__body {
+      display: grid;
+      @media (min-width: $mobile) {
+         grid-template-columns: 1fr 1fr;
+      }
+   }
+}

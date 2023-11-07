@@ -1,0 +1,15 @@
+<div class="conform-dialog" *ngIf="data.type === 2">
+    <h2>{{data.header}}</h2>
+    <p>{{data.text}}</p>
+    <div class="buttons">
+        <button class="view__btn btn-red" (click)="returnConfirm(false)">Нет</button>
+        <button class="view__btn btn-green" (click)="returnConfirm(true)">Да</button>
+    </div>
+</div>
+<div class="conform-dialog one" *ngIf="data.type === 1">
+    <h2>{{data.header}}</h2>
+    <p>{{data.text}}</p>
+    <div class="buttons">
+        <button class="view__btn btn-green" (click)="returnConfirm(false)">Хорошо</button>
+    </div>
+</div>

@@ -1,0 +1,273 @@
+<aside class="sidebar">
+   <div class="sidebar__header">
+      <a href="#" class="sidebar__logo">
+         <img [src]="logo" alt="Картинка" />
+      </a>
+   </div>
+   <nav class="sidebar__menu menu" data-spollers>
+      <ul class="menu__list" *ngIf="authService.myrole">
+         <li class="menu__item">
+            <a
+               routerLink="/dashboard"
+               routerLinkActive="_active"
+               [routerLinkActiveOptions]="{ exact: true }"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-cubik"></i>
+               <span>Панель управления</span>
+            </a>
+         </li>
+
+         <!--<li class="menu__item">
+            <a
+               routerLink="/partners"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-build"></i>
+               <span>Компании</span>
+            </a>
+         </li>-->
+         <!--<li class="menu__item" *ngIf="authService.myrole.admins">
+            <a
+                    routerLink="/admins"
+                    routerLinkActive="_active"
+                    class="menu__link"
+                    (click)="closeMenu()"
+            >
+               <i class="icm-user-protect"></i>
+               <span>Администраторы</span>
+            </a>
+         </li>-->
+         <!--<li class="menu__item">
+            <a
+                    routerLink="/securetrans"
+                    routerLinkActive="_active"
+                    class="menu__link"
+                    (click)="closeMenu()"
+            >
+               <i class="icm-user-protect"></i>
+               <span>Безопасная сделка</span>
+            </a>
+         </li>-->
+         <li class="menu__item" *ngIf="authService.myrole.clients">
+            <button
+               routerLink="/shippers"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-user-cubik"></i>
+               <span>Клиенты</span>
+            </button>
+         </li>
+         <li class="menu__item"  *ngIf="authService.myrole.drivers">
+            <button
+               routerLink="/drivers"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-pilot"></i>
+               <span>Водители</span>
+            </button>
+         </li>
+         <!--<li class="menu__item" *ngIf="authService.myrole.drivers">
+            <a
+                    routerLink="/archive"
+                    routerLinkActive="_active"
+                    class="menu__link"
+                    (click)="closeMenu()"
+            >
+               <i class="icm-users"></i>
+               <span>Архивные пользователи</span>
+            </a>
+         </li>-->
+         <li class="menu__item"  *ngIf="authService.myrole.orders">
+            <a
+               routerLink="/orders/100"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-list-blank"></i>
+               <span>Заказы</span>
+            </a>
+         </li>
+         <!--<li class="menu__item">
+            <a
+               routerLink="/transactions"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-transaction"></i>
+               <span>Транзакции</span>
+            </a>
+         </li>-->
+         <li class="menu__item" *ngIf="authService.myrole.tracking">
+            <a
+               routerLink="/tracking"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-truck"></i>
+               <span>Трекинг</span>
+            </a>
+         </li>
+         <li class="menu__item" *ngIf="authService.myrole.exchangerate">
+            <a
+               routerLink="/exchangerate"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-truck"></i>
+               <span>Курс валют</span>
+            </a>
+         </li>
+         <!--<li class="menu__item" routerLinkActive="_active"  *ngIf="authService.myrole.memo">
+            <button class="menu__link" data-spoller>
+               <i class="icm-list-search"></i>
+               <span>Справочники</span>
+               <i class="icm-chevron"></i>
+            </button>
+            <ul class="menu__sub sub-menu" hidden>
+               &lt;!&ndash;<li class="sub-menu__item">
+                  <a
+                     routerLink="/rates"
+                     class="sub-menu__link"
+                     (click)="closeMenu()"
+                  >
+                     Подписки
+                  </a>
+               </li>
+               <li class="sub-menu__item">
+                  <a
+                     routerLink="/promocodes"
+                     class="sub-menu__link"
+                     (click)="closeMenu()"
+                  >
+                     Промо-коды
+                  </a>
+               </li>&ndash;&gt;
+               <li class="sub-menu__item">
+                  <a
+                     routerLink="/car-types"
+                     class="sub-menu__link"
+                     (click)="closeMenu()"
+                     >Типы транспорта</a
+                  >
+               </li>
+               <li class="sub-menu__item">
+                  <a
+                     routerLink="/cargo-types"
+                     class="sub-menu__link"
+                     (click)="closeMenu()"
+                     >Типы грузов</a
+                  >
+               </li>
+               <li class="sub-menu__item">
+                  <a
+                     routerLink="/routers-truck"
+                     class="sub-menu__link"
+                     (click)="closeMenu()"
+                     >Маршруты</a
+                  >
+               </li>
+               <li class="sub-menu__item">
+                  <a
+                     routerLink="/roles"
+                     class="sub-menu__link"
+                     (click)="closeMenu()"
+                     >Роли пользователей</a
+                  >
+               </li>
+               &lt;!&ndash;<li class="sub-menu__item">
+                  <a
+                     routerLink="/review-badges"
+                     class="sub-menu__link"
+                     (click)="closeMenu()"
+                     >Критерии отзывов</a
+                  >
+               </li>
+               <li class="sub-menu__item">
+                  <a
+                     routerLink="/countries"
+                     class="sub-menu__link"
+                     (click)="closeMenu()"
+                     >Страны</a
+                  >
+               </li>&ndash;&gt;
+            </ul>
+         </li>-->
+         <!--<li class="menu__item">
+            <a
+               routerLink="/reviews"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-chat-star"></i>
+               <span>Отзывы</span>
+            </a>
+         </li>-->
+         <!--<li class="menu__item">
+            <button
+               [disabled]="authService.globalLoading"
+               routerLink="/chat"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-chat"></i>
+               <span>Чат</span>
+            </button>
+         </li>-->
+         <li class="menu__item"  *ngIf="authService.myrole.activity">
+            <button
+               routerLink="/activity"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-chat-star"></i>
+               <span>Активность</span>
+            </button>
+         </li>
+         <li class="menu__item refreshed">
+            <a
+               class="menu__link"
+               (click)="refreshAll()"
+            >
+               <span>Обновить информацию</span>
+            </a>
+         </li>
+         <li class="menu__item log_out">
+            <a
+               class="menu__link"
+               (click)="logOut()"
+            >
+               <span>Выход</span>
+            </a>
+         </li>
+         <!--<li class="menu__item">
+            <a
+               routerLink="/settings"
+               routerLinkActive="_active"
+               class="menu__link"
+               (click)="closeMenu()"
+            >
+               <i class="icm-setting"></i>
+               <span>Настройки</span>
+            </a>
+         </li>-->
+         <li class="menu__item">
+            <span class="menu_link version">Tirgo Merchant ver 0.0.1</span>
+         </li>
+      </ul>
+   </nav>
+</aside>

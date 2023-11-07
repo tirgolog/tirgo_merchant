@@ -1,0 +1,28 @@
+@import "base";
+
+.status-order{
+
+}
+.status-order-blue{
+  background: #003366;
+  color: white;
+}
+.status-order-yellow{
+  background: #ed901e;
+  color: white;
+}
+.status-order-green{
+  background: #1da706;
+  color: white;
+}
+.status-order-red{
+  background: #c83f2c;
+  color: white;
+}
+[class*="mat-column-"] {
+  flex: 0 0 10%;
+}
+.mat-column-id{
+  flex: 0 0 3% !important;
+}
+

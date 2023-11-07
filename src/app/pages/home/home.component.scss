@@ -1,0 +1,100 @@
+@import "base";
+
+.home {
+   @include fluid("padding", 20, 10);
+   &__header {
+      margin-bottom: rem(40);
+   }
+   &__title {
+   }
+   &__stats {
+      display: grid;
+      gap: rem(20);
+      grid-template-columns: repeat(auto-fit, minmax(rem(300), 1fr));
+
+      margin-bottom: rem(50);
+   }
+   &__stat {
+   }
+   &__orders {
+   }
+}
+
+.stat-home {
+   padding: rem(10);
+   background: $mainColor;
+   border-radius: rem(5);
+   display: grid;
+   align-items: center;
+   grid-template-columns: auto 1fr;
+
+   height: rem(90);
+   &__icon {
+      font-size: rem(50);
+      color: $mainOrange;
+
+      margin-right: rem(10);
+
+      grid-row: 1 / 3;
+   }
+   &__title {
+      color: #fff;
+      font-size: rem(18);
+
+      align-self: end;
+   }
+   &__footer {
+      display: flex;
+   }
+   &__numb {
+      color: $mainOrange;
+      font-size: rem(24);
+   }
+   &__link {
+      font-size: rem(12);
+      color: #fff;
+      margin-left: auto;
+
+      display: flex;
+      align-items: flex-end;
+
+      translate: 0 rem(5);
+   }
+}
+
+.orders-home {
+   box-shadow: 0 0 rem(4) rgba(#000, 0.2);
+   border-radius: rem(5);
+
+   padding: rem(10);
+   &__title {
+      margin-bottom: rem(30);
+   }
+   &__items {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+
+      gap: rem(30);
+      padding-bottom: rem(60);
+   }
+   &__item {
+   }
+}
+
+.item-orders {
+   cursor: pointer;
+   text-align: center;
+   &__title {
+      margin-bottom: rem(15);
+      text-transform: uppercase;
+      font-weight: 600;
+   }
+   &__count {
+      font-size: rem(50);
+      margin-bottom: rem(10);
+   }
+   &__more {
+
+   }
+}

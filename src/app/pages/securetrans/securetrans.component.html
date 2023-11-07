@@ -1,0 +1,70 @@
+<main class="admins">
+    <section class="page-header">
+        <div class="page-header__top">
+            <h2 class="page-header__title title">Безопасная сделка</h2>
+        </div>
+    </section>
+    <section class="table">
+        <mat-table [dataSource]="helper.save_orders">
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="userinfo.name">
+                <mat-header-cell *matHeaderCellDef>Клиент</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.userinfo.name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="route.from_city">
+                <mat-header-cell *matHeaderCellDef>Маршрут Откуда</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.route.from_city}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="route.to_city">
+                <mat-header-cell *matHeaderCellDef>Маршрут Куда</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.route.to_city}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>Статус</mat-header-cell>
+                <mat-cell *matCellDef="let row" [class]="returnClassStatusOrder(row.status)"> {{statusOrderCheck(row.status)}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="type_cargo">
+                <mat-header-cell *matHeaderCellDef>Тип груза</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{helper.returnNameCargoType(row.type_cargo)}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="transport_type">
+                <mat-header-cell *matHeaderCellDef>Тип транспорта</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{helper.returnNameTypeTransport(row.transport_type)}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="orders_accepted">
+                <mat-header-cell *matHeaderCellDef>Статус обработки</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{'Предложений: '+row.orders_accepted ? row.orders_accepted.length: 0}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef>Предлагаемая стоимость</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.price ? row.price + ' ' + row.currency:'Не указана'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="date_create">
+                <mat-header-cell *matHeaderCellDef>Дата создания</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.date_create | formatTime: 'DD.MM.YYYY'}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="date_send">
+                <mat-header-cell *matHeaderCellDef>Дата создания</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.date_send | formatTime: 'DD.MM.YYYY'}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="price_2">
+                <mat-header-cell *matHeaderCellDef>Сумма перечисления (+ формула)</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.price}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="price_3">
+                <mat-header-cell *matHeaderCellDef>Сумма страховки</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.price}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="price_4">
+                <mat-header-cell *matHeaderCellDef>Водитель получил сумму</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.price}}</mat-cell>
+            </ng-container>
+            <!-- Header and Row Declarations -->
+            <mat-header-row *matHeaderRowDef="['id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'date_create', 'date_send', 'price', 'price', 'price']"></mat-header-row>
+            <mat-row (click)="viewOrder(row)" *matRowDef="let row; columns: ['id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'date_create', 'date_send', 'price', 'price', 'price']"></mat-row>
+        </mat-table>
+    </section>
+</main>

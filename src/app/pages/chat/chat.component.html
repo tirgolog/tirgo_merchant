@@ -1,0 +1,59 @@
+<main class="chat">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Чат</h2>
+         <!--<div class="page-header__actions">
+            <button class="page-header__btn btn-wine">Грузоотправители</button>
+            <button class="page-header__btn btn">Водители</button>
+         </div>-->
+      </div>
+   </section>
+   <section class="chat__main">
+      <div class="chat__body">
+         <div class="chat__left">
+            <div class="chat__search">
+               <mat-form-field class="form__input">
+                  <mat-label>Поиск</mat-label>
+                  <input matInput />
+               </mat-form-field>
+            </div>
+            <div class="chat__items">
+               <ng-container  *ngFor="let row of helper.messages">
+                  <div class="chat__item item-chat" (click)="selectUser(row)">
+                     <img
+                             [src]="row.avatar ? row.avatar:'assets/img/user-empty.png'"
+                             class="item-chat__img"
+                             alt="Картинка"
+                     />
+                     <p class="item-chat__name"><b>{{row.username}}</b></p>
+                     <span class="item-chat__text">
+                        <b>{{row.messages[0].text}}</b>
+                        <small>{{row.messages[0].date | formatTime:'DD MMMM YYYY в HH:mm'}}</small>
+                     </span>
+                  </div>
+               </ng-container>
+            </div>
+         </div>
+         <div class="chat__right">
+            <div class="chat__messages" *ngIf="getMessagesFromCurrentId()">
+               <ng-container  *ngFor="let row of getMessagesFromCurrentId()">
+                  <p class="chat__message" [ngClass]="currentid === row.user_id && row.user_admin_id === null ? '_client':'_admin'">
+                     {{row.text}}<br>
+                     <small>{{row.date | formatTime:'DD MMMM YYYY в HH:mm'}}</small>
+                  </p>
+               </ng-container>
+               <div id="target"></div>
+            </div>
+            <div class="chat__input">
+               <button class="chat__file">
+                  <i class="icm-file"></i>
+               </button>
+               <input type="text" placeholder="Сообщение" [(ngModel)]="message"/>
+               <button class="chat__send" [disabled]="message.length === 0" (click)="sendMessage()">
+                  <i class="icm-send"></i>
+               </button>
+            </div>
+         </div>
+      </div>
+   </section>
+</main>

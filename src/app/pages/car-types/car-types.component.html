@@ -1,0 +1,26 @@
+<main class="car-types">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Типы транспорта</h2>
+         <div class="page-header__actions" (click)="createCarTypes()">
+            <a class="page-header__btn btn-green">
+               Добавить
+            </a>
+         </div>
+      </div>
+   </section>
+   <section class="table">
+      <ag-grid-angular
+              class="ag-theme-alpine my-table-aggrid"
+              style="height: calc(100vh - 250px); width: 100%"
+         [rowData]="helper.typetruck"
+         [columnDefs]="colDefs"
+         [defaultColDef]="defaultColDef"
+         [rowSelection]="'multiple'"
+         [animateRows]="true"
+         [gridOptions]="gridOptions"
+         [rowGroupPanelShow]="'always'"
+      >
+      </ag-grid-angular>
+   </section>
+</main>

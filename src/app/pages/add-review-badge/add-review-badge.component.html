@@ -1,0 +1,71 @@
+<main class="add-review-badge">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Критерии отзывов: Добавление</h2>
+      </div>
+   </section>
+   <form class="page-form">
+      <mat-button-toggle-group
+         name="languages"
+         aria-label="Languages"
+         class="tw-mb-6"
+      >
+         <mat-button-toggle value="russian"> Русский </mat-button-toggle>
+         <mat-button-toggle value="english">Английский</mat-button-toggle>
+         <mat-button-toggle value="turk"> Турецкий </mat-button-toggle>
+         <mat-button-toggle value="uzb"> Узбекский </mat-button-toggle>
+      </mat-button-toggle-group>
+      <div class="page-form__main">
+         <div class="form__group">
+            <div class="tw-grid tw-gap-4">
+               <div class="tw-grid md:tw-grid-cols-3 tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Наименование</mat-label>
+                     <input matInput required />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Порядок сортировки</mat-label>
+                     <input matInput type="number" />
+                  </mat-form-field>
+                  <mat-form-field class="form__input form__select">
+                     <mat-label>Для </mat-label>
+                     <mat-select disableRipple>
+                        <mat-option>- -</mat-option>
+                        <mat-option [value]="1">1</mat-option>
+                        <mat-option [value]="2">2</mat-option>
+                        <mat-option [value]="3">3</mat-option>
+                        <mat-option [value]="4">4</mat-option>
+                     </mat-select>
+                  </mat-form-field>
+                  <div class="form__status">
+                     <p>Статус</p>
+                     <div class="tw-flex">
+                        <label class="active">
+                           <input
+                              type="radio"
+                              hidden
+                              checked
+                              name="reviewBadgeStatus"
+                           />
+                           <span class="badge"> Положительный</span>
+                        </label>
+                        <label class="deactive">
+                           <input
+                              type="radio"
+                              hidden
+                              name="reviewBadgeStatus"
+                           />
+                           <span class="badge">Отрицательный</span>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-red">Отменить</button>
+         <button class="page-form__btn btn-green">Сохранить</button>
+      </div>
+   </form>
+</main>

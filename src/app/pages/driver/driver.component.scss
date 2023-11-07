@@ -1,0 +1,53 @@
+@import "base";
+
+.driver {
+
+
+}
+.imgs-trucks{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  img{
+    width: 150px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+}
+.images-passport{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  img{
+    object-fit: cover;
+    height: 100%;
+    border-radius: 10px;
+  }
+}
+.transport-blocks{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  margin-top: rem(20);
+  .view__list{
+    align-content: start;
+  }
+}
+.activity{
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  overflow: auto;
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
+  height: 200px;
+  padding: 10px;
+  .activity-block{
+    b{
+      color: grey;
+    }
+  }
+
+}

@@ -1,0 +1,110 @@
+<main class="transactions">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Транзакции</h2>
+         <div class="page-header__actions">
+            <button
+               class="page-header__btn btn-green"
+               (click)="openAddTransactions()"
+            >
+               Добавить транзакцию
+            </button>
+            <button class="page-header__btn btn" data-filter-open>
+               Фильтр
+               <i class="icm-chevron"></i>
+            </button>
+         </div>
+      </div>
+      <form
+         class="page-header__filter filter-header form"
+         data-filter-section
+         hidden
+      >
+         <div class="filter-header__actions">
+            <mat-form-field class="form__input">
+               <mat-label>Поиск по наименованию</mat-label>
+               <input matInput />
+            </mat-form-field>
+            <mat-form-field class="form__input form__select">
+               <mat-label>Тип</mat-label>
+               <mat-select disableRipple>
+                  <mat-option>- -</mat-option>
+                  <mat-option [value]="1">Франшиза</mat-option>
+                  <mat-option [value]="2">Обычный</mat-option>
+               </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form__input form__select">
+               <mat-label>Статус Партнера</mat-label>
+               <mat-select disableRipple>
+                  <mat-option>- -</mat-option>
+                  <mat-option [value]="1">Статус Партнера 1</mat-option>
+                  <mat-option [value]="2">Статус Партнера 2</mat-option>
+               </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form__input form__select">
+               <mat-label>Сначала новые</mat-label>
+               <mat-select disableRipple>
+                  <mat-option>- -</mat-option>
+                  <mat-option [value]="1">Сначала новые 1</mat-option>
+                  <mat-option [value]="2">Сначала новые 2</mat-option>
+               </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form__input">
+               <mat-label>Enter a date range</mat-label>
+               <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" />
+                  <input matEndDate placeholder="End date" />
+               </mat-date-range-input>
+               <mat-datepicker-toggle matIconSuffix [for]="picker">
+                  <i class="icm-calendar" matDatepickerToggleIcon></i>
+               </mat-datepicker-toggle>
+               <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+         </div>
+         <div class="filter-header__buttons">
+            <button class="filter-header__btn btn-green" type="button">
+               Применить
+            </button>
+            <button class="filter-header__btn btn-red" type="button">
+               Сбросить фильтры
+            </button>
+         </div>
+      </form>
+   </section>
+   <section class="table">
+      <ag-grid-angular
+         class="ag-theme-alpine"
+         style="height: 300px; width: 100%"
+         [rowData]="rowData"
+         [columnDefs]="colDefs"
+         [defaultColDef]="defaultColDef"
+         [rowSelection]="'multiple'"
+         [animateRows]="true"
+         [rowGroupPanelShow]="'always'"
+      >
+      </ag-grid-angular>
+   </section>
+   <section class="pagging">
+      <ul class="pagging__list">
+         <li class="pagging__item">
+            <button class="pagging__button pagging__prev">
+               <i class="icm-chevron"></i>
+            </button>
+         </li>
+         <li class="pagging__item">
+            <button class="pagging__button">1</button>
+         </li>
+         <li class="pagging__item">
+            <button class="pagging__button">2</button>
+         </li>
+         <li class="pagging__item">
+            <button class="pagging__button">3</button>
+         </li>
+         <li class="pagging__item">
+            <button class="pagging__button pagging__next">
+               <i class="icm-chevron"></i>
+            </button>
+         </li>
+      </ul>
+   </section>
+</main>

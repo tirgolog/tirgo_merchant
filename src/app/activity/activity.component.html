@@ -1,0 +1,23 @@
+<main class="admins">
+    <section class="page-header">
+        <div class="page-header__top">
+            <h2 class="page-header__title title">Активность пользователей</h2>
+        </div>
+    </section>
+    <section class="table">
+        <ag-grid-angular
+                class="ag-theme-alpine my-table-aggrid"
+                style="height: calc(100vh - 250px); width: 100%"
+                [getContextMenuItems]="getContextMenuItems"
+                [rowData]="helper.activity"
+                [columnDefs]="colDefs"
+                [defaultColDef]="defaultColDef"
+                [rowSelection]="'multiple'"
+                [animateRows]="true"
+                [gridOptions]="gridOptions"
+                [rowGroupPanelShow]="'always'"
+                (cellClicked)="goToColumn($event)"
+        >
+        </ag-grid-angular>
+    </section>
+</main>

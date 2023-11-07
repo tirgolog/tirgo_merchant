@@ -1,0 +1,52 @@
+<main class="add-user">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">
+            Добавить пользователя
+         </h2>
+      </div>
+   </section>
+
+   <form class="page-form">
+      <div class="page-form__main">
+         <div class="form__group">
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input">
+                  <mat-label>Имя клиента</mat-label>
+                  <input matInput type="text" name="name" [(ngModel)]="name" />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="text" name="name" [(ngModel)]="email" />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Телефон</mat-label>
+                  <input matInput [mask]="'+000 (00) 000 00 00'" type="text" name="phone" [(ngModel)]="phone" />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Гражданство</mat-label>
+                  <!--<input matInput name="cities_start" (input)="findCity($event)" [(ngModel)]="city" (change)="saveCity($event)">-->
+                  <mat-select [formControl]="citiesSelected" placeholder="Гражданство"  #singleSelect  >
+                     <mat-option>
+                        <ngx-mat-select-search (input)="findCity($event)" [placeholderLabel]="'Поиск города/страны'"  [formControl]="selectTechnicalRoomFilterCtrl"></ngx-mat-select-search>
+                     </mat-option>
+                     <mat-option *ngFor="let city of findList" [value]="city.data">
+                        {{city.data.city + ', ' + city.data.country}}
+                     </mat-option>
+                  </mat-select>
+                  <!--<mat-label>Откуда</mat-label>
+                  <input matInput list="cities_start" name="cities_start" (input)="findCity($event)" [(ngModel)]="city" (change)="saveCity($event)">
+                  <datalist id="cities_start">
+                     <ng-container *ngFor="let city of findList">
+                        <option [value]="city.data">{{city.data.city + ', ' + city.data.country}}</option>
+                     </ng-container>
+                  </datalist>-->
+               </mat-form-field>
+            </div>
+         </div>
+      </div>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-green" (click)="adduser()">Добавить клиента</button>
+      </div>
+   </form>
+</main>

@@ -1,0 +1,25 @@
+<main class="cargo-types">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Типы грузов</h2>
+         <div class="page-header__actions" (click)="createCargoTypes()">
+            <a class="page-header__btn btn-green">
+               Добавить
+            </a>
+         </div>
+      </div>
+   </section>
+   <mat-table [dataSource]="helper.typecargo">
+      <ng-container matColumnDef="id">
+         <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
+         <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="name">
+         <mat-header-cell *matHeaderCellDef>Наименование </mat-header-cell>
+         <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+      </ng-container>
+      <!-- Header and Row Declarations -->
+      <mat-header-row *matHeaderRowDef="['id', 'name']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['id', 'name']"></mat-row>
+   </mat-table>
+</main>

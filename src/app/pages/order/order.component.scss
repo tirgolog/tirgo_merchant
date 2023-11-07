@@ -1,0 +1,25 @@
+@import "base";
+
+.order {
+   &__map {
+      margin-top: rem(50);
+      @include fluid("height", 700, 500);
+   }
+}
+.sed-driver-block{
+   width: 100%;
+   margin-top: 10px;
+   mat-form-field{
+      width: 100%;
+      mat-select{
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         align-content: center;
+         height: 100%;
+      }
+   }
+   button{
+      margin-left: 0;
+   }
+}

@@ -1,0 +1,38 @@
+<main class="rates">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Подписки</h2>
+         <div class="page-header__actions">
+            <a routerLink="/add-rate" class="page-header__btn btn-green">
+               Добавить
+            </a>
+         </div>
+      </div>
+   </section>
+   <section class="table">
+      <h4 class="title-sec tw-mb-5">Для Грузоотправителей</h4>
+      <ag-grid-angular
+         class="ag-theme-alpine"
+         style="height: 300px; width: 100%"
+         [rowData]="rowData"
+         [columnDefs]="colDefs"
+         [defaultColDef]="defaultColDef"
+         [rowSelection]="'multiple'"
+         [animateRows]="true"
+         [rowGroupPanelShow]="'always'"
+      >
+      </ag-grid-angular>
+      <h4 class="title-sec tw-mb-5">Для Водителей</h4>
+      <ag-grid-angular
+         class="ag-theme-alpine"
+         style="height: 300px; width: 100%"
+         [rowData]="rowData"
+         [columnDefs]="colDefs"
+         [defaultColDef]="defaultColDef"
+         [rowSelection]="'multiple'"
+         [animateRows]="true"
+         [rowGroupPanelShow]="'always'"
+      >
+      </ag-grid-angular>
+   </section>
+</main>

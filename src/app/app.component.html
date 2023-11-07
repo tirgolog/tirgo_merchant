@@ -1,0 +1,9 @@
+<ng-container *ngIf="authService.isAuthenticated()">
+   <app-sidebar [logo]="logo"></app-sidebar>
+   <!--<app-header></app-header>-->
+</ng-container>
+<mat-progress-bar class="green-progress" *ngIf="helper.isLoading" mode="indeterminate"></mat-progress-bar>
+<div class="loading-global" *ngIf="helper.global_loading">
+   <mat-spinner color="primary"></mat-spinner>
+</div>
+<router-outlet></router-outlet>

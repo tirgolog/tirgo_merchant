@@ -1,0 +1,45 @@
+<main class="tracking">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Трекинг</h2>
+      </div>
+      <div class="page-header__actions">
+         <button class="btn" (click)="selectStatus(0)" [ngClass]="status === 0 ? '_active':''">Все</button>
+         <button class="btn" (click)="selectStatus(3)" [ngClass]="status === 3 ? '_active':''">Свободные</button>
+         <button class="btn" (click)="selectStatus(2)" [ngClass]="status === 2 ? '_active':''">В ожидании</button>
+         <button class="btn" (click)="selectStatus(1)" [ngClass]="status === 1 ? '_active':''">На заказе</button>
+      </div>
+      <div class="page-header__actions">
+         <button class="btn" (click)="selectTypeCar(0)" [ngClass]="typecar === 0 ? '_active':''">Все</button>
+         <ng-container *ngFor="let row of helper.typetruck">
+            <button class="btn" (click)="selectTypeCar(row.id)" [ngClass]="typecar === row.id ? '_active':''">{{row.name}}</button>
+         </ng-container>
+      </div>
+      <div class="sed-driver-block">
+         <mat-form-field class="form__input">
+            <mat-label>Выберите водителя</mat-label>
+            <mat-select [formControl]="citiesSelected" placeholder="Водитель"  #singleSelect  >
+               <mat-option>
+                  <ngx-mat-select-search (input)="findDriver($event)" [placeholderLabel]="'Поиск водителя'"  [formControl]="selectTechnicalRoomFilterCtrl"></ngx-mat-select-search>
+               </mat-option>
+               <mat-option *ngFor="let driver of drivers" [value]="driver">
+                  {{driver.id + '  ' + driver.name}}
+               </mat-option>
+            </mat-select>
+         </mat-form-field>
+      </div>
+   </section>
+   <section class="tracking__main">
+      <div class="tracking__map" >
+         <ng-container *ngIf="!isLoading">
+            <ya-map (ready)="onReady($event)" id="map" [center]="[helper.lat, helper.lng]" [zoom]="8" [state]="{ controls: [] }">
+                 <!--<ya-clusterer>
+                     <ng-container *ngFor="let row of drivers">
+                           <ya-placemark *ngIf="row.lat" [geometry]="[row.lat, row.lng]" [options]="getOptionsBaloon(row)" (yaclick)="viewDriver(row)"></ya-placemark>
+                     </ng-container>
+                  </ya-clusterer>-->
+            </ya-map>
+         </ng-container>
+      </div>
+   </section>
+</main>

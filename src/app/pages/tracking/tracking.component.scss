@@ -1,0 +1,58 @@
+@import "base";
+
+.tracking {
+   &__main {
+      @include fluid("padding", 20, 10);
+   }
+   &__filter {
+      gap: rem(50);
+
+      padding: rem(15);
+      box-shadow: 0 0 rem(4) rgba(#000, 0.2);
+
+      margin-bottom: rem(20);
+
+      @media (min-width: $mobile) {
+         display: flex;
+      }
+   }
+   &__inputs {
+      flex: 1 1 auto;
+
+      display: grid;
+      gap: 0 rem(20);
+      grid-template-columns: repeat(auto-fit, minmax(rem(280), 1fr));
+
+      @media (max-width: $mobile){
+         gap: rem(10);
+      }
+   }
+   &__map {
+      height: calc(100vh - 250px);
+   }
+}
+.page-header__actions{
+   margin-left: 15px;
+   justify-content: flex-start!important;
+   margin-bottom: 10px;
+}
+
+.sed-driver-block{
+   width: 80%;
+   margin-top: 10px;
+   margin-left: 15px;
+   margin-bottom: 10px;
+   mat-form-field{
+      width: 100%;
+      mat-select{
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         align-content: center;
+         height: 100%;
+      }
+   }
+   button{
+      margin-left: 0;
+   }
+}

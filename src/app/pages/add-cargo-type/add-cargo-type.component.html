@@ -1,0 +1,31 @@
+<main class="add-cargo-type">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Добавление типа груза</h2>
+      </div>
+   </section>
+   <form class="page-form">
+      <!--<mat-button-toggle-group
+         name="languages"
+         aria-label="Languages"
+         class="tw-mb-6"
+      >
+         <mat-button-toggle value="russian"> Русский </mat-button-toggle>
+         <mat-button-toggle value="english">Английский</mat-button-toggle>
+         <mat-button-toggle value="turk"> Турецкий </mat-button-toggle>
+         <mat-button-toggle value="uzb"> Узбекский </mat-button-toggle>
+      </mat-button-toggle-group>-->
+      <div class="page-form__main">
+         <div class="form__group">
+            <mat-form-field class="form__input" style="width: 100%;">
+               <mat-label>Наименование</mat-label>
+               <input matInput required type="text" name="type" [(ngModel)]="type"/>
+            </mat-form-field>
+         </div>
+      </div>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-red" (click)="close()">Закрыть</button>
+         <button class="page-form__btn btn-green" (click)="addCargoType()">Добавить</button>
+      </div>
+   </form>
+</main>

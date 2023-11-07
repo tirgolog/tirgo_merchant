@@ -1,0 +1,24 @@
+<main class="auth" *ngIf="!authService.isAuthenticated()">
+  <div class="auth__form form">
+    <p>Merchant</p>
+    <img src="/assets/img/logo.svg" class="auth__logo" alt="Картинка" />
+    <mat-form-field class="form__input">
+      <mat-label>Логин</mat-label>
+      <input matInput [(ngModel)]="login" />
+    </mat-form-field>
+    <mat-form-field class="form__input">
+      <mat-label>Пароль</mat-label>
+      <input matInput type="password" [(ngModel)]="password" />
+    </mat-form-field>
+    <div class="auth-helper">
+      <a>Забыли пароль ?</a>
+      <a routerLink="/registration">Регистрация</a>
+    </div>
+
+    <!-- <mat-checkbox class="form__checkbox" color="primary">
+         Запомнить
+      </mat-checkbox> -->
+
+    <button class="auth__btn btn-green" (click)="getLogin()">Войти</button>
+  </div>
+</main>

@@ -1,0 +1,59 @@
+@import "base";
+
+.review {
+   padding: rem(10);
+   border-radius: rem(5);
+   box-shadow: 0 0 rem(3) rgba(#000, 0.2);
+   &__position {
+      margin-bottom: rem(15);
+   }
+   &__header {
+      margin-bottom: rem(10);
+      display: grid;
+      gap: rem(10);
+      @media (min-width: $mobileSmall){
+         display: flex;
+      }
+   }
+   &__info {
+      flex: 1 1 auto;
+
+      display: grid;
+      grid-template-columns: auto 1fr;
+   }
+   &__img {
+      width: rem(90);
+      height: rem(90);
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: rem(10);
+
+      grid-row: 1 / 5;
+   }
+   &__name {
+      font-size: rem(20);
+      font-weight: 600;
+   }
+   &__id {
+   }
+   &__login {
+   }
+   &__rate {
+      display: flex;
+      align-items: center;
+      gap: rem(5);
+      font-size: rem(18);
+      font-weight: 500;
+   }
+   &__btn {
+   }
+   &__body {
+      border-top: rem(1) solid $mainGray;
+      padding: rem(5) 0;
+   }
+   &__title {
+      margin-bottom: rem(10);
+   }
+   &__text {
+   }
+}

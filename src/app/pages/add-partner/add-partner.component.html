@@ -1,0 +1,199 @@
+<main class="add-partner">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Добавить Партнера</h2>
+      </div>
+   </section>
+   <section class="page-form">
+      <form class="page-form__main">
+         <div class="form__group">
+            <h3 class="form__title title-sec">Информация</h3>
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input">
+                  <mat-label>Тип</mat-label>
+                  <input matInput required />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Логин</mat-label>
+                  <input matInput required />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Пароль</mat-label>
+                  <input matInput required type="password" />
+               </mat-form-field>
+            </div>
+            <h3 class="form__title title-sec">Руководитель</h3>
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input">
+                  <mat-label>Имя</mat-label>
+                  <input matInput required />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Фамилия</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Отчество</mat-label>
+                  <input matInput />
+               </mat-form-field>
+            </div>
+            <h3 class="form__title title-sec">Документы Партнера</h3>
+            <div class="tw-grid tw-gap-4">
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Гувохнома</mat-label>
+                     <input matInput #partner_certificate />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                        type="file"
+                        hidden
+                        (change)="getFile($event.target, partner_certificate)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Лицензия</mat-label>
+                     <input matInput #partner_license />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                        type="file"
+                        hidden
+                        (change)="getFile($event.target, partner_license)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Договор о сотрудничестве</mat-label>
+                     <input matInput #partner_cooperation />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                        type="file"
+                        hidden
+                        (change)="getFile($event.target, partner_cooperation)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+            </div>
+         </div>
+         <div class="form__group">
+            <h3 class="form__title title-sec">Информация о Партнере</h3>
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input">
+                  <mat-label>Название Партнера</mat-label>
+                  <input matInput required />
+               </mat-form-field>
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Прикрепить селфи с паспортом</mat-label>
+                     <input matInput #partner_logo />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                        type="file"
+                        hidden
+                        (change)="getFile($event.target, partner_logo)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <mat-form-field class="form__input">
+                  <mat-label>Юридический адрес</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Фактический адрес Партнера</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Страна</mat-label>
+                  <input matInput required />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Город</mat-label>
+                  <input matInput />
+               </mat-form-field>
+            </div>
+         </div>
+         <div class="form__group">
+            <h3 class="form__title title-sec">Банковские реквизиты</h3>
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input">
+                  <mat-label>Расчетный счет Партнера</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Наименование банка Партнера</mat-label>
+                  <input matInput />
+               </mat-form-field>
+            </div>
+            <h3 class="form__title title-sec">Юридические данные</h3>
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input">
+                  <mat-label>ИНН Партнера</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>МФО Партнера</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>ОКЭД Партнера</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <div class="form__phones tw-pt-5">
+                  <div class="form__phone">
+                     <mat-form-field class="form__input">
+                        <mat-label>Телефоны</mat-label>
+                        <input matInput type="number" />
+                        <button class="btn-red">&#8212;</button>
+                     </mat-form-field>
+                     <div class="form__checks">
+                        <mat-checkbox class="form__checkbox" color="primary">
+                           Подтвержден
+                        </mat-checkbox>
+                        <mat-checkbox class="form__checkbox" color="primary">
+                           Telegram
+                        </mat-checkbox>
+                        <mat-checkbox class="form__checkbox" color="primary">
+                           Whatsapp
+                        </mat-checkbox>
+                     </div>
+                  </div>
+               </div>
+               <button class="form__add-phone" type="button">
+                  Добавить телефон <i class="icm-plus-square"></i>
+               </button>
+               <mat-form-field class="form__input">
+                  <mat-label>Email ответственного лица</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <div class="form__status">
+                  <p>Статус</p>
+                  <div class="tw-flex">
+                     <label class="active">
+                        <input type="radio" hidden checked name="userStatus" />
+                        <span class="badge">Активный</span>
+                     </label>
+                     <label class="deactive">
+                        <input type="radio" hidden name="userStatus" />
+                        <span class="badge">Заблокированный </span>
+                     </label>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-red">Отменить</button>
+         <button class="page-form__btn btn-green">Сохранить</button>
+      </div>
+   </section>
+</main>

@@ -1,0 +1,68 @@
+<main class="add-car-type">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Типы транспорта: Добавление</h2>
+      </div>
+   </section>
+   <form class="page-form">
+      <!--<mat-button-toggle-group
+         name="languages"
+         aria-label="Languages"
+         class="tw-mb-5"
+      >
+         <mat-button-toggle value="russian"> Русский </mat-button-toggle>
+         <mat-button-toggle value="english">Английский</mat-button-toggle>
+         <mat-button-toggle value="turk"> Турецкий </mat-button-toggle>
+         <mat-button-toggle value="uzb"> Узбекский </mat-button-toggle>
+      </mat-button-toggle-group>-->
+      <div class="page-form__main">
+         <div class="form__group">
+            <div class="tw-grid tw-gap-4">
+               <div class="tw-grid md:tw-grid-cols-3 tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Наименование</mat-label>
+                     <input matInput required type="text" name="name" [(ngModel)]="data.name"/>
+                  </mat-form-field>
+                  <!--<mat-form-field class="form__input">
+                     <mat-label>Порядок сортировки</mat-label>
+                     <input matInput type="number" />
+                  </mat-form-field>-->
+               </div>
+               <h3 class="form__title title-sec">Доступ к страницам</h3>
+               <div class="tw-grid md:tw-grid-cols-3 tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Грузоподъемность (кг)</mat-label>
+                     <input matInput type="number" name="name" [(ngModel)]="data.weight"/>
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Объем</mat-label>
+                     <input matInput type="number" name="volume" [(ngModel)]="data.volume"/>
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Сторона погрузки</mat-label>
+                     <input matInput type="text" name="volume" [(ngModel)]="data.loading_side"/>
+                  </mat-form-field>
+                  <!--<div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Иконка</mat-label>
+                        <input matInput #car_type_icon />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, car_type_icon)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>-->
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-red" (click)="close()">Отменить</button>
+         <button class="page-form__btn btn-green" (click)="addNewCarType()">Сохранить</button>
+      </div>
+   </form>
+</main>

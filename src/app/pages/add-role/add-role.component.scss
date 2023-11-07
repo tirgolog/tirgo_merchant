@@ -1,0 +1,14 @@
+@import "base";
+
+.add-role {
+   &__checkboxes {
+      box-shadow: 0 0 rem(4) rgba(#000, 0.2);
+      padding: rem(10);
+      border-radius: rem(5);
+
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(rem(360), 1fr));
+
+      margin-bottom: rem(20);
+   }
+}

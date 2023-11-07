@@ -1,0 +1,71 @@
+<main class="add-role">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">
+            {{data?'Изменение':'Добавление'}} роли пользователя
+         </h2>
+      </div>
+   </section>
+   <section class="page-form">
+      <form class="page-form__main">
+         <div class="form__group">
+            <div class="tw-grid tw-gap-4">
+               <mat-form-field class="form__input">
+                  <mat-label>Название роли</mat-label>
+                  <input matInput type="text" name="name" [(ngModel)]="newdata.name"/>
+               </mat-form-field>
+            </div>
+         </div>
+         <div class="form__group"></div>
+         <div class="form__group"></div>
+         <div class="form__group 2xl:tw-col-start-1 2xl:tw-col-end-4">
+            <h3 class="form__title title-sec">Разрешения</h3>
+            <div class="add-role__checkboxes">
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.add_driver = $event.checked" [checked]="newdata.add_driver">
+                  Добавление водителя
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.add_client = $event.checked" [checked]="newdata.add_client">
+                  Добавление клиента
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.add_order = $event.checked" [checked]="newdata.add_order">
+                  Добавление заказа
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.cancel_order = $event.checked" [checked]="newdata.cancel_order">
+                  Отмена заказа
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.drivers = $event.checked" [checked]="newdata.drivers">
+                  Просмотр водители
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.clients = $event.checked" [checked]="newdata.clients">
+                  Просмотр клиенты
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.admins = $event.checked" [checked]="newdata.admins">
+                  Просмотр администраторы
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.orders = $event.checked" [checked]="newdata.orders">
+                  Просмотр заказы
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.tracking = $event.checked" [checked]="newdata.tracking">
+                  Просмотр трекинг
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.memo = $event.checked" [checked]="newdata.memo">
+                  Просмотр справочники
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.activity = $event.checked" [checked]="newdata.activity">
+                  Просмотр активность
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.add_driver_to_order = $event.checked" [checked]="newdata.add_driver_to_order">
+                  Добавление водителя к заказу
+               </mat-checkbox>
+               <mat-checkbox class="form__checkbox" color="primary" (change)="newdata.send_push = $event.checked" [checked]="newdata.send_push">
+                  Отправка уведомлений
+               </mat-checkbox>
+            </div>
+         </div>
+      </form>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-red" (click)="close()">Закрыть</button>
+         <button class="page-form__btn btn-green" (click)="saveRole()">{{data?'Сохранить':'Добавить'}}</button>
+      </div>
+   </section>
+</main>

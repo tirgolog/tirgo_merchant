@@ -1,0 +1,96 @@
+@font-face {
+   font-family: "icomoon";
+   src: url("../fonts/icomoon.woff") format("woff");
+   font-weight: normal;
+   font-style: normal;
+   font-display: block;
+}
+
+[class*="icm-"] {
+   &:before {
+      @extend %icm;
+      display: block;
+   }
+}
+
+.icm-build:before {
+   content: "\e900";
+}
+.icm-calendar:before {
+   content: "\e901";
+}
+.icm-chat:before {
+   content: "\e902";
+}
+.icm-chat-star:before {
+   content: "\e903";
+}
+.icm-chevron:before {
+   content: "\e904";
+}
+.icm-close:before {
+   content: "\e905";
+}
+.icm-cubik:before {
+   content: "\e906";
+}
+.icm-db-arrows:before {
+   content: "\e907";
+}
+.icm-file:before {
+   content: "\e908";
+}
+.icm-goto:before {
+   content: "\e909";
+}
+.icm-list-blank:before {
+   content: "\e90a";
+}
+.icm-list-search:before {
+   content: "\e90b";
+}
+.icm-pilot:before {
+   content: "\e90c";
+}
+.icm-plus:before {
+   content: "\e90d";
+}
+.icm-plus-square:before {
+   content: "\e90e";
+}
+.icm-profile:before {
+   content: "\e90f";
+}
+.icm-search:before {
+   content: "\e910";
+}
+.icm-send:before {
+   content: "\e911";
+}
+.icm-setting:before {
+   content: "\e912";
+}
+.icm-star:before {
+   content: "\e913";
+}
+.icm-telegram:before {
+   content: "\e914";
+}
+.icm-transaction:before {
+   content: "\e915";
+}
+.icm-truck:before {
+   content: "\e916";
+}
+.icm-user-cubik:before {
+   content: "\e917";
+}
+.icm-user-protect:before {
+   content: "\e918";
+}
+.icm-users:before {
+   content: "\e919";
+}
+.icm-whatsup:before {
+   content: "\e91a";
+}

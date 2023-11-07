@@ -1,0 +1,28 @@
+<main class="review-badges">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Критерии отзывов</h2>
+         <div class="page-header__actions">
+            <a
+               routerLink="/add-review-badge"
+               class="page-header__btn btn-green"
+            >
+               Добавить
+            </a>
+         </div>
+      </div>
+   </section>
+   <section class="table">
+      <ag-grid-angular
+         class="ag-theme-alpine"
+         style="height: 300px; width: 100%"
+         [rowData]="rowData"
+         [columnDefs]="colDefs"
+         [defaultColDef]="defaultColDef"
+         [rowSelection]="'multiple'"
+         [animateRows]="true"
+         [rowGroupPanelShow]="'always'"
+      >
+      </ag-grid-angular>
+   </section>
+</main>

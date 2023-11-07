@@ -1,0 +1,70 @@
+<main class="drivers">
+    <section class="page-header">
+        <div class="page-header__top">
+            <h2 class="page-header__title title">Архивные пользователи</h2>
+        </div>
+    </section>
+    <section class="table">
+        <table class="custom-table">
+            <tr>
+                <th>ID</th>
+                <th>Идентификатор</th>
+                <th>ФИО</th>
+                <th>Телефон</th>
+                <th>Тип</th>
+                <th>Модерация</th>
+                <th>Дата регистрации</th>
+                <th>Последний вход</th>
+                <th>Заказы</th>
+                <th>Геопозиция</th>
+            </tr>
+            <ng-container *ngFor="let row of helper.deletedusers">
+                <tr (click)="goToColumn(row.id)">
+                    <td>{{row.id}}</td>
+                    <td>{{row.iso_code}}</td>
+                    <td>{{row.name}}</td>
+                    <td>{{row.phone}}</td>
+                    <td>{{row.user_type === 1 ? 'Водитель':'Клиент'}}</td>
+                    <td>{{moderCheck(row.moderation)}}</td>
+                    <td>{{row.date_reg | formatTime: 'DD.MM.YYYY'}}</td>
+                    <td>{{row.date_last_login| formatTime: 'DD.MM.YYYY в HH:mm'}}</td>
+                    <td>{{row.orders && row.orders.length ? row.orders.length : 'Нет'}}</td>
+                    <td>{{row.lat ? 'Есть разрешение':'Нет разрешения'}}</td>
+                </tr>
+            </ng-container>
+        </table>
+        <div
+                *ngIf="helper.deletedusers.length >= 100"
+                class="loading-scroll"
+                infinite-scroll
+                [infiniteScrollDistance]="1"
+                [infiniteScrollThrottle]="2"
+                (scrolled)="onScroll()"
+        >
+            Загружаем...
+        </div>
+    </section>
+    <!--<section class="pagging">
+       <ul class="pagging__list">
+          <li class="pagging__item">
+             <button class="pagging__button pagging__prev">
+                <i class="icm-chevron"></i>
+             </button>
+          </li>
+          <li class="pagging__item">
+             <button class="pagging__button">1</button>
+          </li>
+          <li class="pagging__item">
+             <button class="pagging__button">2</button>
+          </li>
+          <li class="pagging__item">
+             <button class="pagging__button">3</button>
+          </li>
+          <li class="pagging__item">
+             <button class="pagging__button pagging__next">
+                <i class="icm-chevron"></i>
+             </button>
+          </li>
+       </ul>
+    </section>-->
+</main>

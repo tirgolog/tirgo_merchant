@@ -1,0 +1,137 @@
+@import "base";
+
+.sidebar {
+   &__header {
+      height: rem(60);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: sticky;
+      z-index: 2;
+      background: #fff;
+      top: 0;
+
+      border-bottom: rem(1) solid $mainColor;
+   }
+   &__logo {
+   }
+   &__menu {
+   }
+}
+
+.menu {
+   padding: rem(15) 0;
+   &__list {
+      display: grid;
+   }
+   &__item {
+      &._active {
+         .menu__link {
+            background: $mainColor;
+            color: #fff;
+         }
+      }
+   }
+   &__link {
+      display: flex;
+      align-items: center;
+
+      height: rem(50);
+      width: 100%;
+
+      padding: 0 rem(25);
+      font-size: rem(18);
+
+      transition: all 0.1s ease 0s;
+
+      &:hover {
+         background: $mainColor;
+         color: #fff;
+      }
+
+      &._active {
+         background: $mainColor;
+         color: #fff;
+      }
+
+      &._spoller-active {
+         i.icm-chevron {
+            transform: rotateX(180deg);
+         }
+      }
+
+      i:not(.icm-chevron) {
+         font-size: rem(30);
+         margin-right: rem(15);
+      }
+      i.icm-chevron {
+         margin-left: auto;
+         font-size: rem(14);
+         transition: all 0.1s ease 0s;
+      }
+   }
+   &__sub {
+   }
+}
+
+.sub-menu {
+   margin: 0 rem(45);
+   &__item {
+   }
+   &__link {
+      display: flex;
+      align-items: center;
+
+      height: rem(40);
+
+      padding: 0 rem(25);
+      transition: all 0.1s ease 0s;
+
+      position: relative;
+
+      &._active {
+         background: $mainColor;
+         color: #fff;
+         &::before {
+            background: #fff;
+         }
+      }
+
+      &:hover {
+         background: $mainColor;
+         color: #fff;
+         &::before {
+            background: #fff;
+         }
+      }
+
+      &::before {
+         content: "";
+         position: absolute;
+         left: rem(5);
+
+         transition: all 0.1s ease 0s;
+
+         width: rem(5);
+         height: rem(5);
+         background: $mainColor;
+         border-radius: 50%;
+      }
+   }
+}
+.log_out{
+   cursor: pointer;
+   color: #b58e8e;
+   font-weight: 700;
+   // position: absolute;
+   // bottom: 0;
+}
+.refreshed{
+   cursor: pointer;
+   color: #b59e8e;
+   font-weight: 700;
+   // position: absolute;
+   // bottom: 30px;
+}

@@ -1,0 +1,27 @@
+<main class="orders">
+    <section class="table">
+        <div class="filter">
+            <div class="filter-inputs">
+                <input type="number" class="page__search" placeholder="Введите сумму" [(ngModel)]="summ" (input)="setCalc($event)"/>
+            </div>
+        </div>
+        <table class="custom-table">
+            <tr>
+                <th>Code</th>
+                <th>Валюта</th>
+                <th>Валюта UZ</th>
+                <th>Валюта RU</th>
+                <th>Курс</th>
+                <th *ngIf="summ">Сумма</th>
+            </tr>
+            <tr *ngFor="let row of exchanges">
+                <td>{{row.Code}}</td>
+                <td>{{row.Ccy}}</td>
+                <td>{{row.CcyNm_UZ}}</td>
+                <td>{{row.CcyNm_RU}}</td>
+                <td>{{row.Rate}} UZS <span [ngStyle]="{'color':row.Diff >= 0 ? 'green' : 'red' }">{{row.Diff}}</span></td>
+                <td *ngIf="summ">{{summ}} {{row.Ccy}} = {{+(+row.Rate * +summ).toFixed(2)}} UZ</td>
+            </tr>
+        </table>
+    </section>
+</main>

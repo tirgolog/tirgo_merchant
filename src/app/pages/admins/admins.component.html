@@ -1,0 +1,34 @@
+<main class="admins">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Администраторы</h2>
+         <div class="page-header__actions">
+            <a (click)="goToAddAdmins()" class="page-header__btn btn-green">
+               Добавить
+            </a>
+         </div>
+      </div>
+   </section>
+   <section class="table">
+      <table class="custom-table">
+         <tr>
+            <th width="50">ID</th>
+            <th>ФИО</th>
+            <th>Роль</th>
+            <th>Логин</th>
+            <th>Дата регистрации</th>
+            <th>Последний вход</th>
+         </tr>
+         <ng-container *ngFor="let row of helper.admins">
+            <tr (click)="goToColumn(row)">
+               <td>{{row.id}}</td>
+               <td>{{row.name}} {{row.lastname ? row.lastname:''}}</td>
+               <td>{{helper.returnNameRole(row.role)}}</td>
+               <td>{{row.username}}</td>
+               <td>{{row.date_reg | formatTime: 'DD.MM.YYYY'}}</td>
+               <td>{{row.date_last_login | formatTime: 'DD.MM.YYYY в HH:mm'}}</td>
+            </tr>
+         </ng-container>
+      </table>
+   </section>
+</main>

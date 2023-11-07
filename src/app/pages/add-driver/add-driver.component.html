@@ -1,0 +1,613 @@
+<main class="add-driver">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Водители: Добавление</h2>
+      </div>
+   </section>
+   <section class="page-form">
+      <div class="add-driver__main">
+         <ng-container>
+            <h3>Добавьте информацию о водителе</h3>
+            <article class="add-driver__steps">
+               <mat-form-field class="form__input">
+                  <mat-label>ФИО</mat-label>
+                  <input matInput required [(ngModel)]="dataUser.name"/>
+               </mat-form-field>
+               <br>
+               <mat-form-field class="form__input">
+                  <mat-label>Гражданство</mat-label>
+                  <!--<input matInput name="cities_start" (input)="findCity($event)" [(ngModel)]="city" (change)="saveCity($event)">-->
+                  <mat-select [formControl]="citiesSelected" placeholder="Гражданство"  #singleSelect  >
+                     <mat-option>
+                        <ngx-mat-select-search (input)="findCity($event)" [placeholderLabel]="'Поиск города/страны'"  [formControl]="selectTechnicalRoomFilterCtrl"></ngx-mat-select-search>
+                     </mat-option>
+                     <ng-container *ngFor="let city of findList">
+                        <mat-option *ngIf="city.data.city || city.data.region" [value]="city.data">
+                           {{(city.data.city ? city.data.city: city.data.region) + ', ' + city.data.country}}
+                        </mat-option>
+                     </ng-container>
+                  </mat-select>
+               </mat-form-field>
+               <br>
+               <mat-form-field class="form__input">
+                  <mat-label>Дата рождения</mat-label>
+                  <input matInput placeholder="Выберите дату рождения" [(ngModel)]="dataUser.birthday" [matDatepicker]="basicDatepicker" [disabled]="step === 2"/>
+                  <mat-datepicker-toggle matIconSuffix [for]="basicDatepicker">
+                     <i class="icm-calendar" matDatepickerToggleIcon></i>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker
+                          #basicDatepicker
+                          [(ngModel)]="dataUser.birthday"
+                  ></mat-datepicker>
+               </mat-form-field>
+               <br>
+               <ng-container *ngIf="citiesSelected.value">
+                  <mat-form-field class="form__input">
+                     <mat-label>Телефон</mat-label>
+                     <input matInput required type="text" inputmode="tel" name="phone" [prefix]="getActualPrefix()" [mask]="getActualMask()" [(ngModel)]="dataUser.phone" [disabled]="step === 2"/>
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="form__input">
+                     <mat-label>E-mail</mat-label>
+                     <input matInput required type="text" name="email" [(ngModel)]="dataUser.email" />
+                  </mat-form-field>
+               </ng-container>
+               <button  class="btn-red" type="button" (click)="addUser()" [disabled]="dataUser.name === '' || dataUser.phone.length < +count_number" *ngIf="step !== 2 && !loading">
+                  Проверить водителя
+               </button>
+            </article>
+         </ng-container>
+         <ng-container *ngIf="step === 2">
+            <h3>Добавьте информацию о транспорте</h3>
+            <article class="add-driver__steps">
+               <mat-form-field class="form__input form__select">
+                  <mat-label>Тип транспорта</mat-label>
+                  <mat-select disableRipple required [(ngModel)]="dataCar.type">
+                     <mat-option>Выберите тип транспорта</mat-option>
+                     <mat-option *ngFor="let row of helper.typetruck" [value]="row.id">{{row.name}}</mat-option>
+                  </mat-select>
+               </mat-form-field>
+               <br>
+               <mat-form-field class="form__input">
+                  <mat-label>Марка транспорта</mat-label>
+                  <input matInput required [(ngModel)]="dataCar.name" />
+               </mat-form-field>
+               <br>
+               <mat-form-field class="form__input form__textarea">
+                  <mat-label>Описание</mat-label>
+                  <textarea matInput rows="2" [(ngModel)]="dataCar.description" ></textarea>
+               </mat-form-field>
+               <br>
+               <mat-form-field class="form__input">
+                  <mat-label>Грузоподъемность</mat-label>
+                  <input matInput required [(ngModel)]="dataCar.maxweight" />
+               </mat-form-field>
+               <br>
+               <mat-form-field class="form__input">
+                  <mat-label>Кубометр прицепа</mat-label>
+                  <input matInput required [(ngModel)]="dataCar.cubature" />
+               </mat-form-field>
+               <br>
+               <mat-form-field class="form__input">
+                  <mat-label>Гос. номер тягача</mat-label>
+                  <input matInput required [(ngModel)]="dataCar.state_number" />
+               </mat-form-field>
+               <br>
+               <!--<div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Тех паспорт</mat-label>
+                     <input matInput #tex_passport />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                             type="file"
+                             hidden
+                             (change)="getFile($event.target, tex_passport)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Лицензии на перевозку грузов</mat-label>
+                     <input matInput #cargo_license />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                             type="file"
+                             hidden
+                             (change)="getFile($event.target, cargo_license)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>
+               <div class="form__file">
+                  <mat-form-field class="form__input">
+                     <mat-label>Фото транспорта</mat-label>
+                     <input matInput #cargo_license />
+                  </mat-form-field>
+                  <label class="btn-green" role="button">
+                     <input
+                             type="file"
+                             hidden
+                             (change)="getFile($event.target, cargo_license)"
+                     />
+                     Выберите файл
+                  </label>
+               </div>-->
+               <div class="form__status">
+                  <mat-slide-toggle [checked]="dataCar.adr" (change)="selectAdr($event)">ADR (Перевозка опасных грузов)</mat-slide-toggle>
+               </div>
+            </article>
+            <button class="btn-red" type="button" (click)="addTransportToUser()">
+               Зарегистрировать пользователя
+            </button>
+         </ng-container>
+<!--
+         Step 3
+         <article class="add-driver__steps">
+
+         </article>
+         <div>
+            <div class="form__group">
+               <div class="tw-grid tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>ФИО</mat-label>
+                     <input matInput required />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Дата рождения</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Гражданство</mat-label>
+                     <input matInput required />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Город</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Место прописки</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Серия и номер паспорта</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <div class="tw-flex tw-gap-3">
+                     <mat-form-field class="form__input tw-flex-1">
+                        <mat-label>Дата выдачи</mat-label>
+                        <input matInput [matDatepicker]="date_gived" />
+                        <mat-datepicker-toggle matIconSuffix [for]="date_gived">
+                           <i class="icm-calendar" matDatepickerToggleIcon></i>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #date_gived></mat-datepicker>
+                     </mat-form-field>
+                     <mat-form-field class="form__input tw-flex-1">
+                        <mat-label>Срок действия</mat-label>
+                      2  <input matInput [matDatepicker]="date_validity" />
+                        <mat-datepicker-toggle
+                           matIconSuffix
+                           [for]="date_validity"
+                        >
+                           <i class="icm-calendar" matDatepickerToggleIcon></i>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #date_validity></mat-datepicker>
+                     </mat-form-field>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Прикрепить скан паспорта</mat-label>
+                        <input matInput #driver_scan />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, driver_scan)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Прикрепить селфи с паспортом</mat-label>
+                        <input matInput #driver_passport />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, driver_passport)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+               </div>
+            </div>
+            <div class="form__group">
+               <div class="tw-grid tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Партнер</mat-label>
+                     <input matInput required />
+                  </mat-form-field>
+                  <div class="tw-flex tw-gap-3">
+                     <mat-form-field class="form__input form__select tw-flex-1">
+                        <mat-label>Партнер</mat-label>
+                        <mat-select disableRipple>
+                           <mat-option>- -</mat-option>
+                           <mat-option [value]="1">1</mat-option>
+                           <mat-option [value]="2">2</mat-option>
+                           <mat-option [value]="3">3</mat-option>
+                           <mat-option [value]="4">4</mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                     <mat-form-field class="form__input tw-flex-1">
+                        <mat-label>Информация о Компании</mat-label>
+                        <input matInput />
+                     </mat-form-field>
+                  </div>
+                  <div class="form__phones">
+                     <div class="form__phone">
+                        <mat-form-field class="form__input">
+                           <mat-label>Телефоны</mat-label>
+                           <input matInput type="number" />
+                           <button class="btn-red" type="button">
+                              &#8212;
+                           </button>
+                        </mat-form-field>
+                        <div class="form__checks">
+                           <mat-checkbox class="form__checkbox" color="primary">
+                              Подтвержден
+                           </mat-checkbox>
+                           <mat-checkbox class="form__checkbox" color="primary">
+                              Telegram
+                           </mat-checkbox>
+                           <mat-checkbox class="form__checkbox" color="primary">
+                              Whatsapp
+                           </mat-checkbox>
+                        </div>
+                     </div>
+                  </div>
+                  <button class="form__add-phone" type="button">
+                     Добавить телефон <i class="icm-plus-square"></i>
+                  </button>
+                  <mat-form-field class="form__input">
+                     <mat-label>Email ответственного лица</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input form__select">
+                     <mat-label>Тип машины</mat-label>
+                     <mat-select disableRipple>
+                        <mat-option>- -</mat-option>
+                        <mat-option [value]="1">1</mat-option>
+                        <mat-option [value]="2">2</mat-option>
+                        <mat-option [value]="3">3</mat-option>
+                        <mat-option [value]="4">4</mat-option>
+                     </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Марка</mat-label>
+                     <input matInput required />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Модель </mat-label>
+                     <input matInput required />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Гос номер автомобиля</mat-label>
+                     <input matInput required />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Гос номер прицепа</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Макс. грузоподъемность (кг)</mat-label>
+                     <input matInput type="number" />
+                  </mat-form-field>
+                  <div class="form__status">
+                     <p>ADR (Перевозка опасных грузов)</p>
+                     <div class="tw-flex">
+                        <label class="active">
+                           <input type="radio" hidden checked name="adr" />
+                           <span class="badge">Да</span>
+                        </label>
+                        <label class="deactive">
+                           <input type="radio" hidden name="adr" />
+                           <span class="badge">Нет</span>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="form__group">
+               <h3 class="form__title title-sec">Водительское удостоверение</h3>
+               <div class="tw-grid tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Серия и Номер</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Серия и Номер</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Передняя сторона</mat-label>
+                        <input matInput #driver_license_front />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="
+                              getFile($event.target, driver_license_front)
+                           "
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Задняя сторона</mat-label>
+                        <input matInput #driver_license_back />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="
+                              getFile($event.target, driver_license_back)
+                           "
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+               </div>
+               <h3 class="form__title title-sec">Tех. паспорт</h3>
+               <div class="tw-grid tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Серия и Номер </mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Дата выдачи</mat-label>
+                     <input matInput [matDatepicker]="tech_gived_date" />
+                     <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="tech_gived_date"
+                     >
+                        <i class="icm-calendar" matDatepickerToggleIcon></i>
+                     </mat-datepicker-toggle>
+                     <mat-datepicker #tech_gived_date></mat-datepicker>
+                  </mat-form-field>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Передняя сторона</mat-label>
+                        <input matInput #tech_pass_front />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, tech_pass_front)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Задняя сторона</mat-label>
+                        <input matInput #tech_pass_back />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, tech_pass_back)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Передняя сторона 2</mat-label>
+                        <input matInput #tech_pass_front_2 />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, tech_pass_front_2)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Задняя сторона 2</mat-label>
+                        <input matInput #tech_pass_back_2 />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, tech_pass_back_2)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Доп фото 1</mat-label>
+                        <input matInput #tech_pass_other_1 />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, tech_pass_other_1)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Доп фото 2</mat-label>
+                        <input matInput #tech_pass_other_2 />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, tech_pass_other_2)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+               </div>
+            </div>
+            <div class="form__group">
+               <h3 class="form__title title-sec">Страховка</h3>
+               <div class="tw-grid tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Серия и Номер</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <div class="tw-flex tw-gap-3">
+                     <mat-form-field class="form__input tw-flex-1">
+                        <mat-label>Дата выдачи</mat-label>
+                        <input
+                           matInput
+                           [matDatepicker]="date_gived_insurance"
+                        />
+                        <mat-datepicker-toggle
+                           matIconSuffix
+                           [for]="date_gived_insurance"
+                        >
+                           <i class="icm-calendar" matDatepickerToggleIcon></i>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #date_gived_insurance></mat-datepicker>
+                     </mat-form-field>
+                     <mat-form-field class="form__input tw-flex-1">
+                        <mat-label>Срок действия</mat-label>
+                        <input
+                           matInput
+                           [matDatepicker]="date_validity_insurance"
+                        />
+                        <mat-datepicker-toggle
+                           matIconSuffix
+                           [for]="date_validity_insurance"
+                        >
+                           <i class="icm-calendar" matDatepickerToggleIcon></i>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker
+                           #date_validity_insurance
+                        ></mat-datepicker>
+                     </mat-form-field>
+                  </div>
+               </div>
+               <h3 class="form__title title-sec">Фото транспорта и прицепа</h3>
+               <div class="tw-grid tw-gap-4">
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Прикрепить файл</mat-label>
+                        <input matInput #photo_transport_1 />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, photo_transport_1)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Прикрепить файл</mat-label>
+                        <input matInput #photo_transport_2 />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, photo_transport_2)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Прикрепить файл</mat-label>
+                        <input matInput #photo_transport_3 />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, photo_transport_3)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+                  <div class="form__file">
+                     <mat-form-field class="form__input">
+                        <mat-label>Прикрепить файл</mat-label>
+                        <input matInput #photo_transport_4 />
+                     </mat-form-field>
+                     <label class="btn-green" role="button">
+                        <input
+                           type="file"
+                           hidden
+                           (change)="getFile($event.target, photo_transport_4)"
+                        />
+                        Выберите файл
+                     </label>
+                  </div>
+               </div>
+               <div class="tw-grid tw-gap-4">
+                  <div class="form__status">
+                     <p>Статус</p>
+                     <div class="tw-flex">
+                        <label class="active">
+                           <input
+                              type="radio"
+                              hidden
+                              checked
+                              name="driverStatus"
+                           />
+                           <span class="badge">Активный</span>
+                        </label>
+                        <label class="deactive">
+                           <input type="radio" hidden name="driverStatus" />
+                           <span class="badge">Заблокированный </span>
+                        </label>
+                     </div>
+                  </div>
+                  <div class="form__status">
+                     <p>Модерация пройдена</p>
+                     <div class="tw-flex">
+                        <label class="active">
+                           <input
+                              type="radio"
+                              hidden
+                              checked
+                              name="moderation"
+                           />
+                           <span class="badge">Да</span>
+                        </label>
+                        <label class="deactive">
+                           <input type="radio" hidden name="moderation" />
+                           <span class="badge">Нет</span>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>-->
+      </div>
+   </section>
+</main>

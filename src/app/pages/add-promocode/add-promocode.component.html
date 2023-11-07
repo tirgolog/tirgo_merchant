@@ -1,0 +1,67 @@
+<main class="add-promocode">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Промо-коды: Добавление</h2>
+      </div>
+   </section>
+   <form class="page-form">
+      <div class="page-form__main">
+         <div class="form__group">
+            <div class="tw-grid tw-gap-3">
+               <mat-form-field class="form__input">
+                  <mat-label>Код</mat-label>
+                  <input matInput />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Сгенерировать в количестве</mat-label>
+                  <input matInput type="number" />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>Подписка (мес)</mat-label>
+                  <input matInput type="number" />
+               </mat-form-field>
+               <mat-form-field class="form__input">
+                  <mat-label>
+                     Кол-во безопасных сделок для автоблокировки
+                  </mat-label>
+                  <input matInput type="number" />
+               </mat-form-field>
+               <mat-form-field class="form__input form__select tw-flex-1">
+                  <mat-label>Для</mat-label>
+                  <mat-select disableRipple>
+                     <mat-option>- -</mat-option>
+                     <mat-option [value]="1">1</mat-option>
+                     <mat-option [value]="2">2</mat-option>
+                     <mat-option [value]="3">3</mat-option>
+                     <mat-option [value]="4">4</mat-option>
+                  </mat-select>
+               </mat-form-field>
+               <mat-form-field class="form__input form__select tw-flex-1">
+                  <mat-label>Статус</mat-label>
+                  <mat-select disableRipple>
+                     <mat-option>- -</mat-option>
+                     <mat-option [value]="1">1</mat-option>
+                     <mat-option [value]="2">2</mat-option>
+                     <mat-option [value]="3">3</mat-option>
+                     <mat-option [value]="4">4</mat-option>
+                  </mat-select>
+               </mat-form-field>
+               <mat-form-field class="form__input form__select tw-flex-1">
+                  <mat-label> Реферал ID </mat-label>
+                  <mat-select disableRipple>
+                     <mat-option>- -</mat-option>
+                     <mat-option [value]="1">1</mat-option>
+                     <mat-option [value]="2">2</mat-option>
+                     <mat-option [value]="3">3</mat-option>
+                     <mat-option [value]="4">4</mat-option>
+                  </mat-select>
+               </mat-form-field>
+            </div>
+         </div>
+      </div>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-red">Отменить</button>
+         <button class="page-form__btn btn-green">Сохранить</button>
+      </div>
+   </form>
+</main>

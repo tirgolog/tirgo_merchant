@@ -1,0 +1,56 @@
+<main class="add-country">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Страны: Добавление</h2>
+      </div>
+   </section>
+   <form class="page-form">
+      <mat-button-toggle-group
+         name="languages"
+         aria-label="Languages"
+         class="tw-mb-6"
+      >
+         <mat-button-toggle value="russian"> Русский </mat-button-toggle>
+         <mat-button-toggle value="english">Английский</mat-button-toggle>
+         <mat-button-toggle value="turk"> Турецкий </mat-button-toggle>
+         <mat-button-toggle value="uzb"> Узбекский </mat-button-toggle>
+      </mat-button-toggle-group>
+      <div class="page-form__main">
+         <div class="form__group">
+            <div class="tw-grid tw-gap-4">
+               <div class="tw-grid md:tw-grid-cols-3 tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Наименование</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>ISO3</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Код телефона</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+               </div>
+            </div>
+            <div class="tw-grid tw-gap-4">
+               <h3 class="form__title title-sec">Валюта</h3>
+               <div class="tw-grid md:tw-grid-cols-3 tw-gap-4">
+                  <mat-form-field class="form__input">
+                     <mat-label>Текст</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+                  <mat-form-field class="form__input">
+                     <mat-label>Знак</mat-label>
+                     <input matInput />
+                  </mat-form-field>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="page-form__footer">
+         <button class="page-form__btn btn-red">Отменить</button>
+         <button class="page-form__btn btn-green">Сохранить</button>
+      </div>
+   </form>
+</main>

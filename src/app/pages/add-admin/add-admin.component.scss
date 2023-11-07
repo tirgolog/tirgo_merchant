@@ -1,0 +1,11 @@
+@import "base";
+.form__select{
+  width: 100%;
+}
+.alert{
+  color: darkred;
+  span{
+    cursor: pointer;
+    color: blue;
+  }
+}

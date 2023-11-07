@@ -1,0 +1,25 @@
+@import "base";
+
+.modal {
+   padding: rem(10);
+   width: 100%;
+   @media (min-width: $mobileSmall) {
+      min-width: rem(420);
+      padding: rem(25) rem(15);
+   }
+   &__header {
+      display: flex;
+      align-items: center;
+
+      margin-bottom: rem(20);
+   }
+   &__title {
+      margin-right: auto;
+   }
+   &__close {
+      padding: rem(10);
+      color: $mainWine;
+   }
+   &__submit {
+   }
+}

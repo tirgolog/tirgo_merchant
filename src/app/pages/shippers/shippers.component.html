@@ -1,0 +1,113 @@
+<main class="shippers">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Клиенты</h2>
+         <div class="page-header__actions">
+            <!--<button class="page-header__btn btn-green" (click)="openPush()">
+               Отправить пуш всем
+            </button>-->
+            <a (click)="addUser()" class="page-header__btn btn-green"  *ngIf="authService.myrole.add_client">
+               Добавить
+            </a>
+         </div>
+      </div>
+   </section>
+   <section class="table">
+      <div class="filter">
+         <div class="filter-inputs">
+            <input type="text" class="page__search" placeholder="Поиск по id" [(ngModel)]="id"/>
+            <input type="text" class="page__search" placeholder="Поиск по номеру телефона" [(ngModel)]="phone"/>
+            <input type="date" class="page__search" placeholder="Поиск по дате регистрации" [(ngModel)]="dateReg"/>
+            <input type="date" class="page__search" placeholder="Поиск по дате входа" [(ngModel)]="dateLogin"/>
+            <input type="text" class="page__search" placeholder="Поиск по имени" [(ngModel)]="name"/>
+            <input type="text" class="page__search" placeholder="Поиск по городу" [(ngModel)]="city"/>
+            <span>
+               <select name="select" class="page__search" (change)="changeSort($event)">
+                 <option value="id">ID</option>
+                 <option value="phone">Телефону</option>
+                 <option value="date_reg">Дата регистрации</option>
+                 <option value="date_last_login">Последний вход</option>
+                 <option value="name">Имя</option>
+                 <option value="city">Город</option>
+               </select>
+             </span>
+         </div>
+         <div class="filter-buttons">
+            <button class="page__btn btn-custom" (click)="filterList()">
+               Отфильтровать
+            </button>
+            <button class="page__btn btn-custom" (click)="filterClear()">
+               Сбросить фильтр
+            </button>
+         </div>
+      </div>
+      <mat-table [dataSource]="helper.users">
+         <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>ФИО</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="phone">
+            <mat-header-cell *matHeaderCellDef>Телефон</mat-header-cell>
+            <mat-cell *matCellDef="let row"> +{{row.phone}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="city">
+            <mat-header-cell *matHeaderCellDef>Город</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.city}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="raiting">
+            <mat-header-cell *matHeaderCellDef>Рейтинг</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.raiting}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="date_reg">
+            <mat-header-cell *matHeaderCellDef>Дата регистрации</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.date_reg | formatTime: 'DD.MM.YYYY'}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="date_last_login">
+            <mat-header-cell *matHeaderCellDef>Последний вход</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.date_last_login | formatTime: 'DD.MM.YYYY в HH:mm'}} </mat-cell>
+         </ng-container>
+         <!-- Header and Row Declarations -->
+         <mat-header-row *matHeaderRowDef="['id', 'name', 'phone', 'city', 'date_reg', 'date_last_login', 'raiting']"></mat-header-row>
+         <mat-row (click)="goToColumn(row.id)" *matRowDef="let row; columns: ['id', 'name', 'phone', 'city', 'date_reg', 'date_last_login', 'raiting']"></mat-row>
+      </mat-table>
+      <mat-paginator [length]="helper.users_count" showFirstLastButtons [pageSizeOptions]="sizespage" (page)="handlePage($event)"></mat-paginator>
+
+
+      <!--<table class="custom-table">
+         <tr>
+            <th>ID</th>
+            <th>ФИО</th>
+            <th>Телефон</th>
+            <th>Город</th>
+            <th>Рейтинг</th>
+            <th>Дата регистрации</th>
+            <th>Последний вход</th>
+         </tr>
+         <ng-container *ngFor="let row of helper.users | orderBy: this.sort: false">
+            <tr (click)="goToColumn(row)">
+               <td>{{row.id}}</td>
+               <td>{{row.name}}</td>
+               <td>{{row.phone}}</td>
+               <td>{{row.city}}</td>
+               <td>{{row.raiting}}</td>
+               <td>{{row.date_reg | formatTime: 'DD.MM.YYYY в HH:mm'}}</td>
+               <td>{{row.date_last_login | formatTime: 'DD.MM.YYYY в HH:mm'}}</td>
+            </tr>
+         </ng-container>
+      </table>
+      <div
+              *ngIf="helper.users && helper.users.length >= 50"
+              class="loading-scroll"
+              infinite-scroll
+              [infiniteScrollDistance]="1"
+              [infiniteScrollThrottle]="2"
+              (scrolled)="onScroll()"
+      >
+         Загружаем...
+      </div>-->
+   </section>
+</main>

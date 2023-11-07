@@ -1,0 +1,94 @@
+.dropdown {
+   position: relative;
+   &.settings-dropdown {
+      display: flex;
+      justify-content: center;
+   }
+   &__title {
+      .cell-dropdown & {
+         width: 100%;
+         display: flex;
+         align-items: center;
+         padding: rem(5);
+
+         &._spoller-active {
+            i.icm-chevron {
+               transform: rotateX(180deg);
+            }
+         }
+
+         i.icm-chevron {
+            transition: all 0.2s ease 0s;
+            font-size: rem(12);
+            margin-left: auto;
+            &::before {
+               font-weight: 600;
+            }
+         }
+      }
+   }
+   &__item {
+      display: block;
+      padding: rem(10) 0;
+      text-align: right;
+      color: $mainColor;
+      width: 100%;
+
+      transition: all 0.2s ease 0s;
+
+      &:hover {
+         color: $mainWine;
+      }
+      
+      &:not(:last-child) {
+         border-bottom: rem(1) solid;
+      }
+
+      .settings-dropdown & {
+         border-bottom: 0;
+      }
+
+      &:last-child {
+         .settings-dropdown & {
+            color: $mainRed;
+         }
+      }
+   }
+   &__items {
+      position: absolute;
+      padding: 0 rem(10);
+      background: #fff;
+
+      box-shadow: 0 0 rem(4) rgba(#000, 0.2);
+      border-radius: rem(5);
+      overflow: hidden;
+      min-width: rem(100);
+
+      z-index: 10;
+
+      .settings-dropdown & {
+         right: rem(15);
+         top: 100%;
+      }
+      .cell-dropdown & {
+         min-width: rem(380);
+      }
+   }
+}
+
+.cell-dropdown {
+   &__item {
+      display: flex;
+      align-items: center;
+      gap: rem(20);
+   }
+   &__name {
+      margin-left: auto;
+      font-weight: 500;
+   }
+   &__price {
+      font-weight: 500;
+   }
+   &__status {
+   }
+}

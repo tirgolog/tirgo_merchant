@@ -1,0 +1,417 @@
+<main class="driver view">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Подробнее о водителе</h2>
+         <button class="view__tirs badge" (click)="addMoney()">Баланс <span> {{user.balance ? user.balance:'0'}} tir</span></button>
+      </div>
+   </section>
+   <section class="view__main">
+      <div class="view__top">
+         <div class="view__left">
+            <div class="view__data data-view view__block">
+               <div class="data-view__header">
+                  <img
+                     [src]="user.avatar ? user.avatar : 'assets/img/user-empty.png'"
+                     (click)="helper.viewPhoto(user.avatar)"
+                     class="data-view__img"
+                     alt="Картинка"
+                  />
+                  <p class="data-view__name">
+                     #{{user.id}} {{user.name}}
+                  </p>
+                  <div class="data-view__rating">
+                     <i class="icm-star"></i> {{user.raiting}}
+                  </div>
+               </div>
+            </div>
+            <div class="view__orders view__block">
+               <h4 class="view__title title-sec">Заказы</h4>
+               <div class="view__list">
+                  <div class="tw-flex tw-justify-between tw-items-center">
+                     <span>Всего</span>
+                     <p class="tw-flex tw-items-center">
+                        <span class="text-wine tw-pr-1">{{user.orders.length}}</span>
+                  </div>
+                  <div class="tw-flex tw-justify-between tw-items-center">
+                     <span>Завершенные</span>
+                     <p class="tw-flex tw-items-center">
+                        <span class="text-green tw-pr-1">{{returnAcceptOrder(user.orders)}}</span>
+                     </p>
+                  </div>
+                  <div class="tw-flex tw-justify-between tw-items-center">
+                     <span>Отмененные</span>
+                     <p class="tw-flex tw-items-center">
+                        <span class="text-red tw-pr-1">{{returnRejectOrder(user.orders)}}</span>
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="view__right">
+            <div class="tw-grid tw-gap-5 tw-content-start">
+               <div class="view__informate view__block">
+                  <h4 class="view__title title-sec">Информация</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>ФИО</span>
+                        <span *ngIf="!editInfo">{{user.name}}</span>
+                        <input *ngIf="editInfo" class="input-edit-view" type="text" [(ngModel)]="user.name"/>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Дата рождения</span>
+                        <span *ngIf="!editInfo">{{user.birthday ? (user.birthday | formatTime:'DD MMMM YYYY'):'Не указана'}}</span>
+                        <input *ngIf="editInfo" class="input-edit-view" type="date" value="{{user.birthday ? user.birthday.split('T')[0]:'1970-01-01'}}"/>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Гражданство</span>
+                        <span *ngIf="!editInfo">{{user.country}}</span>
+                        <input *ngIf="editInfo" class="input-edit-view" type="text" [(ngModel)]="user.country"/>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Город</span>
+                        <span *ngIf="!editInfo">{{user.city}}</span>
+                        <input *ngIf="editInfo" class="input-edit-view" type="text" [(ngModel)]="user.city"/>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Дата регистрации</span>
+                        <span>{{user.date_reg | formatTime:'DD MMMM YYYY в HH:mm'}}</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Последний вход</span>
+                        <span>{{user.date_last_login ? (user.date_last_login | formatTime:'DD MMMM YYYY в HH:mm'):'Не указан'}}</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between" *ngIf="user.dirty > 0">
+                        <ng-container *ngIf="user.dirty < 3">
+                           <span>Временная блокировка</span>
+                           <span>через {{3 - user.dirty}}</span>
+                        </ng-container>
+                        <ng-container *ngIf="user.dirty === 3">
+                           <button class="view__btn btn-green" style="margin-left: 0" (click)="delDirty()">Удалить временную блокировку</button>
+                        </ng-container>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <ng-container >
+                           <span [ngClass]="{colorred : !user.moderation}">{{user.moderation ? 'Модерация пройдена':'Модерация НЕ пройдена'}}</span>
+                        </ng-container>
+                        <ng-container *ngIf="!user.moderation">
+                           <button class="view__btn btn-green" style="margin-left: 0" (click)="modarateUser()">Активировать</button>
+                        </ng-container>
+                     </p>
+                     <button class="view__btn" [className]="editInfo ? 'btn-green':'btn-warning'" style="margin-left: 0" (click)="editInfoGo()">{{editInfo ? 'Сохранить':'Редактировать'}}</button>
+                  </div>
+               </div>
+               <div class="view__passport view__block">
+                  <h4 class="view__title title-sec">Паспорт</h4>
+                  <div class="view__list">
+                     <mat-form-field class="form__input">
+                        <mat-label>Серия и номер</mat-label>
+                        <input matInput type="text" [(ngModel)]="passport_series_numbers"/>
+                     </mat-form-field>
+                     <mat-form-field class="form__input">
+                        <mat-label>Дата выдачи</mat-label>
+                        <input matInput type="date" [value]="passport_date | formatTime:'YYYY-MM-DD'"/>
+                     </mat-form-field>
+                     <p class="tw-flex tw-justify-between tw-items-center images-passport" *ngIf="user.files">
+                        <ng-container *ngFor="let row of user.files">
+                           <img  (click)="helper.viewPhoto(row.preview)" *ngIf="row.type_file === 'passport'" [src]="row.preview" alt="">
+                        </ng-container>
+                     </p>
+                     <button [disabled]="user.passport_series_numbers === passport_series_numbers" class="view__btn btn-green" style="margin-left: 0" (click)="savePassportUser()">Сохранить</button>
+                  </div>
+               </div>
+            </div>
+            <div class="tw-grid tw-gap-5 tw-content-start">
+               <div class="view__docs">
+                  <h4 class="view__title title-sec">Водительское удостоверение</h4>
+                  <div class="view__list">
+                     <mat-form-field class="form__input">
+                        <mat-label>Водительское удостоверение</mat-label>
+                        <input matInput type="text" [(ngModel)]="driver_license"/>
+                     </mat-form-field>
+                     <p class="tw-flex tw-justify-between tw-items-center images-passport" *ngIf="user.files">
+                        <ng-container *ngFor="let row of user.files">
+                           <img (click)="helper.viewPhoto(row.preview)" *ngIf="row.type_file === 'driver-license'" [src]="row.preview" alt="">
+                        </ng-container>
+                     </p>
+                     <button [disabled]="user.driver_license === driver_license" class="view__btn btn-green" style="margin-left: 0" (click)="saveDriverLicenseUser()">Сохранить</button>
+                  </div>
+               </div>
+               <div class="view__contacts view__block">
+                  <h4 class="view__title title-sec">Контакты Водителя</h4>
+                  <div class="view__list">
+                     <div class="tw-flex tw-justify-between" *ngFor="let contact of user.contacts">
+                        <span>+{{contact.text}} <br> <small>{{contact.verify ? 'Подтвержден':'Не подтвержден'}}</small></span>
+                        <div class="tw-flex tw-gap-2">
+                           <a target="_blank" href="https://t.me/+{{contact.text}}" class="tw-p-2">
+                              <i class="icm-telegram"></i>
+                           </a>
+                           <a target="_blank" href="https://wa.me/{{contact.text}}" class="tw-p-2">
+                              <i class="icm-whatsup"></i>
+                           </a>
+                        </div>
+                     </div>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Email</span>
+                        <span>{{user.email ? user.email:'Не указан'}}</span>
+                     </p>
+                  </div>
+               </div>
+               <!--<div class="view__positive view__block">
+                  <h4 class="view__title text-green">Положительные критерии</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>Responsibility</span>
+                        <span>0</span>
+                     </p>
+                  </div>
+               </div>
+               <div class="view__negative view__block">
+                  <h4 class="view__title text-red">Отрицательные критерии</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>Carelessness</span>
+                        <span>0</span>
+                     </p>
+                  </div>
+               </div>-->
+            </div>
+         </div>
+      </div>
+      <h4 class="view__title title-sec">Активность пользователя</h4>
+      <div class="activity">
+         <ng-container *ngFor="let act of activity">
+            <span class="activity-block">
+               {{act.text}} <br>
+               <b>{{act.date | formatTime:'DD MMMM YYYY в HH:mm'}}</b>
+               <hr>
+               <br>
+            </span>
+         </ng-container>
+      </div>
+      <ng-container *ngIf="user.trucks && user.trucks.length">
+         <h4 class="view__title title-sec">Транспорт</h4>
+         <div class="view__transport view__block transport-blocks" >
+            <ng-container *ngFor="let row of user.trucks">
+               <div class="view__list"  *ngIf="row.active">
+                  <p class="tw-flex tw-justify-between">
+                     <span>Тип машины</span>
+                     <span>{{helper.returnNameTypeTransport(row.type)}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Название</span>
+                     <span>{{row.name}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Описание</span>
+                     <span>{{row.description}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Макс. грузоподъемность(кг)</span>
+                     <span>{{row.max_weight}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>ADR (Перевозка опасных грузов)</span>
+                     <span>{{row.adr ? 'Да':'Нет'}}</span>
+                  </p>
+                  <!--<p class="tw-flex tw-justify-between">
+                     <span>Гос номер автомобиля</span>
+                     <span>40680KBA</span>
+                  </p>-->
+                  <p class="tw-flex tw-justify-between">
+                     <span>Гос номер прицепа</span>
+                     <span>{{row.state_number}}</span>
+                  </p>
+                  <h3><b>Тех паспорт</b></h3>
+                  <div class="imgs-trucks">
+                     <ng-container *ngFor="let img of row.docks">
+                        <div *ngIf="img.type_file === 'tech_passport_files'">
+                           <img (click)="helper.viewPhoto(img.preview)" [src]="img.preview" alt="">
+                        </div>
+                     </ng-container>
+                  </div>
+                  <h3><b>Лицензия</b></h3>
+                  <div class="imgs-trucks">
+                     <ng-container *ngFor="let img of row.docks">
+                        <div *ngIf="img.type_file === 'license_files'">
+                           <img (click)="helper.viewPhoto(img.preview)" [src]="img.preview" alt="">
+                        </div>
+                     </ng-container>
+                  </div>
+                  <h3><b>Фото транспорта</b></h3>
+                  <div class="imgs-trucks">
+                     <ng-container *ngFor="let img of row.docks">
+                        <div *ngIf="img.type_file === 'car_photos'">
+                           <img (click)="helper.viewPhoto(img.preview)" [src]="img.preview" alt="">
+                        </div>
+                     </ng-container>
+                  </div>
+               </div>
+            </ng-container>
+         </div>
+         <h4 class="view__title title-sec">Удаленный транспорт</h4>
+         <div class="view__transport view__block transport-blocks" >
+            <ng-container  *ngFor="let row of user.trucks">
+               <div class="view__list" *ngIf="!row.active">
+                  <p class="tw-flex tw-justify-between">
+                     <span>Тип машины</span>
+                     <span>{{helper.returnNameTypeTransport(row.type)}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Название</span>
+                     <span>{{row.name}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Описание</span>
+                     <span>{{row.description}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Макс. грузоподъемность(кг)</span>
+                     <span>{{row.max_weight}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>ADR (Перевозка опасных грузов)</span>
+                     <span>{{user.adr ? 'Да':'Нет'}}</span>
+                  </p>
+                  <!--<p class="tw-flex tw-justify-between">
+                     <span>Гос номер автомобиля</span>
+                     <span>40680KBA</span>
+                  </p>-->
+                  <p class="tw-flex tw-justify-between">
+                     <span>Гос номер прицепа</span>
+                     <span>{{row.state_number}}</span>
+                  </p>
+                  <h3><b>Тех паспорт</b></h3>
+                  <div class="imgs-trucks">
+                     <ng-container *ngFor="let img of row.docks">
+                        <div *ngIf="img.type_file === 'tech_passport_files'">
+                           <img (click)="helper.viewPhoto(img.preview)" [src]="img.preview" alt="">
+                        </div>
+                     </ng-container>
+                  </div>
+                  <h3><b>Лицензия</b></h3>
+                  <div class="imgs-trucks">
+                     <ng-container *ngFor="let img of row.docks">
+                        <div *ngIf="img.type_file === 'license_files'">
+                           <img (click)="helper.viewPhoto(img.preview)" [src]="img.preview" alt="">
+                        </div>
+                     </ng-container>
+                  </div>
+                  <h3><b>Фото транспорта</b></h3>
+                  <div class="imgs-trucks">
+                     <ng-container *ngFor="let img of row.docks">
+                        <div *ngIf="img.type_file === 'car_photos'">
+                           <img (click)="helper.viewPhoto(img.preview)" [src]="img.preview" alt="">
+                        </div>
+                     </ng-container>
+                  </div>
+               </div>
+            </ng-container>
+         </div>
+      </ng-container>
+      <!--<div class="view__bottom">
+         <div class="view__types">
+            <h4 class="view__title title-sec">
+               Какие типы грузов водитель готов вести
+            </h4>
+            <ul class="view__types-list">
+               <li>other</li>
+               <li>Live animals; animal products</li>
+               <li>Products of plant origin</li>
+               <li>
+                  Fats and oils of animal or vegetable origin and their
+                  breakdown products; prepared edible
+               </li>
+               <li>
+                  Ready food products; non-alcoholic drinks and vinegar; tobacco
+                  and its substitutes
+               </li>
+               <li>Mineral products</li>
+               <li>Products of the chemical and related industries</li>
+               <li>
+                  Plastics and products from them; rubber, rubber and articles
+                  thereof
+               </li>
+               <li>
+                  Raw hides, skins, natural furs and articles thereof; saddlery
+                  and harness; travel accessories, handbags and similar goods;
+                  products from animal intestines (except silkworm fibroin
+                  fiber)
+               </li>
+               <li>
+                  Wood and products from it; charcoal; cork and products from
+                  it; products made of straw, alpha or other materials for
+                  weaving; basketry and other wickerwork
+               </li>
+               <li>
+                  Pulp of wood or other fibrous cellulosic materials; recycled
+                  paper or cardboard (waste paper and waste); paper, cardboard
+                  and articles thereof
+               </li>
+               <li>Textile materials and textile products</li>
+               <li>
+                  Shoes, hats, umbrellas, sun umbrellas, walking sticks, seat
+                  sticks, whips, whips and parts thereof; processed feathers and
+                  products from them; artificial flowers; human hair products
+               </li>
+               <li>
+                  Products made of stone, plaster, cement, asbestos, mica or
+                  similar materials; ceramic products; glass and glass products
+               </li>
+               <li>
+                  Natural or cultured pearls, precious or semi-precious stones,
+                  precious metals, metals clad with precious metals, and
+                  articles thereof; bijouterie; coins
+               </li>
+               <li>Base metals and products from them</li>
+               <li>
+                  Machinery, equipment and mechanisms; electrical equipment;
+                  their parts; sound recording and reproducing apparatus,
+                  apparatus for recording and reproducing television images and
+                  sound, parts and accessories thereof
+               </li>
+               <li>
+                  Means of land transport, aircraft, watercraft and devices and
+                  equipment related to transport
+               </li>
+               <li>
+                  Optical, photographic, cinematographic, measuring, control,
+                  precision, medical or surgical instruments and apparatus;
+                  watches of all kinds; musical instruments; their parts and
+                  accessories
+               </li>
+               <li>Weapons and ammunition; their parts and accessories</li>
+               <li>Miscellaneous manufactured goods</li>
+               <li>Artwork, collectibles and antiques</li>
+               <li>ADR (dangerous cargo)</li>
+               <li>Passenger cars</li>
+               <li>Tracktor</li>
+               <li>Empty Container</li>
+            </ul>
+            <div class="view__types-admin">
+               <b>Добавлен админом:</b> Пост Илич
+            </div>
+         </div>
+         <div class="view__photos view__block">
+            <h4 class="view__title title-sec">Фото транспорта и прицепа</h4>
+            <div class="tw-flex tw-gap-5 tw-flex-wrap">
+               <img
+                  src="/assets/img/truck_01.jpg"
+                  class="view__photo"
+                  alt="Картинка"
+               />
+               <img
+                  src="/assets/img/truck_02.jpg"
+                  class="view__photo"
+                  alt="Картинка"
+               />
+            </div>
+         </div>
+      </div>-->
+      <div class="view__buttons">
+         <button class="view__btn btn-red" *ngIf="user.deleted === 0" (click)="deletUser()">Удалить</button>
+         <button class="view__btn btn-warning" *ngIf="user.deleted === 1" (click)="returnUser()">Восстановить</button>
+         <!--<button class="view__btn btn-green" (click)="updateUser()">Сохранить</button>-->
+         <button class="view__btn btn-wine"  [mat-dialog-close]="true">Закрыть</button>
+      </div>
+   </section>
+</main>

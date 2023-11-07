@@ -1,0 +1,31 @@
+<main class="roles">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Роли пользователей</h2>
+         <div class="page-header__actions">
+            <a routerLink="/admins" class="page-header__btn btn">
+               Администраторы
+            </a>
+            <a (click)="addRole()" class="page-header__btn btn-green">
+               Добавить
+            </a>
+         </div>
+      </div>
+   </section>
+   <section class="table">
+      <ag-grid-angular
+              class="ag-theme-alpine my-table-aggrid"
+              style="height: calc(100vh - 250px); width: 100%"
+              [getContextMenuItems]="getContextMenuItems"
+              [rowData]="helper.roles"
+              [columnDefs]="colDefs"
+              [defaultColDef]="defaultColDef"
+              [rowSelection]="'multiple'"
+              [animateRows]="true"
+              [gridOptions]="gridOptions"
+              [rowGroupPanelShow]="'always'"
+              (cellClicked)="goToColumn($event)"
+      >
+      </ag-grid-angular>
+   </section>
+</main>

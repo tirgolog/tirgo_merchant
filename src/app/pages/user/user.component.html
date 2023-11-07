@@ -1,0 +1,179 @@
+<main class="driver view">
+   <section class="page-header">
+      <div class="page-header__top">
+         <h2 class="page-header__title title">Подробнее о пользователе</h2>
+         <button class="view__tirs badge" (click)="addMoney()">Баланс <span> {{user.balance ? user.balance:'0'}} tir</span></button>
+      </div>
+   </section>
+   <section class="view__main">
+      <div class="view__top">
+         <div class="view__left">
+            <div class="view__data data-view view__block">
+               <div class="data-view__header">
+                  <img
+                     [src]="user.avatar ? user.avatar : 'assets/img/user-empty.png'"
+                     class="data-view__img"
+                     alt="Картинка"
+                  />
+                  <p class="data-view__name">
+                     #{{user.id}} {{user.name}}
+                  </p>
+                  <div class="data-view__rating">
+                     <i class="icm-star"></i> {{user.raiting}}
+                  </div>
+               </div>
+               <div class="view__list">
+                  <div class="tw-flex tw-justify-between">
+                     <span>Статус</span>
+                     <span class="text-green">Активный</span>
+                  </div>
+                  <div class="tw-flex tw-justify-between">
+                     <span>Подписка до</span>
+                     <span>Нет подписки</span>
+                  </div>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Дата регистрации</span>
+                     <span>{{user.date_reg | formatTime:'DD MMMM YYYY в HH:mm'}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Последний вход</span>
+                     <span>{{user.date_last_login ? (user.date_last_login | formatTime:'DD MMMM YYYY в HH:mm'):'Не указан'}}</span>
+                  </p>
+                  <p class="tw-flex tw-justify-between">
+                     <span>Баланс</span>
+                     <span>{{user.balance}}</span>
+                  </p>
+               </div>
+            </div>
+            <!--<div class="view__positive view__block">
+               <h4 class="view__title text-green">Положительные критерии</h4>
+               <div class="view__list">
+                  <p class="tw-flex tw-justify-between">
+                     <span>Responsibility</span>
+                     <span>0</span>
+                  </p>
+               </div>
+            </div>
+            <div class="view__negative view__block">
+               <h4 class="view__title text-red">Отрицательные критерии</h4>
+               <div class="view__list">
+                  <p class="tw-flex tw-justify-between">
+                     <span>Carelessness</span>
+                     <span>0</span>
+                  </p>
+               </div>
+            </div>-->
+         </div>
+         <div class="view__right">
+            <div class="tw-grid tw-gap-5 tw-content-start">
+               <div class="view__informate view__block">
+                  <h4 class="view__title title-sec">Информация</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>Дата рождения</span>
+                        <span>{{user.birthday ? (user.birthday | formatTime:'DD MMMM YYYY'):'Не указана'}}</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Гражданство</span>
+                        <span>{{user.country}}</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Город</span>
+                        <span>{{user.city}}</span>
+                     </p>
+                  </div>
+               </div>
+               <div class="view__orders view__block">
+                  <h4 class="view__title title-sec">Заказы</h4>
+                  <div class="view__list">
+                     <div class="tw-flex tw-justify-between tw-items-center">
+                        <span>Всего</span>
+                        <p class="tw-flex tw-items-center">
+                           <span class="text-wine tw-pr-1">0</span>
+                        </p>
+                     </div>
+                     <div class="tw-flex tw-justify-between tw-items-center">
+                        <span>Завершенные</span>
+                        <p class="tw-flex tw-items-center">
+                           <span class="text-green tw-pr-1">0</span>
+                        </p>
+                     </div>
+                     <div class="tw-flex tw-justify-between tw-items-center">
+                        <span>Отрицательные</span>
+                        <p class="tw-flex tw-items-center">
+                           <span class="text-red tw-pr-1">0</span>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="tw-grid tw-gap-5 tw-content-start">
+               <!--<div class="view__passport view__block">
+                  <h4 class="view__title title-sec">Паспорт</h4>
+                  <div class="view__list">
+                     <p class="tw-flex tw-justify-between">
+                        <span>Серия и номер</span>
+                        <span class="tw-uppercase">FA1243350</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between tw-items-center">
+                        <span class="tw-text-indigo-500"
+                           >img235423423423.jpg</span
+                        >
+                        <button class="badge-wine">Просмотреть</button>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Дата выдачи</span>
+                        <span>14/03/2022</span>
+                     </p>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Срок действия</span>
+                        <span>14/03/2032</span>
+                     </p>
+                  </div>
+               </div>-->
+               <div class="view__contacts view__block">
+                  <h4 class="view__title title-sec">Контакты Пользователя</h4>
+                  <div class="view__list">
+                     <div class="tw-flex tw-justify-between" *ngFor="let contact of user.contacts">
+                        <span>+{{contact.text}} <br> <small>{{contact.verify_code ? 'Подтвержден':'Не подтвержден'}}</small></span>
+                        <div class="tw-flex tw-gap-2">
+                           <a target="_blank" href="https://t.me/+{{contact.text}}" class="tw-p-2">
+                              <i class="icm-telegram"></i>
+                           </a>
+                           <a target="_blank" href="https://wa.me/{{contact.text}}" class="tw-p-2">
+                              <i class="icm-whatsup"></i>
+                           </a>
+                        </div>
+                     </div>
+                     <p class="tw-flex tw-justify-between">
+                        <span>Email</span>
+                        <span>{{user.email ? user.email:'Не указан'}}</span>
+                     </p>
+                  </div>
+               </div>
+               <div class="view__contacts view__block">
+                  <h4 class="view__title title-sec tw-flex tw-justify-between">
+                     Уведомления
+                     <button class="badge-green">Отправить пуш</button>
+                  </h4>
+                  <div class="view__list">
+                     Нет уведомлений
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!--<div class="view__bottom tw-mt-5">
+         <div class="tw-grid tw-gap-5 tw-content-start">
+            <div class="view__informate view__block">
+               <h4 class="view__title title-sec">Компания</h4>
+               <div class="view__list">Реквизиты:</div>
+            </div>
+         </div>
+      </div>-->
+      <div class="view__buttons">
+         <button class="view__btn btn-red" mat-dialog-close="true">Закрыть</button>
+         <button class="view__btn btn-green">Сохранить</button>
+      </div>
+   </section>
+</main>
