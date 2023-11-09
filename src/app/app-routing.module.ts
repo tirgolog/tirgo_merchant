@@ -51,7 +51,7 @@ import {LoadingComponent} from "./loading/loading.component";
 import {ArchiveComponent} from "./pages/archive/archive.component";
 import {SecuretransComponent} from "./pages/securetrans/securetrans.component";
 import {ExchangerateComponent} from "./exchangerate/exchangerate.component";
-import { RegistrtionComponent } from './pages/registrtion/registrtion.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
 
 
 
@@ -268,7 +268,7 @@ const routes: Routes = [
    },
    {
       path: "registration",
-      component: RegistrtionComponent,
+      component: RegistrationComponent,
       title: "Регистрация"
    },
    {

@@ -1,19 +1,19 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Component,OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
-import { FileUploadService } from 'src/app/services/file-upload.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
-  selector: 'app-registrtion',
-  templateUrl: './registrtion.component.html',
-  styleUrls: ['./registrtion.component.scss']
+  selector: 'app-registration',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.scss']
 })
-export class RegistrtionComponent implements OnInit{
-  data:any;
+export class RegistrationComponent implements OnInit {
+  loading: boolean = false;
+  data: any;
   factAddressShow: boolean = false;
   phone2: boolean = false;
+  bankAccountCurrency: boolean = false;
 
   selectedFiles: FileList;
   selectedFileNames: string[] = [];
@@ -24,12 +24,15 @@ export class RegistrtionComponent implements OnInit{
   passportFile: FileList;
   passportNames: string[] = [];
 
+  formDone: boolean = false;
   constructor(
     public authService: AuthService,
-    private uploadService: FileUploadService) {}
+    public helper: HelperService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
-    this.data = {email:'', legalAddress:'',factAddress:'', phoneNumbers: [''], phone2: "", bankName:''}
+    this.data = { email: '', legalAddress: '', factAddress: '', phoneNumbers: [''], phone2: "", bankName: '', bankAccounts: [] }
   }
 
   addItem() {
@@ -37,14 +40,13 @@ export class RegistrtionComponent implements OnInit{
   }
 
   removeItem(i) {
-      this.data.phoneNumbers.splice(i,1)
+    this.data.phoneNumbers.splice(i, 1)
   }
 
-  trackByFn(index:any, item:any) {
+  trackByFn(index: any, item: any) {
     return item;
   }
 
-  
   selectCertificate(event: any): void {
     this.certificateNames = [];
     this.certificateFile = event.target.files;
@@ -93,7 +95,33 @@ export class RegistrtionComponent implements OnInit{
     }
   }
 
-
- 
-  
+  async createMerchant() {
+    if (this.phone2)
+      this.data.phoneNumbers.push(this.data.phone2)
+    let patch = {
+      bankAccounts: [{ account: this.data.bankAccounts, id: 'f5999533-a08f-40cf-b635-074ebbb7ac37' },{ account: this.data.bankAccountCurrency, id: 'f5999533-a08f-40cf-b635-074ebbb7ac37' }],
+      bankName: this.data.bankName,
+      companyName: this.data.companyName,
+      password: this.data.password,
+      notes: this.data.notes,
+      mfo: this.data.mfo,
+      inn: this.data.inn,
+      oked: this.data.oked,
+      dunsNumber: this.data.dunsNumber,
+      supervisorFullName: this.data.supervisorFullName,
+      legalAddress: this.data.legalAddress,
+      factAddress: this.data.factAddress,
+      email: this.data.email,
+      phoneNumbers: this.data.phoneNumbers
+    }
+    const res = await this.authService.addMerchant(patch).toPromise();
+    if (res) {
+      this.formDone = true;
+      this.toastr.success('Мерdчант успешно добавлен')
+      this.loading = false;
+    } else {
+      this.toastr.error(res.error)
+      this.loading = false;
+    }
+  }
 }

@@ -4,7 +4,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from '../models/user';
 
 const TOKEN_KEY = 'jwttirgomerhant';
-const API_URL = 'https://tirgo-server.onrender.com'
+const API_URL = 'http://192.168.1.103:3000/api/v1'
 @Injectable({
    providedIn: 'root'
 })
@@ -21,7 +21,9 @@ export class AuthService {
    ) { }
 
    loginAdmin(name: string, password: string) {
-      const sUrl = API_URL + '/merchant/loginAdmin';
+      
+      localStorage.getItem(TOKEN_KEY);
+      const sUrl = API_URL + '/auth/login';
       const body = JSON.stringify({
          name, password
       });
@@ -114,6 +116,27 @@ export class AuthService {
          datauser,cityinfo
       });
       return this.http.post<any>(sUrl, body);
+   }
+   addMerchant(data:any) {
+      const sUrl = API_URL + '/merchant';
+      const body = JSON.stringify({
+         bankAccounts: data.bankAccounts,
+         bankName: data.bankName,
+         companyName: data.companyName,
+         password: data.password,
+         notes: data.notes,
+         mfo: data.mfo,
+         inn: data.inn,
+         oked: data.oked,
+         dunsNumber: data.dunsNumber,
+         supervisorFullName: data.supervisorFullName,
+         legalAddress: data.legalAddress,
+         factAddress: data.factAddress,
+         email: data.email,
+         phoneNumbers: data.phoneNumbers
+       });
+      return this.http.post<any>(sUrl, body);
+
    }
    adminBanned(banned:boolean,userid:number) {
       const sUrl = API_URL + '/admin/bannedAdmin';

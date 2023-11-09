@@ -64,7 +64,6 @@ export class AddDriverComponent {
       if (confirm){
          this.cityInfo = this.citiesSelected.value;
          this.dataUser.phone = this.dial_code + '' + this.dataUser.phone
-         console.log(this.dataUser,this.cityInfo)
          const res = await this.authService.addUser(this.dataUser,this.cityInfo).toPromise();
          if (res.status) {
             this.step = 2

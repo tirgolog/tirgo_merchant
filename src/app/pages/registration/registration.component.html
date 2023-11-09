@@ -1,10 +1,10 @@
-<main class="auth" *ngIf="!authService.isAuthenticated()">
+<main class="auth" *ngIf="!authService.isAuthenticated() && !formDone">
   <div class="auth__form form">
     <p>Merchant</p>
     <img src="/assets/img/logo.svg" class="auth__logo" alt="Картинка" />
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between">
-      <div style="display: flex; flex-wrap: wrap; width: 70%">
-     
+
+    <form #form="ngForm" class="form-wrapper">
+      <div class="form">
         <div class="dynamic-inputs-wrapper">
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
@@ -19,6 +19,7 @@
             <mat-form-field class="form__input">
               <mat-label>Название компании</mat-label>
               <input
+                required
                 matInput
                 name="companyName"
                 [(ngModel)]="data.companyName"
@@ -31,7 +32,11 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Ф.И.О руководителя</mat-label>
-              <input matInput name="supervisorFullName" [(ngModel)]="data.supervisorFullName" />
+              <input
+                matInput
+                name="supervisorFullName"
+                [(ngModel)]="data.supervisorFullName"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -40,7 +45,7 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Наименование банка</mat-label>
-              <input matInput name="bankName" [(ngModel)]="data.bankName" />
+              <input matInput name="bankName" [(ngModel)]="data.bankName"  />
             </mat-form-field>
           </div>
         </div>
@@ -49,7 +54,14 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>ИНН</mat-label>
-              <input type="number" mask="999999999" matInput name="inn" [(ngModel)]="data.inn" maxlength="9" />
+              <input
+                type="number"
+                mask="999999999"
+                matInput
+                name="inn"
+                [(ngModel)]="data.inn"
+                maxlength="9"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -58,7 +70,14 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>ОКЭД</mat-label>
-              <input type="number" mask="99999" matInput name="oked" [(ngModel)]="data.oked" maxlength="5" />
+              <input
+                type="number"
+                mask="99999"
+                matInput
+                name="oked"
+                [(ngModel)]="data.oked"
+                maxlength="5"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -67,7 +86,14 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>МФО</mat-label>
-              <input type="number" matInput name="mfo" [(ngModel)]="data.mfo" mask="99999" maxlength="5" />
+              <input
+                type="number"
+                matInput
+                name="mfo"
+                [(ngModel)]="data.mfo"
+                mask="99999"
+                maxlength="5"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -97,7 +123,16 @@
           </div>
         </div>
 
-        <div class="dynamic-inputs-wrapper" style="margin-left: 1px;">
+        <div class="dynamic-inputs-wrapper">
+          <div class="dynamic-inputs">
+            <mat-form-field class="form__input">
+              <mat-label>Парол</mat-label>
+              <input type="password" matInput name="password" [(ngModel)]="data.password" required/>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="dynamic-inputs-wrapper">
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Телефон</mat-label>
@@ -105,7 +140,7 @@
                 matInput
                 type="text"
                 name="phoneNumbers"
-                mask='+999999999999' 
+                mask="+999999999999"
                 [(ngModel)]="data.phoneNumbers[0]"
                 required
               />
@@ -122,7 +157,7 @@
                 matInput
                 type="text"
                 name="phone2"
-                mask='+999999999999'
+                mask="+999999999999"
                 [(ngModel)]="data.phone2"
               />
               <mat-icon matSuffix (click)="phone2 = false">delete</mat-icon>
@@ -165,10 +200,42 @@
           </div>
         </div>
 
-      </div>
+        <div class="dynamic-inputs-wrapper">
+          <div class="dynamic-inputs">
+            <mat-form-field class="form__input">
+              <mat-label>Расчетный счет</mat-label>
+              <input
+                matInput
+                type="number"
+                name="bankAccounts"
+                [(ngModel)]="data.bankAccounts"
+              />
+              <mat-icon
+                matSuffix
+                *ngIf="!bankAccountCurrency"
+                (click)="bankAccountCurrency = true"
+                >add</mat-icon
+              >
+            </mat-form-field>
+          </div>
 
-      <div style="width: 30%">
-        <div style="margin-left: 20px">
+          <div class="dynamic-inputs" *ngIf="bankAccountCurrency">
+            <mat-form-field class="form__input">
+              <mat-label>Расчетный счет (валюта)</mat-label>
+              <input
+                matInput
+                type="number"
+                name="bankAccountCurrency"
+                [(ngModel)]="data.bankAccountCurrency"
+              />
+              <mat-icon matSuffix (click)="bankAccountCurrency = false"
+                >delete</mat-icon
+              >
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div style="margin-left: 15px; width: 100%;">
           <mat-form-field style="display: block">
             <mat-toolbar>
               <input
@@ -180,7 +247,7 @@
             </mat-toolbar>
             <input
               type="file"
-              id="fileInput"
+              class="fileInput"
               name="logo"
               [(ngModel)]="data.logo"
               accept="image/*"
@@ -190,7 +257,7 @@
           </mat-form-field>
         </div>
 
-        <div style="margin-left: 20px">
+        <div style="margin-left: 15px; width: 100%;">
           <mat-form-field style="display: block">
             <mat-toolbar>
               <input
@@ -205,7 +272,7 @@
 
             <input
               type="file"
-              id="fileInput"
+              class="fileInput"
               name="certificate_registration"
               [(ngModel)]="data.certificate_registration"
               accept="image/*"
@@ -215,22 +282,20 @@
           </mat-form-field>
         </div>
 
-        <div style="margin-left: 20px">
+        <div style="margin-left: 15px; width: 100%;">
           <mat-form-field style="display: block">
             <mat-toolbar>
               <input
                 matInput
                 [value]="
-                passportNames.length
-                    ? passportNames
-                    : 'Паспорт руководителя'
+                  passportNames.length ? passportNames : 'Паспорт руководителя'
                 "
               />
             </mat-toolbar>
 
             <input
               type="file"
-              id="fileInput"
+              class="fileInput"
               name="supervisor_passport"
               [(ngModel)]="data.supervisor_passport"
               accept="image/*"
@@ -239,9 +304,23 @@
             <mat-icon matSuffix>file_download</mat-icon>
           </mat-form-field>
         </div>
-
+        <button [disabled]="!form.valid" style="margin-left: 10px;" class="auth__btn btn-green" (click)="createMerchant()">Завершить</button>
+        
       </div>
+    </form>
+  </div>
+  
+</main>
 
+<main *ngIf="formDone" class="auth">
+  <div class="auth__form form">
+    <div class="form-done">
+      <div style="text-align: center">
+        <mat-icon matSuffix>check_circle_outline</mat-icon>
+        <h2 class="title">Ваша заявка принята на обработку</h2>
+        <p>Ответ придет к вам на почту</p>
+        <button class="btn-green" routerLink="/auth">На главную</button>
+      </div>
     </div>
   </div>
 </main>

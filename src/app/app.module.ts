@@ -111,7 +111,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatToolbarModule} from '@angular/material/toolbar';
 
-import { RegistrtionComponent } from './pages/registrtion/registrtion.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -190,7 +190,7 @@ const mapConfig: YaConfig = {
       SecuretransComponent,
       AddmoneyComponent,
       ExchangerateComponent,
-      RegistrtionComponent,
+      RegistrationComponent,
    ],
    imports: [
       MatSortModule,

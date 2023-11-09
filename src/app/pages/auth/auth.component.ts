@@ -32,13 +32,13 @@ export class AuthComponent {
       if (this.authService.isAuthenticated()) {
          // this.router.navigate(['dashboard']);
       }
-      if (!this.authService.isAuthenticated()) {
-         this.router.navigate(['registration']);
-      }
+      // if (!this.authService.isAuthenticated()) {
+      //    this.router.navigate(['registration']);
+      // }
    }
    async getLogin() {
       const res = await this.authService.loginAdmin(this.login, this.password).toPromise();
-      if (res.status) {
+      if (res) {
          await this.authService.setJwt(res.token);
          this.error = false
       } else {
