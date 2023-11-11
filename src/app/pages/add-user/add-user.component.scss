@@ -28,3 +28,7 @@ datalist option:focus {
   background-color: #ccc;
   cursor: pointer;
 }
+
+::ng-deep .mat-mdc-select-value {
+  margin-top: 10px !important;
+}

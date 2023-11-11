@@ -110,12 +110,19 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
+import { MatDatepickerTimeHeaderModule } from "mat-datepicker-time-header";
+import {MatRadioModule} from '@angular/material/radio';
 
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { LayoutModule } from '@angular/cdk/layout';
+import { FinanceComponent } from './pages/finance/finance.component';
+import { DocumentsComponent } from './pages/documents/documents.component';
+import { SupportComponent } from './support/support.component';
+import { AnalyticsComponent } from './pages/analytics/analytics.component';
 
 
 registerLocaleData(ruLocale);
@@ -191,6 +198,10 @@ const mapConfig: YaConfig = {
       AddmoneyComponent,
       ExchangerateComponent,
       RegistrationComponent,
+      FinanceComponent,
+      DocumentsComponent,
+      SupportComponent,
+      AnalyticsComponent
    ],
    imports: [
       MatSortModule,
@@ -220,6 +231,12 @@ const mapConfig: YaConfig = {
       MatIconModule,
       MatDividerModule,
       MatButtonToggleModule,
+      MatCardModule,
+      MatDatepickerTimeHeaderModule,
+      MatExpansionModule,
+      MatRadioModule,
+      MatCheckboxModule,
+
       LayoutModule,
       InfiniteScrollModule,
       AngularYandexMapsModule.forRoot(mapConfig),

@@ -121,7 +121,7 @@ export class OrderComponent {
          this.dialog.closeAll();
       }
    }
-   viewUser(id:number){
+   viewUser(id:number){ 
       const dialogRef = this.dialog.open(DriverComponent, {
          width: '90%',
          height: '80%',

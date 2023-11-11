@@ -4,6 +4,7 @@ import {AuthService} from "../../services/auth.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ListService} from "../../services/list.service";
 import {ToastrService} from "ngx-toastr";
+import { MatDatepickerTimeHeaderComponent } from "mat-datepicker-time-header";
 
 @Component({
   selector: 'app-createorder',
@@ -16,6 +17,7 @@ export class CreateorderComponent {
   time:string = '';
   citystart: string = '';
   cityfinish: string = '';
+  timeHeader = MatDatepickerTimeHeaderComponent;
   data = {
     userid:'',
     typetransport:'',
@@ -23,6 +25,7 @@ export class CreateorderComponent {
     add_two_days: false,
     adr: false,
     no_cash: false,
+    secure: false,
     weight: '',
     price:'',
     length_box:'',
@@ -38,6 +41,7 @@ export class CreateorderComponent {
     finish_lat:'',
     finish_lng:'',
     date_start: new Date()
+
   }
   constructor(
       public helper: HelperService,
@@ -46,6 +50,7 @@ export class CreateorderComponent {
       private authService: AuthService,
       public listService: ListService
   ) {
+
   }
   returnCity(city:string){
     if (city){

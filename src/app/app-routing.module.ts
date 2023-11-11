@@ -52,7 +52,10 @@ import {ArchiveComponent} from "./pages/archive/archive.component";
 import {SecuretransComponent} from "./pages/securetrans/securetrans.component";
 import {ExchangerateComponent} from "./exchangerate/exchangerate.component";
 import { RegistrationComponent } from './pages/registration/registration.component';
-
+import { FinanceComponent } from './pages/finance/finance.component';
+import { DocumentsComponent } from './pages/documents/documents.component';
+import { SupportComponent } from './support/support.component';
+import { AnalyticsComponent } from './pages/analytics/analytics.component';
 
 
 const routes: Routes = [
@@ -117,7 +120,7 @@ const routes: Routes = [
       title: "Водители: Добавление"
    },
    {
-      path: "orders/:status",
+      path: "orders",
       component: OrdersComponent,
       title: "Заказы"
    },
@@ -257,15 +260,15 @@ const routes: Routes = [
       title: "Настройки"
    },
    {
-      path: "profile",
+      path: "s",
       component: ProfileComponent,
       title: "Профиль"
    },
-   {
-      path: "auth",
-      component: AuthComponent,
-      title: "Логин"
-   },
+   // {
+   //    path: "auth",
+   //    component: AuthComponent,
+   //    title: "Логин"
+   // },
    {
       path: "registration",
       component: RegistrationComponent,
@@ -292,7 +295,7 @@ const routes: Routes = [
       title: "Просмотр администратора"
    },
    {
-      path: "routers-truck",
+      path: "routers-truck", 
       component: RoutersTruckComponent,
       title: "Маршруты"
    },
@@ -316,6 +319,27 @@ const routes: Routes = [
       component: ExchangerateComponent,
       title: "Курс валют"
    },
+   {
+      path: "auth",
+      component: FinanceComponent,
+      title: "Финансы"
+   },
+   {
+      path: "documents",
+      component: DocumentsComponent,
+      title: "Документы"
+   },
+   {
+      path: "support",
+      component: SupportComponent,
+      title: "Служба поддержки"
+   },
+   {
+      path: "analytics",
+      component: AnalyticsComponent,
+      title: "Аналитика"
+   }
+
 ];
 
 @NgModule({

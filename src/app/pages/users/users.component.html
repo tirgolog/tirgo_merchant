@@ -3,16 +3,12 @@
       <div class="page-header__top">
          <h2 class="page-header__title title">Все пользователи</h2>
          <div class="page-header__actions">
-            <button class="page-header__btn btn-green" (click)="openPush()">
-               Отправить пуш всем
-            </button>
-            <button class="page-header__btn btn" data-filter-open>
+            <!-- <button class="page-header__btn btn" data-filter-open>
                Фильтр
                <i class="icm-chevron"></i>
-            </button>
+            </button> -->
             <a routerLink="/add-user" class="page-header__btn btn-green"
-               >Добавить</a
-            >
+               >Добавить</a>
          </div>
       </div>
       <form
@@ -61,39 +57,36 @@
       </form>
    </section>
    <section class="table">
-      <ag-grid-angular
-         class="ag-theme-alpine"
-         style="height: 300px; width: 100%"
-         [rowData]="rowData"
-         [columnDefs]="colDefs"
-         [defaultColDef]="defaultColDef"
-         [rowSelection]="'multiple'"
-         [animateRows]="true"
-         [rowGroupPanelShow]="'always'"
-      >
-      </ag-grid-angular>
-   </section>
-   <section class="pagging">
-      <ul class="pagging__list">
-         <li class="pagging__item">
-            <button class="pagging__button pagging__prev">
-               <i class="icm-chevron"></i>
-            </button>
-         </li>
-         <li class="pagging__item">
-            <button class="pagging__button">1</button>
-         </li>
-         <li class="pagging__item">
-            <button class="pagging__button">2</button>
-         </li>
-         <li class="pagging__item">
-            <button class="pagging__button">3</button>
-         </li>
-         <li class="pagging__item">
-            <button class="pagging__button pagging__next">
-               <i class="icm-chevron"></i>
-            </button>
-         </li>
-      </ul>
-   </section>
+      <mat-table [dataSource]="helper.users">
+         <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Статус</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.status}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Ф.И.О</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef>Роль</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.role}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="login">
+            <mat-header-cell *matHeaderCellDef>Логин</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.login}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="register_date">
+            <mat-header-cell *matHeaderCellDef>Дата регистрации</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.register_date}} </mat-cell>
+         </ng-container>
+         
+         <!-- Header and Row Declarations -->
+         <mat-header-row *matHeaderRowDef="['id', 'name','role','login','register_date']"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: ['id', 'name','role','login','register_date']"></mat-row>
+      </mat-table>
+      <mat-paginator [length]="helper.orders_count" showFirstLastButtons [pageSizeOptions]="sizespage" (page)="handlePage($event)"></mat-paginator>
+</section>
 </main>

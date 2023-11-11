@@ -16,13 +16,10 @@ import {ListService} from "../../services/list.service";
 export class AddUserComponent {
    findList: any[] | undefined = [];
    viewText = false;
-   city: string = '';
    name:string = '';
-   email:string = '';
+   password:string = '';
    phone:string = '';
-   cityInfo:any[]=[]
-   public citiesSelected: FormControl = new FormControl();
-   public selectTechnicalRoomFilterCtrl: FormControl = new FormControl();
+   login:string = '';
    constructor(
        private authService: AuthService,
        private toastr: ToastrService,
@@ -49,8 +46,7 @@ export class AddUserComponent {
    async adduser(){
       const confirm = await this.helper.openDialogConfirm('Вы уверены?', 'Вы уверены что хотите добавить пользователя?', 2)
       if (confirm){
-         this.cityInfo = this.citiesSelected.value;
-         const res = await this.authService.createClient(this.phone,this.name,this.email,this.cityInfo).toPromise();
+         const res = await this.authService.createClient(this.phone,this.name, this.login, this.password).toPromise();
          if (res.status) {
             this.toastr.success('Пользователь успешно добавлен')
             this.dialog.closeAll();

@@ -47,21 +47,7 @@ export class RegistrationComponent implements OnInit {
     return item;
   }
 
-  selectCertificate(event: any): void {
-    this.certificateNames = [];
-    this.certificateFile = event.target.files;
-
-    if (this.certificateFile && this.certificateFile[0]) {
-      const numberOfFiles = this.certificateFile.length;
-      for (let i = 0; i < numberOfFiles; i++) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-        };
-        reader.readAsDataURL(this.certificateFile[i]);
-        this.certificateNames.push(this.certificateFile[i].name);
-      }
-    }
-  }
+ 
 
   selectFiles(event: any): void {
     this.selectedFileNames = [];
@@ -91,6 +77,22 @@ export class RegistrationComponent implements OnInit {
         };
         reader.readAsDataURL(this.passportFile[i]);
         this.passportNames.push(this.passportFile[i].name);
+      }
+    }
+  }
+
+  selectCertificate(event: any): void {
+    this.certificateNames = [];
+    this.certificateFile = event.target.files;
+
+    if (this.certificateFile && this.certificateFile[0]) {
+      const numberOfFiles = this.certificateFile.length;
+      for (let i = 0; i < numberOfFiles; i++) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+        };
+        reader.readAsDataURL(this.certificateFile[i]);
+        this.certificateNames.push(this.certificateFile[i].name);
       }
     }
   }

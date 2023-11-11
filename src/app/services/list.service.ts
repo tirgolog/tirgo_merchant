@@ -56,6 +56,10 @@ export class ListService {
         });
         return this.http.post<any>(sUrl, body);
     }
+
+    getAllPayments() {
+        return null
+    }
     //old_version
     getAllAdmins() {
         const sUrl = API_URL + '/admin/getAllAdmins';

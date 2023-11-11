@@ -1,10 +1,10 @@
 <main class="orders">
    <section class="page-header">
       <div class="page-header__top">
-         <h2 class="page-header__title title">Заказы</h2>
+         <h2 class="page-header__title title">Грузы</h2>
          <div class="page-header__actions">
-            <button class="page-header__btn btn-green" (click)="openCreateOrder()"  *ngIf="authService.myrole.add_order">
-               Добавить заказ
+            <button class="page-header__btn btn-green" (click)="openCreateOrder()">
+               Добавить груз
             </button>
          </div>
       </div>
@@ -60,6 +60,39 @@
                Сбросить фильтр
             </button>
          </div>
+      </div> 
+
+      <div class="statuses" style="display: flex; justify-content: space-between; margin: 10px 0px">
+         <mat-card>
+            <mat-card-content style="text-align: center;">
+               <div style="font-weight: 600;">Ожидающий</div>
+               <div>0</div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content style="text-align: center;">
+               <div style="font-weight: 600;">В работе</div>
+               <div>0</div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content style="text-align: center;">
+               <div style="font-weight: 600;">Предложении</div>
+               <div>0</div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content style="text-align: center;">
+               <div style="font-weight: 600;">Завершённые</div>
+               <div>0</div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content style="text-align: center;">
+               <div style="font-weight: 600;">Отмененные</div>
+               <div>0</div>
+            </mat-card-content>
+          </mat-card>
       </div>
       <mat-table [dataSource]="helper.orders">
          <ng-container matColumnDef="id">
@@ -107,7 +140,7 @@
             <mat-cell *matCellDef="let row">{{row.date_create | formatTime: 'DD.MM.YYYY'}}</mat-cell>
          </ng-container>
          <ng-container matColumnDef="date_send">
-            <mat-header-cell *matHeaderCellDef>Дата создания</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Дата погрузки</mat-header-cell>
             <mat-cell *matCellDef="let row">{{row.date_send | formatTime: 'DD.MM.YYYY'}}</mat-cell>
          </ng-container>
          <!-- Header and Row Declarations -->

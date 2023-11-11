@@ -26,6 +26,7 @@
       "ag-grid-community": "^28.2.1",
       "axios": "^1.5.0",
       "date-fns": "^1.30.1",
+      "mat-datepicker-time-header": "^1.0.8",
       "mat-file-upload": "^11.1.2",
       "ng-socket-io": "^0.2.4",
       "ngx-infinite-scroll": "^15.0.0",

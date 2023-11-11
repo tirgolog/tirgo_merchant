@@ -1,0 +1,20 @@
+<main class="support" id="main">
+  <section class="page-header">
+    <div class="page-header__top">
+      <h2 class="page-header__title title">Часто задаваемые вопросы</h2>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header class="specific-class">
+          <mat-panel-title> Часто задаваемые вопрос </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>Ответ</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <button class="btn-green" style="margin-top: 20px;">Связаться с поддержка</button>
+  </section>
+</main>
