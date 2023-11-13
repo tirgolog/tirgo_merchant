@@ -57,6 +57,16 @@ export class ListService {
         return this.http.post<any>(sUrl, body);
     }
 
+    getUsers() {
+        const sUrl = API_URL + '/users';
+        return this.http.get<any>(sUrl);
+    }
+
+    getOrders() {
+      const sUrl = API_URL + '/cargo/all';
+      return this.http.get<any>(sUrl);
+    }
+
     getAllPayments() {
         return null
     }
@@ -75,11 +85,9 @@ export class ListService {
             }));
     }
     getAllRoles() {
-        const sUrl = API_URL + '/admin/getAllRoles';
-        const body = JSON.stringify({});
-        return this.http.post<any>(sUrl, body)
+        const sUrl = API_URL + '/role/all';
+        return this.http.get<any>(sUrl)
             .pipe(map(res => {
-
                 if (res.data) {
                     return res.data;
                 } else {
@@ -126,10 +134,10 @@ export class ListService {
             }));
     }
     getTypeCargo() {
-        const sUrl = API_URL + '/admin/getTypeCargo';
+        const sUrl = API_URL + '/cargo-type/all';
         return this.http.get<any>(sUrl)
             .pipe(map(res => {
-                if (res.status) {
+                if (res) {
                     return res.data;
                 } else {
                     return [];
@@ -137,17 +145,41 @@ export class ListService {
             }));
     }
     getTypeTruck() {
-        const sUrl = API_URL + '/users/getTypeTruck';
+        const sUrl = API_URL + '/transport-type/all';
         return this.http.get<any>(sUrl)
             .pipe(map(res => {
-
-                if (res.status) {
+                if (res) {
                     return res.data;
                 } else {
                     return [];
                 }
             }));
     }
+
+    getCurrencies() {
+        const sUrl = API_URL + '/currency/all';
+        return this.http.get<any>(sUrl)
+            .pipe(map(res => {
+                if (res) {
+                    return res.data;
+                } else {
+                    return [];
+                }
+            }));
+    }
+
+    getDocument(id) {
+        const sUrl = API_URL + '/merchant/id?id='+id;
+        return this.http.get<any>(sUrl)
+            .pipe(map(res => {
+                if (res) {
+                    return res.data;
+                } else {
+                    return [];
+                }
+            }));
+    }
+
     getAllReviews() {
         const sUrl = API_URL + '/users/getAllReviews';
         const body = JSON.stringify({});

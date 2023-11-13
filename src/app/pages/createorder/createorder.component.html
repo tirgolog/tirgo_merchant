@@ -8,127 +8,77 @@
     <div class="page-form__main">
       <div class="form__group">
         <div class="tw-grid tw-gap-4">
-          <mat-form-field class="form__input">
+
+          <mat-form-field class="form__input" appearance="fill">
             <mat-label>Место отправки груза</mat-label>
-            <input
-              matInput
-              list="cities_start"
-              name="cities_start"
-              (input)="findCity($event)"
-              [(ngModel)]="citystart"
-              required
-            />
-            <datalist id="cities_start">
-              <ng-container *ngFor="let city of findList">
-                <option
-                  [value]="
-                    city.data.city +
-                    ', ' +
-                    city.data.country +
-                    ':' +
-                    city.data.geoname_id +
-                    ':' +
-                    city.data.geo_lat +
-                    ':' +
-                    city.data.geo_lon
-                  "
-                ></option>
-              </ng-container>
-            </datalist>
-          </mat-form-field>
-          <mat-form-field class="form__input">
-            <mat-label>Место доставки груза</mat-label>
-            <input
-              matInput
-              list="cities_finish"
-              name="cities_finish"
-              (input)="findCity($event)"
-              [(ngModel)]="cityfinish"
-            />
-            <datalist id="cities_finish">
-              <ng-container *ngFor="let city of findList">
-                <option
-                  [value]="
-                    city.data.city +
-                    ', ' +
-                    city.data.country +
-                    ':' +
-                    city.data.geoname_id +
-                    ':' +
-                    city.data.geo_lat +
-                    ':' +
-                    city.data.geo_lon
-                  "
-                ></option>
-              </ng-container>
-            </datalist>
-          </mat-form-field>
-          <mat-form-field class="form__input">
-            <mat-label>Тип груза</mat-label>
-            <input
-              matInput
-              list="typecargo"
-              name="typecargo"
-              [(ngModel)]="data.typecargo"
-              autocomplete="false"
-            />
-            <datalist id="typecargo">
-              <ng-container *ngFor="let type of helper.typecargo">
-                <option [value]="type.id + ' - ' + type.name"></option>
-              </ng-container>
-            </datalist>
-          </mat-form-field>
-          <mat-form-field class="form__input">
-            <mat-label>Тип транспорта</mat-label>
-            <input
-              matInput
-              list="typetruck"
-              name="typetruck"
-              [(ngModel)]="data.typetransport"
-            />
-            <datalist id="typetruck">
-              <ng-container *ngFor="let type of helper.typetruck">
-                <option [value]="type.id + ' - ' + type.name"></option>
-              </ng-container>
-            </datalist>
+            <input type="text"
+                   matInput
+                   name="sendLocation"
+                   [(ngModel)]="data.sendLocation"
+                   [matAutocomplete]="auto"
+                   (input)="findCity($event)"> 
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of findList" [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
 
-          <mat-form-field class="form__input">
-            <mat-label>Вес груза</mat-label>
-            <input
-              matInput
-              type="number"
-              name="weight"
-              [(ngModel)]="data.weight"
-            />
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Место доставки груза</mat-label> 
+            <input type="text"
+                   matInput
+                   name="cargoDeliveryLocation"
+                   [(ngModel)]="data.cargoDeliveryLocation"
+                   [matAutocomplete]="auto"
+                   (input)="findCity($event)"> 
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of findList" [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
-          <div class="filter">
-              <select name="select" class="page__search" style="width: 100%;">
-                <option value="1">$ Доллар</option>
-                <option value="0">₽ Рубль</option>
-                <option value="0">€ Евро</option>
-                <option value="0">Узб-Сум</option>
-              </select>
-          </div>
+
+        
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Тип груза</mat-label>
+            <mat-select name="cargoTypeId" [(ngModel)]="data.cargoTypeId">
+              <mat-option *ngFor="let type of types" [value]="type.id">{{type.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Тип транспорта</mat-label>
+            <mat-select name="transportTypeId" [(ngModel)]="data.transportTypeId">
+              <mat-option *ngFor="let type of transportTypes" [value]="type.id">{{type.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Валюта</mat-label>
+            <mat-select name="currencyId" [(ngModel)]="data.currencyId">
+              <mat-option *ngFor="let currency of currencies" [value]="currency.id">{{currency.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
           <mat-form-field class="form__input">
             <mat-label>Предлагаемая цена</mat-label>
             <input
               matInput
               type="number"
-              name="price"
-              [(ngModel)]="data.price"
+              name="offeredPrice"
+              [(ngModel)]="data.offeredPrice"
             />
           </mat-form-field>
 
           <mat-form-field class="form__input">
-            <mat-label>Дата отправsки груза</mat-label>
+            <mat-label>Дата отправки груза</mat-label>
             <input
               type="date"
               matInput
               placeholder="Дата отправки груза"
-              name="date_start"
-              [(ngModel)]="data.date_start"
-              [matDatepicker]="dateStartpicker"
+              name="sendCargoDate"
+              [(ngModel)]="sendCargoDate"
             />
             <mat-datepicker-toggle matIconSuffix [for]="dateStartpicker">
               <i class="icm-calendar" matDatepickerToggleIcon></i>
@@ -138,7 +88,18 @@
 
           <mat-form-field class="form__input">
             <mat-label>Время отправки груза</mat-label>
-            <input matInput type="time" name="time" [(ngModel)]="time" />
+            <input matInput type="time" name="sendCargoTime" [(ngModel)]="sendCargoTime" />
+          </mat-form-field>
+
+          <mat-form-field class="form__input">
+            <mat-label>Вес груза</mat-label>
+            <input
+              matInput
+              type="number"
+              name="cargoWeight"
+              [(ngModel)]="data.cargoWeight"
+
+            />
           </mat-form-field>
 
           <mat-form-field class="form__input">
@@ -146,8 +107,8 @@
             <input
               matInput
               type="text"
-              name="length_box"
-              [(ngModel)]="data.length_box"
+              name="cargoLength"
+              [(ngModel)]="data.cargoLength"
             />
           </mat-form-field>
 
@@ -156,8 +117,8 @@
             <input
               matInput
               type="text"
-              name="width_box"
-              [(ngModel)]="data.width_box"
+              name="cargoWidth"
+              [(ngModel)]="data.cargoWidth"
             />
           </mat-form-field>
 
@@ -166,15 +127,17 @@
             <input
               matInput
               type="text"
-              name="height_box"
-              [(ngModel)]="data.height_box"
+              name="cargoHeight"
+              [(ngModel)]="data.cargoHeight"
             />
           </mat-form-field>
 
           <div class="form__status">
             <mat-slide-toggle
               color="primary"
-              [checked]="data.add_two_days"
+              name="isUrgent"
+              [(ngModel)]="data.isUrgent"
+              [checked]="data.isUrgent"
               (change)="addTwoDays($event)"
               >+2 дня (Оставьте тумблер выключенным если это срочный
               заказ)</mat-slide-toggle
@@ -184,7 +147,9 @@
           <div class="form__status">
             <mat-slide-toggle
               color="primary"
-              [checked]="data.adr"
+              name="isDangrousCargo"
+              [(ngModel)]="data.isDangrousCargo"
+              [checked]="data.isDangrousCargo"
               (change)="selectAdr($event)"
               >ADR (Перевозка опасного груза)</mat-slide-toggle
             >
@@ -193,17 +158,14 @@
           <div class="form__status">
             <mat-slide-toggle
               color="primary"
-              [checked]="data.no_cash"
+              name="isCashlessPayment"
+              [(ngModel)]="data.isCashlessPayment"
+              [checked]="data.isCashlessPayment"
               (change)="selectNoCash($event)"
               >Безналичная оплата</mat-slide-toggle
             >
           </div>
 
-          <div class="form__status">
-            <mat-slide-toggle color="primary" [checked]="data.secure"
-              >Безопасная сделка</mat-slide-toggle
-            >
-          </div>
         </div>
       </div>
     </div>
@@ -214,3 +176,5 @@
     </div>
   </form>
 </main>
+
+

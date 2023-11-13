@@ -1,5 +1,5 @@
 <ng-container>
-   <app-sidebar [logo]="logo"></app-sidebar>
+   <app-sidebar *ngIf="this.authService.isAuthenticated()" [logo]="logo"></app-sidebar>
    <!--<app-header></app-header>-->
 </ng-container>
 <mat-progress-bar class="green-progress" *ngIf="helper.isLoading" mode="indeterminate"></mat-progress-bar>

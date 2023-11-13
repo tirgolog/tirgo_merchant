@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
+import { AuthService } from 'src/app/services/auth.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { ListService } from 'src/app/services/list.service';
 
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.scss']
 })
-export class DocumentsComponent {
+export class DocumentsComponent implements OnInit{
   passportFile: FileList;
   passportNames: string[] = [];
 
@@ -19,10 +23,25 @@ export class DocumentsComponent {
   factAddressShow:boolean = false;
   bankAccountCurrency: boolean = false;
   data
-  constructor() {}
+  constructor(
+    public list: ListService,
+    public authService: AuthService,
+    public helper: HelperService
+    ) {}
   ngOnInit(): void {
     this.data = {supervisor_passport:'', certificate_registration:'',email:'', phoneNumbers:['']}
+    this.getAllDocuments();
   }
+
+  getAllDocuments() {
+    let curUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+     this.list.getDocument(curUser.sub).subscribe((res) => {
+      if(res) {
+       
+      }
+    })
+  }
+
   selectPassport(event: any): void {
     this.passportNames = [];
     this.passportFile = event.target.files;

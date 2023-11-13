@@ -88,7 +88,7 @@ import {MatSlideToggle, MatSlideToggleModule} from "@angular/material/slide-togg
 import { ActivityComponent } from './activity/activity.component';
 import { ViewadminComponent } from './viewadmin/viewadmin.component';
 import { CreateorderComponent } from './pages/createorder/createorder.component';
-import {MatAutocomplete} from "@angular/material/autocomplete";
+import {MatAutocomplete, MatAutocompleteModule} from "@angular/material/autocomplete";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import { RoutersTruckComponent } from './routers-truck/routers-truck.component';
 import { LoadingComponent } from './loading/loading.component';
@@ -236,7 +236,8 @@ const mapConfig: YaConfig = {
       MatExpansionModule,
       MatRadioModule,
       MatCheckboxModule,
-
+      MatAutocompleteModule,
+      
       LayoutModule,
       InfiniteScrollModule,
       AngularYandexMapsModule.forRoot(mapConfig),

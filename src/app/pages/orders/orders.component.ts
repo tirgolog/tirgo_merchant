@@ -57,6 +57,9 @@ export class OrdersComponent {
     } else {
       this.status = this.route.snapshot.paramMap.get('status')
     }
+    this.getAllOrders();
+    this.helper.global_loading = false;
+
     this.spoller.initSpollers()
     this.gridOptions = <GridOptions>{};
     this.gridOptions.localeText = this.helper.localeTextAgGrid;
@@ -67,9 +70,15 @@ export class OrdersComponent {
   }
   ngAfterViewInit(): void {
     this.spoller.initSpollers()
-    this.openCreateOrder();
   }
 
+  getAllOrders() {
+    this.listService.getOrders().subscribe((res:any) => {
+      if(res) {
+        this.helper.orders = res.data;
+      }
+    });
+  }
   
   openCreateOrder(): void {
     const dialogRef = this.dialog.open(CreateorderComponent, {
@@ -130,7 +139,7 @@ export class OrdersComponent {
   async handlePage(e: any) {
     this.helper.global_loading = true;
     let from = e.pageIndex * e.pageSize
-    let neworders = await this.listService.getAllOrders(from, e.pageSize, this.id, this.id_client, this.from_city, this.to_city, this.status !== 'all' ? this.status : null, this.typecargo !== 'all' ? this.typecargo : null, this.typetransport !== 'all' ? this.typetransport : null, this.price, this.dateCreate, this.dateSend, this.saveorder !== 'all' ? this.saveorder : null).toPromise();
+    let neworders = await this.listService.getOrders().toPromise();
     this.helper.orders = neworders.data;
     this.helper.orders_count = neworders.data_count;
     this.helper.global_loading = false;

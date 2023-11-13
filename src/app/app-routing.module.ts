@@ -260,15 +260,15 @@ const routes: Routes = [
       title: "Настройки"
    },
    {
-      path: "s",
+      path: "profile",
       component: ProfileComponent,
       title: "Профиль"
    },
-   // {
-   //    path: "auth",
-   //    component: AuthComponent,
-   //    title: "Логин"
-   // },
+   {
+      path: "auth",
+      component: AuthComponent,
+      title: "Логин"
+   },
    {
       path: "registration",
       component: RegistrationComponent,
@@ -320,7 +320,7 @@ const routes: Routes = [
       title: "Курс валют"
    },
    {
-      path: "auth",
+      path: "finance",
       component: FinanceComponent,
       title: "Финансы"
    },

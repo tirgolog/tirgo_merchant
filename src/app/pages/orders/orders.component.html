@@ -10,7 +10,7 @@
       </div>
    </section>
    <section class="table">
-      <div class="filter">
+      <!-- <div class="filter">
          <div class="filter-inputs">
             <input type="text" class="page__search" placeholder="Поиск по id" [(ngModel)]="id"/>
             <input type="text" class="page__search" placeholder="Поиск по id клиента" [(ngModel)]="id_client"/>
@@ -60,7 +60,7 @@
                Сбросить фильтр
             </button>
          </div>
-      </div> 
+      </div>  -->
 
       <div class="statuses" style="display: flex; justify-content: space-between; margin: 10px 0px">
          <mat-card>
@@ -143,6 +143,8 @@
             <mat-header-cell *matHeaderCellDef>Дата погрузки</mat-header-cell>
             <mat-cell *matCellDef="let row">{{row.date_send | formatTime: 'DD.MM.YYYY'}}</mat-cell>
          </ng-container>
+         
+        
          <!-- Header and Row Declarations -->
          <mat-header-row *matHeaderRowDef="['id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'secure_transaction', 'date_create', 'date_send']"></mat-header-row>
          <mat-row (click)="viewOrder(row)" *matRowDef="let row; columns: ['id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'secure_transaction', 'date_create', 'date_send']"></mat-row>

@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, pipe } from 'rxjs';
 import { User } from '../models/user';
+import { jwtDecode } from 'jwt-decode';
+import { ListService } from './list.service';
 
 const TOKEN_KEY = 'jwttirgomerhant';
 const API_URL = 'http://192.168.1.103:3000/api/v1'
@@ -10,114 +12,127 @@ const API_URL = 'http://192.168.1.103:3000/api/v1'
 })
 
 export class AuthService {
-   globalLoading:boolean = true;
+   globalLoading: boolean = true;
    authenticationState = new BehaviorSubject(false);
    public currentUser: User | undefined;
-   public myrole:any;
+   public myrole: any;
    static jwt: any;
 
    constructor(
       private http: HttpClient,
+      private list: ListService
    ) { }
 
    loginAdmin(name: string, password: string) {
-      
-      localStorage.getItem(TOKEN_KEY);
       const sUrl = API_URL + '/auth/login';
       const body = JSON.stringify({
          name, password
       });
       return this.http.post<any>(sUrl, body);
    }
-   checkSession(): Observable<false | User> {
-      const sUrl = API_URL + '/merchant/checkSessionAdmin';
-      return this.http.get<any>(sUrl)
-          .pipe(map(res => {
-             if (res.user) {
-                return new User(res.user);
-             } else {
-                return false;
-             }
-          }));
+
+   getUsers() {
+      let curUser
+      curUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+      const sUrl = API_URL + "/users/id?id=" + curUser.sub;
+      return this.http.get<any>(sUrl).pipe(map(res => {        
+         if (res.data) {
+            return new User(res.data)
+         } else {
+            return false;
+         }
+      }));
    }
-   saveUser(data:any,id:number) {
+
+   // checkSession() {
+   // const sUrl = API_URL + '/merchant/checkSessionAdmin';
+   // return this.http.get<any>(sUrl)
+   //     .pipe(map(res => {
+   //        if (res.user) {
+   //           return new User(res.user);
+   //        } else {
+   //           return false;
+   //        }
+   //     }));
+   // }
+   saveUser(data: any, id: number) {
       const sUrl = API_URL + '/admin/saveUser';
       const body = JSON.stringify({
-         data,id
+         data, id
       });
       return this.http.post<any>(sUrl, body);
    }
-   saveUserInfo(name:string,birthday:string,country:string,city:string,id:number) {
+   saveUserInfo(name: string, birthday: string, country: string, city: string, id: number) {
       const sUrl = API_URL + '/admin/saveUserInfo';
       const body = JSON.stringify({
-         name,birthday,country,city,id
+         name, birthday, country, city, id
       });
       return this.http.post<any>(sUrl, body);
    }
-   deleteUser(id:number) {
+   deleteUser(id: number) {
       const sUrl = API_URL + '/admin/deleteUser';
       const body = JSON.stringify({
          id
       });
       return this.http.post<any>(sUrl, body);
    }
-   savePassportUser(passport:string,passportdate:string,id:number) {
+   savePassportUser(passport: string, passportdate: string, id: number) {
       const sUrl = API_URL + '/admin/savePassportUser';
       const body = JSON.stringify({
-         passport,passportdate,id
+         passport, passportdate, id
       });
       return this.http.post<any>(sUrl, body);
    }
-   saveDriverLicenseUser(license:string,id:number) {
+   saveDriverLicenseUser(license: string, id: number) {
       const sUrl = API_URL + '/admin/saveDriverLicenseUser';
       const body = JSON.stringify({
-         license,id
+         license, id
       });
       return this.http.post<any>(sUrl, body);
    }
-   delDirty(id:number) {
+   delDirty(id: number) {
       const sUrl = API_URL + '/admin/delDirty';
       const body = JSON.stringify({
          id
       });
       return this.http.post<any>(sUrl, body);
    }
-   modarateUser(id:number) {
+   modarateUser(id: number) {
       const sUrl = API_URL + '/admin/modarateUser';
       const body = JSON.stringify({
          id
       });
       return this.http.post<any>(sUrl, body);
    }
-   returnUser(id:number) {
+   returnUser(id: number) {
       const sUrl = API_URL + '/admin/returnUser';
       const body = JSON.stringify({
          id
       });
       return this.http.post<any>(sUrl, body);
    }
-   saveRole(data:any,id:number) {
+   saveRole(data: any, id: number) {
       const sUrl = API_URL + '/admin/saveRole';
       const body = JSON.stringify({
-         data,id
+         data, id
       });
       return this.http.post<any>(sUrl, body);
    }
-   addAdmin(name:string,role:number,username:string,password:string,phone:string,editaid:number) {
+   addAdmin(name: string, role: number, username: string, password: string, phone: string, editaid: number) {
       const sUrl = API_URL + '/admin/addAdmin';
       const body = JSON.stringify({
-         name,role,username,password,phone,editaid
+         name, role, username, password, phone, editaid
       });
       return this.http.post<any>(sUrl, body);
    }
-   addUser(datauser:any,cityinfo:any) {
+   addUser(datauser: any, cityinfo: any) {
       const sUrl = API_URL + '/admin/addUser';
       const body = JSON.stringify({
-         datauser,cityinfo
+         datauser, cityinfo
       });
       return this.http.post<any>(sUrl, body);
    }
-   addMerchant(data:any) {
+   addMerchant(data: any) {
       const sUrl = API_URL + '/merchant';
       const body = JSON.stringify({
          bankAccounts: data.bankAccounts,
@@ -134,69 +149,64 @@ export class AuthService {
          factAddress: data.factAddress,
          email: data.email,
          phoneNumbers: data.phoneNumbers
-       });
+      });
       return this.http.post<any>(sUrl, body);
 
    }
-   adminBanned(banned:boolean,userid:number) {
+   adminBanned(banned: boolean, userid: number) {
       const sUrl = API_URL + '/admin/bannedAdmin';
       const body = JSON.stringify({
-         banned,userid
+         banned, userid
       });
       return this.http.post<any>(sUrl, body);
    }
-   closeOrder(orderid:any) {
+   closeOrder(orderid: any) {
       const sUrl = API_URL + '/admin/closeOrder';
       const body = JSON.stringify({
          orderid
       });
       return this.http.post<any>(sUrl, body);
    }
-   endOrder(orderid:any) {
+   endOrder(orderid: any) {
       const sUrl = API_URL + '/admin/endOrder';
       const body = JSON.stringify({
          orderid
       });
       return this.http.post<any>(sUrl, body);
    }
-   acceptOrderDriver(userid:number,price:string,orderid:number) {
+   acceptOrderDriver(userid: number, price: string, orderid: number) {
       const sUrl = API_URL + '/admin/acceptOrderDriver';
       const body = JSON.stringify({
-         userid,price,orderid
+         userid, price, orderid
       });
       return this.http.post<any>(sUrl, body);
    }
-   createClient(phone:string,name:string,email:string,cityInfo:any) {
+   createClient(phone: string, name: string, email: string, cityInfo: any) {
       const sUrl = API_URL + '/admin/createClient';
       const body = JSON.stringify({
-         phone,name,email,cityInfo
+         phone, name, email, cityInfo
       });
       return this.http.post<any>(sUrl, body);
    }
-   addTransportToUser(datacar:any) {
+   addTransportToUser(datacar: any) {
       const sUrl = API_URL + '/admin/addTransportToUser';
       const body = JSON.stringify({
-         data:datacar
+         data: datacar
       });
       return this.http.post<any>(sUrl, body);
    }
-
    logout() {
       localStorage.removeItem(TOKEN_KEY);
       this.authenticationState.next(false);
    }
-
    isAuthenticated() {
       return this.authenticationState.value;
    }
-
    setJwt(jwt: string) {
       AuthService.jwt = jwt;
       localStorage.setItem(TOKEN_KEY, jwt);
       this.authenticationState.next(true);
    }
-
-
    checkToken() {
       const res = localStorage.getItem(TOKEN_KEY)
       if (res) {
@@ -214,69 +224,65 @@ export class AuthService {
       });
       return this.http.post<any>(sUrl, body);
    }
-   sendMessage(message:string,id:number){
+   sendMessage(message: string, id: number) {
       const sUrl = API_URL + '/admin/sendMessageSupport';
       const body = JSON.stringify({
-         message,id
+         message, id
       });
       return this.http.post<any>(sUrl, body);
    }
-   addTypeCargo(type:string){
+   addTypeCargo(type: string) {
       const sUrl = API_URL + '/admin/addTypeCargo';
       const body = JSON.stringify({
          type
       });
       return this.http.post<any>(sUrl, body);
    }
-   addPayment(description,amount,type,id){
+   addPayment(description, amount, type, id) {
       const sUrl = API_URL + '/admin/addPayment';
       const body = JSON.stringify({
-         description,amount,type,id
+         description, amount, type, id
       });
       return this.http.post<any>(sUrl, body);
    }
-   addTypeCar(data:any){
+   addTypeCar(data: any) {
       const sUrl = API_URL + '/admin/addTypeCar';
       const body = JSON.stringify({
          data
       });
       return this.http.post<any>(sUrl, body);
    }
-   getUserInfo(id:any){
+   getUserInfo(id: any) {
       const sUrl = API_URL + '/reborn/getUserInfo';
       const body = JSON.stringify({
          id
       });
       return this.http.post<any>(sUrl, body);
    }
-   getOrderInfo(id:any){
+   getOrderInfo(id: any) {
       const sUrl = API_URL + '/reborn/getOrderInfo';
       const body = JSON.stringify({
          id
       });
       return this.http.post<any>(sUrl, body);
    }
-   findCity(query:any): Observable<any[]> {
-      const sUrl = API_URL + '/users/findCity';
+   findCity(query: any): Observable<any[]> {
+      const sUrl = 'https://tirgo-server.onrender.com' + '/users/findCity';
       const body = JSON.stringify({
          query
       });
       return this.http.post<any>(sUrl, body)
-          .pipe(map(res => {
-             console.log(res)
-             if (res.status) {
-                return res.data.suggestions;
-             } else {
-                return [];
-             }
-          }));
+         .pipe(map(res => {
+            if (res.status) {
+               return res.data.suggestions;
+            } else {
+               return [];
+            }
+         }));
    }
-   createOrder(data:any) {
-      const sUrl = API_URL + '/admin/createOrder';
-      const body = JSON.stringify({
-         data
-      });
-      return this.http.post<any>(sUrl, body);
+   createOrder(data: any) {
+      const sUrl = API_URL + '/cargo';
+      return this.http.post<any>(sUrl, data);
    }
    phones = [
       {

@@ -35,6 +35,7 @@ export class HelperService {
    public typecargo: any[] = [];
    public securetrans: any[] = [];
    public transactions_type: any[] = [];
+   public currencies: any[] = [];
    //tracking
    public lat:number = 41.79269086748189;
    public lng:number = 69.41499107230395;

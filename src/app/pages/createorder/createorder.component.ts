@@ -14,35 +14,34 @@ import { MatDatepickerTimeHeaderComponent } from "mat-datepicker-time-header";
 export class CreateorderComponent {
   findList: any[] | undefined = [];
   viewText = false;
-  time:string = '';
+  sendCargoTime;
+  sendCargoDate;
   citystart: string = '';
   cityfinish: string = '';
+  types:any[]= [];
+  transportTypes:any[]= [];
+  currencies:any[]= [];
+
   timeHeader = MatDatepickerTimeHeaderComponent;
   data = {
-    userid:'',
-    typetransport:'',
-    typecargo:'',
-    add_two_days: false,
-    adr: false,
-    no_cash: false,
-    secure: false,
-    weight: '',
-    price:'',
-    length_box:'',
-    width_box:'',
-    height_box:'',
-
-    city_start_id: 0,
-    city_start: '',
-    start_lat:'',
-    start_lng:'',
-    city_finish_id: 0,
-    city_finish: '',
-    finish_lat:'',
-    finish_lng:'',
-    date_start: new Date()
-
+    transportTypeId:'',
+    cargoTypeId:'',
+    offeredPrice:'',
+    cargoWeight: '',
+    cargoLength:'',
+    cargoWidth:'',
+    cargoHeight:'',
+    sendLocation: '',
+    cargoDeliveryLocation: '',
+    currencyId:'',
+    isUrgent: false,
+    isDangrousCargo: false,
+    isCashlessPayment: false,
+    sendCargoDate: '',
+    sendCargoTime: '',
+    merchantId: ''
   }
+
   constructor(
       public helper: HelperService,
       public dialog: MatDialog,
@@ -50,7 +49,24 @@ export class CreateorderComponent {
       private authService: AuthService,
       public listService: ListService
   ) {
+    this.listService.getTypeCargo().subscribe((res) => {
+      if(res) {
+        this.types = res
+      }
+    })
 
+    this.listService.getTypeTruck().subscribe((res) => {
+      if(res) {
+        this.transportTypes = res
+      }
+    })
+
+    this.listService.getCurrencies().subscribe((res) => {
+      if(res) {
+        this.currencies = res
+      }
+    })
+    
   }
   returnCity(city:string){
     if (city){
@@ -59,46 +75,38 @@ export class CreateorderComponent {
       return city.split(':')[0]
     }
   }
-  async findCity(ev:any) {
-    const findText = ev.target.value.toString().trim().toLowerCase();
-    console.log(findText)
-    if (findText.length >= 2) {
-      this.viewText = true;
-      this.findList = await this.authService.findCity(findText).toPromise();
-    } else {
-      this.viewText = false;
-      this.findList = [];
+
+  async findCity(ev: any) {
+    try {
+      const findText = ev.target.value.toString().trim().toLowerCase();
+      if (findText.length >= 2) {
+        this.viewText = true;
+        this.findList = await this.authService.findCity(findText).toPromise();
+      } else {
+        this.viewText = false;
+        this.findList = [];
+      }
+    } catch (error) {
+      console.error("Error fetching city data:", error);
     }
   }
-  selectUserId(id:string){
-    this.data.userid = id;
-  }
+
   selectAdr(ev:any){
-    this.data.adr = ev.checked
+    this.data.isDangrousCargo = ev.checked
   }
   selectNoCash(ev:any){
-    this.data.no_cash = ev.checked
+    this.data.isCashlessPayment = ev.checked
   }
   addTwoDays(ev:any){
-    this.data.add_two_days = ev.checked
+    this.data.isUrgent = ev.checked
   }
   async addOrder(){
     const confirm = await this.helper.openDialogConfirm('Вы уверены?', 'Вы уверены что хотите создать заказ?', 2)
     if (confirm){
       await this.helper.loadingCreate();
-      const time = this.time.split(":");
-      this.data.date_start = new Date(new Date(this.data.date_start).setHours(+time[0],+time[1],0,0));
-      this.data.userid = this.data.userid.split(' - ')[0];
-      this.data.typetransport = this.data.typetransport.split(' - ')[0];
-      this.data.typecargo = this.data.typecargo.split(' - ')[0];
-      this.data.city_start_id = +this.citystart.split(':')[1];
-      this.data.city_finish_id = +this.cityfinish.split(':')[1];
-      this.data.city_start = this.citystart.split(':')[0];
-      this.data.city_finish = this.cityfinish.split(':')[0];
-      this.data.start_lat = this.citystart.split(':')[2];
-      this.data.start_lng = this.citystart.split(':')[3];
-      this.data.finish_lat = this.cityfinish.split(':')[2];
-      this.data.finish_lng = this.cityfinish.split(':')[3];
+      this.data.sendCargoDate = this.sendCargoDate
+      this.data.sendCargoTime = this.sendCargoTime
+      this.data.merchantId = this.authService.currentUser.id
       try {
         const res = await this.authService.createOrder(this.data).toPromise()
         if (res.status){

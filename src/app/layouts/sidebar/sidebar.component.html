@@ -5,8 +5,8 @@
       </a>
    </div>
    <nav class="sidebar__menu menu" data-spollers>
-      <ul class="menu__list" *ngIf="authService.myrole">
-         <li class="menu__item"  *ngIf="authService.myrole.orders">
+      <ul class="menu__list" >
+         <li class="menu__item" >
             <a
                routerLink="/orders"
                routerLinkActive="_active"
@@ -17,7 +17,6 @@
                <span>Грузы</span>
             </a>
          </li>
-
 
          <li class="menu__item">
             <a
@@ -38,7 +37,7 @@
                class="menu__link"
                (click)="closeMenu()"
             >
-               <i class="icm-list-blank"></i>
+               <i class="icm-file"></i>
                <span>Документы </span>
             </a>
          </li>
@@ -50,7 +49,7 @@
                class="menu__link"
                (click)="closeMenu()"
             >
-               <i class="icm-list-blank"></i>
+               <i class="icm-setting"></i>
                <span>Настройки </span>
             </a>
          </li>
@@ -62,14 +61,14 @@
                class="menu__link"
                (click)="closeMenu()"
             >
-               <i class="icm-list-blank"></i>
+               <i class="icm-users"></i>
                <span>Пользователи  </span>
             </a>
          </li>
 
          <li class="menu__item">
             <a
-               routerLink="/support  "
+               routerLink="/support"
                routerLinkActive="_active"
                class="menu__link"
                (click)="closeMenu()"
@@ -87,7 +86,7 @@
                (click)="closeMenu()"
             >
                <i class="icm-list-blank"></i>
-               <span>Аналитика   </span>
+               <span>Аналитика </span>
             </a>
          </li>
 
@@ -99,17 +98,6 @@
                <span>Выход</span>
             </a>
          </li>
-         <!--<li class="menu__item">
-            <a
-               routerLink="/settings"
-               routerLinkActive="_active"
-               class="menu__link"
-               (click)="closeMenu()"
-            >
-               <i class="icm-setting"></i>
-               <span>Настройки</span>
-            </a>
-         </li>-->
          <li class="menu__item">
             <span class="menu_link version">Tirgo Merchant ver 0.0.1</span>
          </li>

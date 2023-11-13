@@ -39,8 +39,12 @@ export class SidebarComponent {
       await this.router.navigate(['auth']);
    }
    async refreshAll(){
+      
       this.authService.globalLoading = true;
-      await this.app.checkSession();
+      await this.app.getUsers()
+      console.log(this.authService.currentUser);
+      
+      // await this.app.checkSession();
       this.authService.globalLoading = false;
    }
 }
