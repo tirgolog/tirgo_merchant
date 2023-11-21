@@ -23,21 +23,23 @@ export class DocumentsComponent implements OnInit{
   factAddressShow:boolean = false;
   bankAccountCurrency: boolean = false;
   data
+  currentUser:any;
   constructor(
     public list: ListService,
     public authService: AuthService,
     public helper: HelperService
     ) {}
   ngOnInit(): void {
+    this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+
     this.data = {supervisor_passport:'', certificate_registration:'',email:'', phoneNumbers:['']}
     this.getAllDocuments();
   }
 
   getAllDocuments() {
-    let curUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
-     this.list.getDocument(curUser.sub).subscribe((res) => {
+     this.list.getDocument(this.currentUser.merchantId).subscribe((res) => {
       if(res) {
-       
+        this.data = res
       }
     })
   }

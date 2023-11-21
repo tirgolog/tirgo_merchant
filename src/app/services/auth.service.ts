@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, pipe } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from '../models/user';
 import { jwtDecode } from 'jwt-decode';
 import { ListService } from './list.service';
 
 const TOKEN_KEY = 'jwttirgomerhant';
-const API_URL = 'http://192.168.1.103:3000/api/v1'
+const API_URL = 'http://192.168.1.130:3000/api/v1'
 @Injectable({
    providedIn: 'root'
 })
@@ -17,27 +17,27 @@ export class AuthService {
    public currentUser: User | undefined;
    public myrole: any;
    static jwt: any;
+   static adminJWT: any;
 
    constructor(
       private http: HttpClient,
       private list: ListService
    ) { }
 
-   loginAdmin(name: string, password: string) {
+   loginAdmin(username: string, password: string) {
       const sUrl = API_URL + '/auth/login';
       const body = JSON.stringify({
-         name, password
+         username, password
       });
       return this.http.post<any>(sUrl, body);
    }
 
    getUsers() {
-      let curUser
-      curUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+      let curUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
       const sUrl = API_URL + "/users/id?id=" + curUser.sub;
-      return this.http.get<any>(sUrl).pipe(map(res => {        
+      return this.http.get<any>(sUrl).pipe(map(res => {
          if (res.data) {
-            return new User(res.data)
+            return new User(res.data);
          } else {
             return false;
          }
@@ -134,23 +134,7 @@ export class AuthService {
    }
    addMerchant(data: any) {
       const sUrl = API_URL + '/merchant';
-      const body = JSON.stringify({
-         bankAccounts: data.bankAccounts,
-         bankName: data.bankName,
-         companyName: data.companyName,
-         password: data.password,
-         notes: data.notes,
-         mfo: data.mfo,
-         inn: data.inn,
-         oked: data.oked,
-         dunsNumber: data.dunsNumber,
-         supervisorFullName: data.supervisorFullName,
-         legalAddress: data.legalAddress,
-         factAddress: data.factAddress,
-         email: data.email,
-         phoneNumbers: data.phoneNumbers
-      });
-      return this.http.post<any>(sUrl, body);
+      return this.http.post<any>(sUrl, data);
 
    }
    adminBanned(banned: boolean, userid: number) {
@@ -181,12 +165,9 @@ export class AuthService {
       });
       return this.http.post<any>(sUrl, body);
    }
-   createClient(phone: string, name: string, email: string, cityInfo: any) {
-      const sUrl = API_URL + '/admin/createClient';
-      const body = JSON.stringify({
-         phone, name, email, cityInfo
-      });
-      return this.http.post<any>(sUrl, body);
+   createClient(data) {
+      const sUrl = API_URL + '/users';
+      return this.http.post<any>(sUrl, data);
    }
    addTransportToUser(datacar: any) {
       const sUrl = API_URL + '/admin/addTransportToUser';
@@ -206,6 +187,11 @@ export class AuthService {
       AuthService.jwt = jwt;
       localStorage.setItem(TOKEN_KEY, jwt);
       this.authenticationState.next(true);
+      this.getUsers();
+   }
+   setAdminJwt(jwt: string) {
+      AuthService.adminJWT = jwt;
+      localStorage.setItem('adminJWT', jwt);
    }
    checkToken() {
       const res = localStorage.getItem(TOKEN_KEY)

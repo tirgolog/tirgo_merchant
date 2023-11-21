@@ -16,68 +16,65 @@
                   </p>
                   <p class="tw-flex tw-justify-between">
                      <span>Точка отправки заказа:</span>
-                     <span>{{data.route.from_city}}</span>
+                     <span>{{data.sendLocation}}</span>
                   </p>
                   <p class="tw-flex tw-justify-between">
                      <span>Точка доставки заказа: </span>
-                     <span>{{data.route.to_city}}</span>
+                     <span>{{data.cargoDeliveryLocation}}</span>
                   </p>
                   <p class="tw-flex tw-justify-between">
                      <span>Тип груза:</span>
-                     <span>{{helper.returnNameCargoType(data.type_cargo)}}</span>
+                     <span>{{data.cargoType.name}}</span>
                   </p>
                   <p class="tw-flex tw-justify-between">
                      <span>Тип транспорта:</span>
-                     <span>{{helper.returnNameTypeTransport(data.transport_type)}}</span>
+                     <span>{{data.transportType.name}}</span>
                   </p>
                   <p class="tw-flex tw-justify-between">
                      <span>Размер груза:</span>
-                     <span>Д:{{data.length_box}} см. Ш: {{data.width_box}} см. В: {{data.height_box}} см.</span>
+                     <span>Д:{{data.cargoLength}} см. Ш: {{data.cargoWidth}} см. В: {{data.cargoHeight}} см.</span>
                   </p>
                </div>
                <div class="view__list">
                   <p class="tw-flex tw-justify-between">
                      <span>Пользователь:</span>
-                     <span class="cursor-pointer" (click)="viewUser(data.userinfo.id)">{{data.userinfo.name}}</span>
+                     <span class="cursor-pointer" (click)="viewUser(data.merchant.id)">{{data.merchant.companyName}}</span>
                   </p>
                   <p class="tw-flex tw-justify-between">
                      <span>Вес груза: </span>
-                     <span>{{data.weight}} кг.</span>
+                     <span>{{data.cargoWeight}} кг.</span>
                   </p>
-                  <!--<p class="tw-flex tw-justify-between">
-                     <span>Безопасная сделка: </span>
-                     <span>Нет</span>
-                  </p>-->
+                  
                   <p class="tw-flex tw-justify-between">
                      <span>Стоимость: </span>
-                     <span class="tw-uppercase">{{data.price}} $</span>
+                     <span class="tw-uppercase">{{data.offeredPrice}} {{data.currency.name}}</span>
                   </p>
                   <p class="tw-flex tw-justify-between">
                      <span>Дата оформления заказа: </span>
-                     <span>{{data.date_create | formatTime: 'DD MMMM YYYY в HH:mm'}}</span>
+                     <span>{{data.createdAt | formatTime: 'DD MMMM YYYY в HH:mm'}}</span>
                   </p>
                   <div class="tw-flex tw-justify-between">
                      <p>Заказ назначен на:</p>
-                     <span>{{data.date_send | formatTime: 'DD MMMM YYYY в HH:mm'}}</span>
+                     <span>{{ data.sendCargoDate | formatTime: 'DD MMMM YYYY'}} {{data.sendCargoDate | formatTime: "HH:mm"}}</span>
                   </div>
                   <p class="tw-flex tw-justify-between">
                      <span>Статус</span>
-                     <button>{{returnStatus(data.status)}}</button>
+                     <span>{{data.status}}</span>
                   </p>
                </div>
             </div>
             <div class="view__buttons">
-               <ng-container *ngIf="data.status === 1">
+               <!-- <ng-container>
                   <button class="view__btn btn-red" type="button" (click)="endOrder()">
                      Завершить заказ
                   </button>
-               </ng-container>
-               <ng-container *ngIf="data.status === 0">
+               </ng-container> -->
+               <ng-container>
                   <button class="view__btn btn-red" type="button" (click)="closeOrder()">
                      Отменить заказ
                   </button>
                </ng-container>
-               <ng-container *ngIf="data.status === 0">
+               <ng-container>
                   <button class="view__btn btn-green" type="button" (click)="selectdriver = !selectdriver">
                      Назначить водителя
                   </button>
@@ -86,6 +83,7 @@
                   Закрыть
                </button>
             </div>
+
             <span [hidden]="!selectdriver">
                <div class="sed-driver-block" >
                   <mat-form-field class="form__input">
@@ -101,7 +99,8 @@
                   </button>
                </div>
             </span>
-            <ng-container *ngIf="data.orders_accepted.length">
+
+            <!-- <ng-container *ngIf="data.orders_accepted.length">
                <h4 class="view__title title-sec">Предложения</h4>
                <mat-table [dataSource]="data.orders_accepted">
                   <ng-container matColumnDef="id">
@@ -124,11 +123,10 @@
                      <mat-header-cell *matHeaderCellDef>Дата</mat-header-cell>
                      <mat-cell *matCellDef="let row"> {{row.date_create_accepted | formatTime: 'DD.MM.YYYY'}} </mat-cell>
                   </ng-container>
-                  <!-- Header and Row Declarations -->
                   <mat-header-row *matHeaderRowDef="['id', 'name', 'priceorder', 'status_order', 'date_create_accepted']"></mat-header-row>
                   <mat-row (click)="viewUser(row.id)" *matRowDef="let row; columns: ['id', 'name', 'priceorder', 'status_order', 'date_create_accepted']"></mat-row>
                </mat-table>
-            </ng-container>
+            </ng-container> -->
          </div>
       </div>
       <div class="order__map">

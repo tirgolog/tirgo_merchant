@@ -1,81 +1,71 @@
 <main class="orders" id="main">
-  <section class="page-header" style="padding: 1.25rem;">
-    <div class="page-header__top">
+  <section class="page-header" style="padding: 1.25rem">
+    <div class="page-header__top" style="padding: 0 ">
       <h2 class="page-header__title title">Финансы</h2>
-    </div>
-    <div class="page-header__actions" style="margin: auto">
       <div style="text-align: center">
-        <div style="font-weight: 600; margin-bottom: 10px;">Активный баланс</div>
-        <div>1450$</div>
+        <div style="font-weight: 600">Активный баланс</div>
+        <div>{{ balance }}</div>
       </div>
-      <div style="text-align: center">
-        <div style="font-weight: 600; margin-bottom: 10px;">Заморожено</div>
-        <div>450$</div>
-      </div>
+      <!-- <div style="text-align: center">
+            <div style="font-weight: 600">Заморожено</div>
+            <div>450$</div>
+          </div> -->
     </div>
   </section>
 
-
   <section class="table">
-    <div style="display: flex;">
-      <mat-form-field  class="form__input" style="margin-right: 10px;">
-        <mat-label>Дата начала</mat-label>
-        <input type="date" matInput [matDatepicker]="picker">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+    <div
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
+      <div class="title">История платежей</div>
 
-      <mat-form-field class="form__input">
-        <mat-label>Дата окончания</mat-label>
-        <input type="date" matInput [matDatepicker]="picker1">
-        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-      </mat-form-field>
-
-      <div style="display: flex; margin-left: auto;">
-        <button (click)="openDialog()" class="btn-green">Пополнить баланс</button>
+      <div class="page-header__actions">
+        <div style="display: flex; margin-left: auto; margin-bottom: 10px">
+          <button (click)="openDialog()" class="btn-green">
+            Пополнить баланс
+          </button>
+        </div>
       </div>
-      
     </div>
- 
-    
-    <mat-table [dataSource]="data">
+
+    <mat-table [dataSource]="helper.transactions_type">
       <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{ row.id }} </mat-cell>
+        <mat-cell *matCellDef="let row; let i = index"> {{ i + 1 }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="user">
         <mat-header-cell *matHeaderCellDef>Пользователь </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{ row.user }} </mat-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.createdBy.fullName }}
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="type">
         <mat-header-cell *matHeaderCellDef>Тип </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{ row.type }} </mat-cell>
+        <mat-cell *matCellDef="let row">
+          <span *ngIf="row.transactionType == 'topup'">Пополнение счета</span>
+          <span *ngIf="row.transactionType == 'withdrow'">Вывод стредств</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="sum">
         <mat-header-cell *matHeaderCellDef>Сумма </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{ row.type }} </mat-cell>
+        <mat-cell *matCellDef="let row"> {{ row.amount }} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="date">
         <mat-header-cell *matHeaderCellDef>Дата </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{ row.date }} </mat-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.createdAt | formatTime : "DD.MM.YYYY HH:mm"  }}
+        </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="time">
-        <mat-header-cell *matHeaderCellDef>Время </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{ row.time }} </mat-cell>
-      </ng-container>
+
       <mat-header-row
-        *matHeaderRowDef="['id', 'user', 'type', 'sum', 'time', 'date']"
+        *matHeaderRowDef="['id', 'user', 'type', 'sum', 'date']"
       ></mat-header-row>
       <mat-row
-        *matRowDef="
-          let row;
-          columns: ['id', 'user', 'type', 'sum', 'time', 'date']
-        "
+        *matRowDef="let row; columns: ['id', 'user', 'type', 'sum', 'date']"
       ></mat-row>
     </mat-table>
     <mat-paginator
-      [length]="helper.orders_count"
+      [length]="helper?.transactions_type?.length"
       showFirstLastButtons
       [pageSizeOptions]="sizespage"
       (page)="handlePage($event)"
@@ -83,25 +73,45 @@
   </section>
 </main>
 
-
 <ng-template #dialogRef>
-  <mat-card>
-    <mat-card-header><span class="title">Пополнить баланс</span> </mat-card-header>
-   
-    <mat-card-content style="margin-top: 20px;">
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-        <mat-button-toggle value="1">Пополнить баланс</mat-button-toggle>
-        <mat-button-toggle value="0">Вывод стредств</mat-button-toggle>
-      </mat-button-toggle-group>
-      <div style="display: flex; margin-left: auto; margin-top: 20px;">
-        <mat-form-field class="form__input" style="width: 100%;">
-          <mat-label>Введите сумму</mat-label>
-          <input
-            matInput
-          />
-        </mat-form-field>
-      </div>
-    </mat-card-content>
-    <mat-card-actions><button style="margin-left: auto;" class="btn-green">Сохранить</button> </mat-card-actions>
-  </mat-card>
+  <form #form="ngForm">
+    <mat-card>
+      <mat-card-header
+        ><span class="title">Пополнить баланс</span>
+      </mat-card-header>
+
+      <mat-card-content style="margin-top: 20px">
+        <mat-button-toggle-group
+          name="transactionType"
+          [(ngModel)]="payment.transactionType"
+          required
+          aria-label="transactionType"
+        >
+          <mat-button-toggle value="topup">Пополнить баланс</mat-button-toggle>
+          <mat-button-toggle value="withdrow">Вывод стредств</mat-button-toggle>
+        </mat-button-toggle-group>
+        <div style="display: flex; margin-left: auto; margin-top: 20px">
+          <mat-form-field class="form__input" style="width: 100%">
+            <mat-label>Введите сумму</mat-label>
+            <input
+              name="amount"
+              [(ngModel)]="payment.amount"
+              matInput
+              required
+            />
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions
+        ><button
+          [disabled]="!form.valid"
+          style="margin-left: auto"
+          class="btn-green"
+          (click)="createTransaction()"
+        >
+          Сохранить
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 </ng-template>

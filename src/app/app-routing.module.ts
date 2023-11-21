@@ -56,6 +56,7 @@ import { FinanceComponent } from './pages/finance/finance.component';
 import { DocumentsComponent } from './pages/documents/documents.component';
 import { SupportComponent } from './support/support.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
+import { EdituserComponent } from './pages/edituser/edituser.component';
 
 
 const routes: Routes = [
@@ -83,6 +84,11 @@ const routes: Routes = [
       path: "add-user",
       component: AddUserComponent,
       title: "Все пользователи / Добавить пользователя"
+   },
+   {
+      path: "user/:id",
+      component: EdituserComponent,
+      title: "Все пользователи / Редактировать пользователя"
    },
    {
       path: "partners",

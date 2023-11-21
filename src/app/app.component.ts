@@ -8,6 +8,7 @@ import { SpollersService } from './services/spollers.service';
 import { SocketService } from "./services/socket.service";
 import { ToastrService } from "ngx-toastr";
 import { lastDayOfMonth } from 'date-fns';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ import { lastDayOfMonth } from 'date-fns';
 })
 
 export class AppComponent {
-
+  currentUser
   constructor(
     public authService: AuthService,
     private router: Router,
@@ -31,9 +32,9 @@ export class AppComponent {
   logo = "/assets/img/logo.svg"
   async ngOnInit() {
     this.spoller.initSpollers()
+    this.getUsers();
     this.authService.checkToken();
     if (this.authService.currentUser) {
-      await this.getUsers();
       this.authService.globalLoading = false;
     } else {
       await this.router.navigate(['auth']);
@@ -46,18 +47,19 @@ export class AppComponent {
         await this.router.navigate(['auth']);
       }
     })
+    this.getAllUsers();
   }
 
   async getUsers() {
-    await this.authService.getUsers().subscribe(async (res) => {
-      if (res) {
-        this.authService.currentUser = res;
-        if (!this.authService.isAuthenticated()) {
-          this.authService.authenticationState.next(true);
-        }
-        // this.socketService.connect()
-      }
-    })
+    // await this.authService.getUsers().subscribe(async (res) => {
+    //   if (res) {
+    //     this.authService.currentUser = res;
+    //     if (!this.authService.isAuthenticated()) {
+    //       this.authService.authenticationState.next(true);
+    //     }
+    //     // this.socketService.connect()
+    //   }
+    // })
   }
   // async checkSession() {
   //    await this.authService.checkSession().toPromise().then(async (res) => {
@@ -134,11 +136,19 @@ export class AppComponent {
   //    });
   // }
 
-
+  getAllUsers() {
+    this.listService.getUsers().subscribe((res) => {
+       let curUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+       if (res) {
+          this.helper.users = res.data;
+          this.currentUser = res.data.filter(user => user.id === curUser.sub)[0];
+       }
+    })
+ }
 
   ngAfterViewInit() {
     documentActions()
-    this.spoller.initSpollers()
+    this.spoller.initSpollers();
   }
   getLocation() {
     if (navigator.geolocation) {

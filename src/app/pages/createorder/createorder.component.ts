@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {HelperService} from "../../services/helper.service";
 import {AuthService} from "../../services/auth.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ListService} from "../../services/list.service";
 import {ToastrService} from "ngx-toastr";
-import { MatDatepickerTimeHeaderComponent } from "mat-datepicker-time-header";
+import { jwtDecode } from 'jwt-decode';
+import { MatDatepickerTimeHeaderComponent } from 'mat-datepicker-time-header';
+
 
 @Component({
   selector: 'app-createorder',
@@ -22,6 +24,7 @@ export class CreateorderComponent {
   transportTypes:any[]= [];
   currencies:any[]= [];
 
+  currentUser
   timeHeader = MatDatepickerTimeHeaderComponent;
   data = {
     transportTypeId:'',
@@ -66,7 +69,8 @@ export class CreateorderComponent {
         this.currencies = res
       }
     })
-    
+    this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+
   }
   returnCity(city:string){
     if (city){
@@ -106,10 +110,10 @@ export class CreateorderComponent {
       await this.helper.loadingCreate();
       this.data.sendCargoDate = this.sendCargoDate
       this.data.sendCargoTime = this.sendCargoTime
-      this.data.merchantId = this.authService.currentUser.id
+      this.data.merchantId = this.currentUser.merchantId
       try {
         const res = await this.authService.createOrder(this.data).toPromise()
-        if (res.status){
+        if (res.success){
           await this.helper.loadingClose();
           this.toastr.success('Заказ успешно создан')
           this.dialog.closeAll();
@@ -119,11 +123,16 @@ export class CreateorderComponent {
         this.toastr.error('Что то пошло не так')
       }
     }
+  }
 
-    /*if (new Date(this.data.date_start).getTime() < new Date().getTime()){
-      this.toastr.error('Невозможно создать заказ на старую дату')
-    }else {
-
-    }*/
+  getTypes() {
+    this.listService.getTypeCargo().subscribe((res) => {
+      if(res) 
+        this.types = res;
+    })
+    this.listService.getTypeTruck().subscribe((res) => {
+      if(res) 
+        this.transportTypes = res;
+    })
   }
 }

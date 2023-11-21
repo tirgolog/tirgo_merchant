@@ -17,8 +17,8 @@ import { ListService } from 'src/app/services/list.service';
 
 export class AuthComponent {
 
-  login: string = "admin"
-  password: string = "admin"
+  login: string = "emial@tirgoooo.uz"
+  password: string = "password"
   error: boolean = false
 
   constructor(
@@ -36,17 +36,21 @@ export class AuthComponent {
       this.router.navigate(['orders']);
     }
     // if (!this.authService.isAuthenticated()) {
-    //    this.router.navigate(['users']);
+    //    this.router.navigate(['/registration']);
     // }
   }
-  async getLogin() {
-    const res = await this.authService.loginAdmin(this.login, this.password).toPromise();
-    if (res) {
-      await this.authService.setJwt(res.access_token);
-      this.error = false
-    } else {
-      this.error = true
-      this.toastr.error(res.error)
-    }
+  getLogin() {
+    this.authService.loginAdmin(this.login, this.password).subscribe((res: any) => {
+      if (res.success) {
+        this.authService.setJwt(res.data.access_token);
+        this.authService.setAdminJwt(res.data.admin_access_toke);
+        this.router.navigate(['orders']);
+        this.error = false
+      } else {
+        this.error = true
+        this.toastr.error('Пользователь не найден')
+      }
+    })
+
   }
 }

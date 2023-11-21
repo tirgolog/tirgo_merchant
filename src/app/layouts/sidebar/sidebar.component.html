@@ -5,7 +5,7 @@
       </a>
    </div>
    <nav class="sidebar__menu menu" data-spollers>
-      <ul class="menu__list" >
+      <ul class="menu__list"  *ngIf="currentUser">
          <li class="menu__item" >
             <a
                routerLink="/orders"
@@ -30,7 +30,7 @@
             </a>
          </li>
 
-         <li class="menu__item">
+         <li class="menu__item" *ngIf="currentUser.role.name === 'Super admin'">
             <a
                routerLink="/documents"
                routerLinkActive="_active"
@@ -54,7 +54,7 @@
             </a>
          </li>
 
-         <li class="menu__item">
+         <li class="menu__item" *ngIf="currentUser.role.name === 'Super admin'">
             <a
                routerLink="/users"
                routerLinkActive="_active"
@@ -78,7 +78,7 @@
             </a>
          </li>
 
-         <li class="menu__item">
+         <li class="menu__item" *ngIf="currentUser.role.name === 'Super admin'">
             <a
                routerLink="/analytics"
                routerLinkActive="_active"

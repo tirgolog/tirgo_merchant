@@ -13,7 +13,6 @@ export class AconfirmComponent {
   ) {
   }
   async ngOnInit() {
-    console.log(this.data)
   }
   async returnConfirm(send:any){
     this.dialogRef.close(send);

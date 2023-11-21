@@ -113,6 +113,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import { MatDatepickerTimeHeaderModule } from "mat-datepicker-time-header";
 import {MatRadioModule} from '@angular/material/radio';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -123,6 +124,7 @@ import { FinanceComponent } from './pages/finance/finance.component';
 import { DocumentsComponent } from './pages/documents/documents.component';
 import { SupportComponent } from './support/support.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
+import { AddDaysPipe } from './pipes/add-days.pipe';
 
 
 registerLocaleData(ruLocale);
@@ -201,7 +203,8 @@ const mapConfig: YaConfig = {
       FinanceComponent,
       DocumentsComponent,
       SupportComponent,
-      AnalyticsComponent
+      AnalyticsComponent,
+      AddDaysPipe
    ],
    imports: [
       MatSortModule,
@@ -237,7 +240,8 @@ const mapConfig: YaConfig = {
       MatRadioModule,
       MatCheckboxModule,
       MatAutocompleteModule,
-      
+      MatInputModule,
+      MatMenuModule,
       LayoutModule,
       InfiniteScrollModule,
       AngularYandexMapsModule.forRoot(mapConfig),

@@ -1,10 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {FormControl} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {HelperService} from "../../services/helper.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ListService} from "../../services/list.service";
+import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-add-user',
@@ -13,9 +15,11 @@ import {ListService} from "../../services/list.service";
    host: { "id": "main" }
 })
 
-export class AddUserComponent {
+export class AddUserComponent implements OnInit {
    findList: any[] | undefined = [];
    viewText = false;
+   currentUser
+   data: any;
    name:string = '';
    password:string = '';
    phone:string = '';
@@ -25,33 +29,30 @@ export class AddUserComponent {
        private toastr: ToastrService,
        public dialog: MatDialog,
        public listService: ListService,
-       public helper: HelperService
+       public helper: HelperService,
+       public router: Router
    ) {
-
+      this.data = {fullName: '', password: '',phone: ""}
    }
 
-   getFile(e: any, el: any) {
-      el.value = e.files[0].name
+   ngOnInit(): void {
+      this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+      this.listService.getAllRoles().subscribe((res:any) => {
+         if(res) {
+           this.helper.roles = res;
+         }
+       })
    }
-   async findCity(ev:any) {
-      const findText = ev.target.value.toString().trim().toLowerCase();
-      if (findText.length >= 2) {
-         this.viewText = true;
-         this.findList = await this.authService.findCity(findText).toPromise();
-      } else {
-         this.viewText = false;
-         this.findList = [];
-      }
-   }
+
    async adduser(){
       const confirm = await this.helper.openDialogConfirm('Вы уверены?', 'Вы уверены что хотите добавить пользователя?', 2)
       if (confirm){
-         const res = await this.authService.createClient(this.phone,this.name, this.login, this.password).toPromise();
-         if (res.status) {
+         this.data.merchantId = this.currentUser.merchantId; 
+         const res = await this.authService.createClient(this.data).toPromise();
+         if (res) {
             this.toastr.success('Пользователь успешно добавлен')
             this.dialog.closeAll();
-         }else {
-            this.toastr.error(res.error)
+            this.router.navigate(['/users'])
          }
       }
    }

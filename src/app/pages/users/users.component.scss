@@ -1,3 +1,7 @@
 @import "base";
 
 
+.mat-cell .cell-content {
+    /* Set the desired z-index value for the content */
+    z-index: 99999;
+  }

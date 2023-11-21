@@ -18,7 +18,7 @@ export class SocketService {
     }
   }
   connect() {
-    this.socket = io('http://192.168.1.103:3000/api/v1');
+    this.socket = io('http://192.168.1.130:3000/api/v1');
     this.socket.on('connect', () => {
       this.socket.emit('authenticate', {token: AuthService.jwt})
           .on('authenticated', (data:any) => {

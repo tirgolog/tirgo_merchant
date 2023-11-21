@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { ListService } from 'src/app/services/list.service';
 
 @Component({
   selector: 'app-registration',
@@ -14,7 +15,9 @@ export class RegistrationComponent implements OnInit {
   factAddressShow: boolean = false;
   phone2: boolean = false;
   bankAccountCurrency: boolean = false;
-
+  currency
+  currency2
+  currencies: any;
   selectedFiles: FileList;
   selectedFileNames: string[] = [];
 
@@ -28,11 +31,13 @@ export class RegistrationComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public helper: HelperService,
+    public list: ListService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit() {
-    this.data = { email: '', legalAddress: '', factAddress: '', phoneNumbers: [''], phone2: "", bankName: '', bankAccounts: [] }
+    this.getCurrencies();
+    this.data = { email: '', legalAddress: '', factAddress: '', phoneNumbers: [''], phone2: "", bankName: '', bankAccounts: [] };
   }
 
   addItem() {
@@ -46,8 +51,6 @@ export class RegistrationComponent implements OnInit {
   trackByFn(index: any, item: any) {
     return item;
   }
-
- 
 
   selectFiles(event: any): void {
     this.selectedFileNames = [];
@@ -100,8 +103,13 @@ export class RegistrationComponent implements OnInit {
   async createMerchant() {
     if (this.phone2)
       this.data.phoneNumbers.push(this.data.phone2)
+    if(this.data.bankAccountCurrency) {
+      this.data.bankAccounts = [{ account: this.data.bankAccounts, currency: this.currency }, { account: this.data.bankAccountCurrency, currency: this.currency2 }]
+    }else {
+      this.data.bankAccounts = [{ account: this.data.bankAccounts, currency: this.currency }]
+    }
     let patch = {
-      bankAccounts: [{ account: this.data.bankAccounts, id: 'f5999533-a08f-40cf-b635-074ebbb7ac37' },{ account: this.data.bankAccountCurrency, id: 'f5999533-a08f-40cf-b635-074ebbb7ac37' }],
+      bankAccounts: this.data.bankAccounts,
       bankName: this.data.bankName,
       companyName: this.data.companyName,
       password: this.data.password,
@@ -119,11 +127,19 @@ export class RegistrationComponent implements OnInit {
     const res = await this.authService.addMerchant(patch).toPromise();
     if (res) {
       this.formDone = true;
-      this.toastr.success('Мерdчант успешно добавлен')
+      this.toastr.success('Мерчант успешно добавлен')
       this.loading = false;
     } else {
       this.toastr.error(res.error)
       this.loading = false;
     }
+  }
+
+  getCurrencies() {
+    this.list.getCurrencies().subscribe((res) => {
+      this.currencies = res;
+      this.currency = this.currencies[0].id;
+      this.currency2 = this.currencies[0].id;
+    })
   }
 }

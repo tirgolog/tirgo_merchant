@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ColDef, GridOptions } from 'ag-grid-community';
-import { PushComponent } from 'src/app/components/push/push.component';
+import { GridOptions } from 'ag-grid-community';
 import { SpollersService } from 'src/app/services/spollers.service';
 import { OrderComponent } from "../order/order.component";
 import { HelperService } from "../../services/helper.service";
 import { AuthService } from "../../services/auth.service";
-import { formatDate } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
-import { CreateorderComponent } from "../createorder/createorder.component";
 import { SocketService } from "../../services/socket.service";
 import { ListService } from "../../services/list.service";
+import { jwtDecode } from 'jwt-decode';
+import { CreateorderComponent } from '../createorder/createorder.component';
 
 @Component({
   selector: 'app-orders',
@@ -31,7 +30,7 @@ export class OrdersComponent {
   saveorder: string = 'all';
   typetransport: string = '';
   typecargo: string = '';
-
+  currentUser
   sizespage = [
     50, 100, 200, 500, 1000, 5000
   ]
@@ -45,12 +44,14 @@ export class OrdersComponent {
     private route: ActivatedRoute,
     private socketService: SocketService,
     public listService: ListService,
-    public authService: AuthService
+    public authService: AuthService,
   ) {
 
   }
 
   ngOnInit(): void {
+    this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+
     // @ts-ignore
     if (+this.route.snapshot.paramMap.get('status') === 100) {
       this.status = 'all';
@@ -65,27 +66,31 @@ export class OrdersComponent {
     this.gridOptions.localeText = this.helper.localeTextAgGrid;
     this.gridOptions.suppressScrollOnNewData = true;
     this.gridOptions.headerHeight = 75;
-    this.socketService.updateAllList().subscribe(async (res: any) => {
-    })
+    // this.socketService.updateAllList().subscribe(async (res: any) => {
+    // })
   }
   ngAfterViewInit(): void {
     this.spoller.initSpollers()
   }
 
   getAllOrders() {
-    this.listService.getOrders().subscribe((res:any) => {
-      if(res) {
+    this.listService.getOrdersByMerchant(this.currentUser.merchantId).subscribe((res: any) => {
+      if (res.success) {
         this.helper.orders = res.data;
       }
     });
   }
-  
+
   openCreateOrder(): void {
     const dialogRef = this.dialog.open(CreateorderComponent, {
       width: '90%',
       height: '80%',
       panelClass: 'custom-dialog-class'
     });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getAllOrders();
+    });
+
   }
   viewOrder(ev: any) {
     const dialogRef = this.dialog.open(OrderComponent, {
@@ -94,6 +99,7 @@ export class OrdersComponent {
       panelClass: 'custom-dialog-class',
       data: ev
     });
+    
   }
   statusOrderCheck(params) {
     switch (params) {
@@ -102,7 +108,7 @@ export class OrdersComponent {
       case 1:
         return "Выполняется";
       case 2:
-        return "Выполнен";
+        return "Выполнен"; 
       case 3:
         return "Отменен";
       default:
@@ -111,13 +117,15 @@ export class OrdersComponent {
   }
   returnClassStatusOrder(params) {
     switch (params) {
-      case 0:
+      case 'Ожидающий':
         return "status-order-blue";
-      case 1:
+      case 'В работе':
         return "status-order-yellow";
-      case 2:
+      case 'Предложении':
+        return "status-order-info";
+      case 'Завершённые':
         return "status-order-green";
-      case 3:
+      case 'Отменённые':
         return "status-order-red";
       default:
         return "status-order";

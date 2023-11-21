@@ -1,92 +1,142 @@
 <main class="users">
-   <section class="page-header">
-      <div class="page-header__top">
-         <h2 class="page-header__title title">Все пользователи</h2>
-         <div class="page-header__actions">
-            <!-- <button class="page-header__btn btn" data-filter-open>
-               Фильтр
-               <i class="icm-chevron"></i>
-            </button> -->
-            <a routerLink="/add-user" class="page-header__btn btn-green"
-               >Добавить</a>
-         </div>
+  <section class="page-header">
+    <div class="page-header__top">
+      <h2 class="page-header__title title">Все пользователи</h2>
+      <div class="page-header__actions">
+        <a routerLink="/add-user" class="page-header__btn btn-green"
+          >Добавить</a
+        >
       </div>
-      <form
-         class="page-header__filter filter-header form"
-         data-filter-section
-         hidden
-      >
-         <div class="filter-header__actions">
-            <mat-form-field class="form__input">
-               <mat-label>Поиск по ID</mat-label>
-               <input matInput />
-            </mat-form-field>
-            <mat-form-field class="form__input">
-               <mat-label>Ф.И.О</mat-label>
-               <input matInput />
-            </mat-form-field>
-            <mat-form-field class="form__input form__select" appearance="fill">
-               <mat-label>Все пользователи</mat-label>
-               <mat-select disableRipple>
-                  <mat-option>- -</mat-option>
-                  <mat-option [value]="1">1</mat-option>
-                  <mat-option [value]="2">2</mat-option>
-                  <mat-option [value]="3">3</mat-option>
-                  <mat-option [value]="4">4</mat-option>
-               </mat-select>
-            </mat-form-field>
-            <mat-form-field class="form__input form__select" appearance="fill">
-               <mat-label>Все пользователи</mat-label>
-               <mat-select disableRipple>
-                  <mat-option>- -</mat-option>
-                  <mat-option [value]="1">1</mat-option>
-                  <mat-option [value]="2">2</mat-option>
-                  <mat-option [value]="3">3</mat-option>
-                  <mat-option [value]="4">4</mat-option>
-               </mat-select>
-            </mat-form-field>
-         </div>
-         <div class="filter-header__buttons">
-            <button class="filter-header__btn btn-green" type="button">
-               Применить
+    </div>
+    <form
+      class="page-header__filter filter-header form"
+      data-filter-section
+      hidden
+    >
+      <div class="filter-header__actions">
+        <mat-form-field class="form__input">
+          <mat-label>Поиск по ID</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field class="form__input">
+          <mat-label>Ф.И.О</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field class="form__input form__select" appearance="fill">
+          <mat-label>Все пользователи</mat-label>
+          <mat-select disableRipple>
+            <mat-option>- -</mat-option>
+            <mat-option [value]="1">1</mat-option>
+            <mat-option [value]="2">2</mat-option>
+            <mat-option [value]="3">3</mat-option>
+            <mat-option [value]="4">4</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form__input form__select" appearance="fill">
+          <mat-label>Все пользователи</mat-label>
+          <mat-select disableRipple>
+            <mat-option>- -</mat-option>
+            <mat-option [value]="1">1</mat-option>
+            <mat-option [value]="2">2</mat-option>
+            <mat-option [value]="3">3</mat-option>
+            <mat-option [value]="4">4</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="filter-header__buttons">
+        <button class="filter-header__btn btn-green" type="button">
+          Применить
+        </button>
+        <button class="filter-header__btn btn-red" type="button">
+          Сбросить фильтры
+        </button>
+      </div>
+    </form>
+  </section>
+  <section class="table">
+    <mat-table [dataSource]="users">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
+        <mat-cell *matCellDef="let row; let i = index"> {{ i + 1 }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Статус</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <span class="btn-green" *ngIf="!row.disabled">Активный</span>
+          <span class="btn-red" *ngIf="row.disabled">Неактивный</span>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Ф.И.О</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.fullName }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="role">
+        <mat-header-cell *matHeaderCellDef>Роль</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.role.name }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="login">
+        <mat-header-cell *matHeaderCellDef>Логин</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.username }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="register_date">
+        <mat-header-cell *matHeaderCellDef>Дата регистрации</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.createdAt | formatTime : "DD.MM.YYYY" }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Редактировать</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            (click)="$event.stopPropagation()"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changeStatus(row)">
+              <span *ngIf="row.disabled == 1">Деактивировать</span>
+              <span *ngIf="row.disabled == 0">Активировать</span>
             </button>
-            <button class="filter-header__btn btn-red" type="button">
-               Сбросить фильтры
-            </button>
-         </div>
-      </form>
-   </section>
-   <section class="table">
-      <mat-table [dataSource]="helper.users">
-         <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
-         </ng-container>
-         <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef>Статус</mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.status}} </mat-cell>
-         </ng-container>
-         <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef>Ф.И.О</mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
-         </ng-container>
-         <ng-container matColumnDef="role">
-            <mat-header-cell *matHeaderCellDef>Роль</mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.role}} </mat-cell>
-         </ng-container>
-         <ng-container matColumnDef="login">
-            <mat-header-cell *matHeaderCellDef>Логин</mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.login}} </mat-cell>
-         </ng-container>
-         <ng-container matColumnDef="register_date">
-            <mat-header-cell *matHeaderCellDef>Дата регистрации</mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{row.register_date}} </mat-cell>
-         </ng-container>
-         
-         <!-- Header and Row Declarations -->
-         <mat-header-row *matHeaderRowDef="['id', 'name','role','login','register_date']"></mat-header-row>
-         <mat-row *matRowDef="let row; columns: ['id', 'name','role','login','register_date']"></mat-row>
-      </mat-table>
-      <mat-paginator [length]="helper.orders_count" showFirstLastButtons [pageSizeOptions]="sizespage" (page)="handlePage($event)"></mat-paginator>
-</section>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="[
+          'id',
+          'status',
+          'name',
+          'role',
+          'login',
+          'register_date',
+          'action'
+        ]"
+      ></mat-header-row>
+      <mat-row
+        (click)="view(row)"
+        *matRowDef="
+          let row;
+          columns: [
+            'id',
+            'status',
+            'name',
+            'role',
+            'login',
+            'register_date',
+            'action'
+          ]
+        "
+      ></mat-row>
+    </mat-table>
+    <mat-paginator
+      [length]="helper.users.length"
+      showFirstLastButtons
+      [pageSizeOptions]="sizespage"
+      (page)="handlePage($event)"
+    ></mat-paginator>
+  </section>
 </main>

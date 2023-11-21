@@ -13,22 +13,16 @@
                <div class="tw-grid tw-gap-4">
                   <mat-form-field class="form__input">
                      <mat-label>Текущий пароль</mat-label>
-                     <input matInput [(ngModel)]="currentPassword" />
+                     <input type="password" matInput [(ngModel)]="currentPassword" />
                   </mat-form-field>
                   <mat-form-field class="form__input">
                      <mat-label>Новый пароль</mat-label>
-                     <input matInput [(ngModel)]="newPassword" />
+                     <input type="password" matInput [(ngModel)]="newPassword" />
                   </mat-form-field>
                </div>
             </div>
             <button
                class="btn-green tw-mt-5"
-               [disabled]="
-                  (!currentPassword.length &&
-                  !newPassword.length &&
-                  !repeatNewPassword.length)
-                  || newPassword !== repeatNewPassword
-               "
                (click)="changePassword()"
             >
                Сохранить
