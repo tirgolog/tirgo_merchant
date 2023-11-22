@@ -1,13 +1,13 @@
 version: '3.8'
 services:
-  tirgo-merchant-ui:
-    container_name: tirgo-merchant-ui
+  merchant-ui:
+    container_name: tirgo-merchant
     image: nginx:1.17-alpine
     restart: unless-stopped
     ports:
-      - "4300:4300"
+      - "6061:6061"
     environment:
-      - NGINX_PORT=4300
+      - NGINX_PORT=6061
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:rw
       - ./dist/tirgo-merchant:/var/www/merchant.tirgo.io
