@@ -100,6 +100,40 @@
                </div>
             </span>
 
+            <div class="offers" *ngIf="data.acceptedOrders.length">
+               <h2 style="margin-bottom: 10px; font-size: 18px; font-weight: 500;">Предложение</h2>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>№</th>
+                        <th>Имя водителя</th>
+                        <th>Предлагаемая цена</th>
+                        <th>Номер телефона водителя</th>
+                        <th>Статус</th>
+                        <th>Операция</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr *ngFor="let item of data.acceptedOrders; let idx = index">
+                        <td>{{ idx +1  }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.priceorder }}</td>
+                        <td>{{ item.phone }}</td>
+                        <td>
+                           <span *ngIf="item.status_order == 0">Ожидающий</span>
+                           <span *ngIf="item.status_order == 1">Принято</span>
+                           <span *ngIf="item.status_order == 2">Доставлено</span>
+                        </td>
+                        <td>
+                           <button [disabled]="item.status_order == 1 || item.status_order == 2" class="view__btn btn-green ion-ni-margin ion-no-padding" type="button" (click)="acceptOffer(item)">
+                              Принять
+                           </button>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+
             <!-- <ng-container *ngIf="data.orders_accepted.length">
                <h4 class="view__title title-sec">Предложения</h4>
                <mat-table [dataSource]="data.orders_accepted">
@@ -129,12 +163,12 @@
             </ng-container> -->
          </div>
       </div>
-      <div class="order__map">
+      <!-- <div class="order__map">
          <ya-map [center]="[data.route.from_lat, data.route.from_lng]" [zoom]="12">
             <ya-multiroute
                     [referencePoints]="[[data.route.from_lat, data.route.from_lng], [data.route.to_lat, data.route.to_lng]]">
             </ya-multiroute>
          </ya-map>
-      </div>
+      </div> -->
    </section>
 </main>

@@ -1,3 +1,19 @@
 ::ng-deep .mat-mdc-select-value {
     margin-top: 10px !important;
   }
+
+.all-wrapper {
+  display: flex;
+  // justify-content: space-between;
+
+  .sidebar_f {
+    width: 250px;
+  }
+
+  .routes_f {
+    width: calc(100% - 260px);
+  }
+  div {
+    display: block;
+  }
+}

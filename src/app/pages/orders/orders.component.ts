@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GridOptions } from 'ag-grid-community';
 import { SpollersService } from 'src/app/services/spollers.service';
@@ -12,6 +12,7 @@ import { jwtDecode } from 'jwt-decode';
 import { CreateorderComponent } from '../createorder/createorder.component';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
@@ -147,10 +148,13 @@ export class OrdersComponent {
   async handlePage(e: any) {
     this.helper.global_loading = true;
     let from = e.pageIndex * e.pageSize
-    let neworders = await this.listService.getOrders().toPromise();
-    this.helper.orders = neworders.data;
-    this.helper.orders_count = neworders.data_count;
-    this.helper.global_loading = false;
+    this.listService.getOrdersByMerchant(this.currentUser.merchantId).subscribe((res: any) => {
+      if (res.success) {
+        this.helper.orders = res.data;
+        this.helper.orders_count = res.data_count;
+        this.helper.global_loading = false;
+      }
+    });
     console.log(e)
     console.log(e.pageIndex)
     console.log(e.pageSize)

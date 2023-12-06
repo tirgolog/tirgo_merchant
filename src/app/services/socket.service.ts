@@ -18,7 +18,7 @@ export class SocketService {
     }
   }
   connect() {
-    this.socket = io('https://merchant.tirgo.io/api');
+    this.socket = io('https://merchant.tirgo.io/api/v1');
     this.socket.on('connect', () => {
       this.socket.emit('authenticate', {token: AuthService.jwt})
           .on('authenticated', (data:any) => {

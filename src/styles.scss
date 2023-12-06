@@ -2,22 +2,22 @@
 
 @include mat.core();
 
-$tirgo-admin-primary: mat.define-palette(mat.$indigo-palette);
-$tirgo-admin-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$tirgo-merchant-primary: mat.define-palette(mat.$indigo-palette);
+$tirgo-merchant-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
-$tirgo-admin-warn: mat.define-palette(mat.$red-palette);
+$tirgo-merchant-warn: mat.define-palette(mat.$red-palette);
 
-$tirgo-admin-theme: mat.define-light-theme(
+$tirgo-merchant-theme: mat.define-light-theme(
    (
       color: (
-         primary: $tirgo-admin-primary,
-         accent: $tirgo-admin-accent,
-         warn: $tirgo-admin-warn,
+         primary: $tirgo-merchant-primary,
+         accent: $tirgo-merchant-accent,
+         warn: $tirgo-merchant-warn,
       ),
    )
 );
 
-@include mat.all-component-themes($tirgo-admin-theme);
+@include mat.all-component-themes($tirgo-merchant-theme);
 
 @tailwind base;
 @tailwind components;
@@ -41,6 +41,7 @@ $fontSize: rem(16);
 
 body {
    color: $mainColor;
+   background-color: rgb(222, 222, 222, 0.3);
    .lock & {
       overflow: auto;
       touch-action: auto;
@@ -53,18 +54,6 @@ body {
    display: flex;
    flex-direction: column;
    overflow: auto;
-
-   #main {
-      flex: 1 1 auto;
-      padding: 0 0 0 rem(300);
-      transition: all 0.2s ease 0s;
-      @media (max-width: $tablet) {
-         padding: rem(60) rem(0) rem(20) 0;
-      }
-   }
-   > * {
-      min-width: 0;
-   }
 }
 
 [class*="__container"] {

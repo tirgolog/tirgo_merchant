@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ListService } from './list.service';
 
 const TOKEN_KEY = 'jwttirgomerhant';
-const API_URL = 'https://merchant.tirgo.io/api'
+const API_URL = 'https://merchant.tirgo.io/api/v1'
 @Injectable({
    providedIn: 'root'
 })
@@ -165,6 +165,13 @@ export class AuthService {
       });
       return this.http.post<any>(sUrl, body);
    }
+   acceptOfferDriver(id: number, price: string, orderid: number) {
+      const sUrl = API_URL + '/cargo/accept-offer';
+      const body = JSON.stringify({
+         id, price, orderid
+      });
+      return this.http.post<any>(sUrl, body);
+   }
    createClient(data) {
       const sUrl = API_URL + '/users';
       return this.http.post<any>(sUrl, data);
@@ -200,6 +207,15 @@ export class AuthService {
          this.authenticationState.next(true);
       } else {
          this.authenticationState.next(false);
+      }
+   }
+
+   tokenExist() {
+      const res = localStorage.getItem(TOKEN_KEY)
+      if (res) {
+         return true
+      } else {
+         return false
       }
    }
 
