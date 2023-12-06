@@ -41,6 +41,7 @@ $fontSize: rem(16);
 
 body {
    color: $mainColor;
+   background-color: rgb(222, 222, 222, 0.3);
    .lock & {
       overflow: auto;
       touch-action: auto;
@@ -53,18 +54,6 @@ body {
    display: flex;
    flex-direction: column;
    overflow: auto;
-
-   #main {
-      flex: 1 1 auto;
-      padding: 0 0 0 rem(300);
-      transition: all 0.2s ease 0s;
-      @media (max-width: $tablet) {
-         padding: rem(60) rem(0) rem(20) 0;
-      }
-   }
-   > * {
-      min-width: 0;
-   }
 }
 
 [class*="__container"] {

@@ -34,16 +34,12 @@ export class OrderComponent {
        public listService: ListService
    ) {
    }
-   async ngOnInit() {
-      const res = await this.listService.getOrderById(this.data.id).toPromise();
-      
-      if (res.status) {
-         this.data = res.data;
+   async ngOnInit() {      
+         this.data = this.data;
          const index = this.helper.orders.findIndex(e => e.id === +this.data.id)
          if (index>=0){
-            this.helper.orders[index] = res.data;
+            this.helper.orders[index] = this.data;
          }
-      }
    }
    returnStatus(status:number){
       switch (status) {
@@ -135,7 +131,6 @@ export class OrderComponent {
          if (res.status) {
             this.toastr.success('Водитель успешно назначен')
             const res = await this.authService.getOrderInfo(this.data.id).toPromise();
-            console.log(res)
             if (res.status) {
                this.data = res.data;
                const index = this.helper.orders.findIndex(e => e.id === +this.data.id)
@@ -150,5 +145,11 @@ export class OrderComponent {
       }else {
          this.toastr.error('Невозможно назначить водителя. Не все поля заполнены')
       }
+   }
+
+   acceptOffer(item: any): void {
+      this.authService.acceptOfferDriver(item.user_id, item.priceorder, item.orderid).subscribe((res: any) => {
+         this.dialog.closeAll();
+      })
    }
 }

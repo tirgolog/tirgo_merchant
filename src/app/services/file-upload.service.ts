@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FileUploadService {
-  private baseUrl = 'https://merchant.tirgo.io/api';
+  private baseUrl = 'https://merchant.tirgo.io/api/v1';
 
   constructor(private http: HttpClient) { }
 
