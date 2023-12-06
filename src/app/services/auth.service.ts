@@ -210,6 +210,15 @@ export class AuthService {
       }
    }
 
+   tokenExist() {
+      const res = localStorage.getItem(TOKEN_KEY)
+      if (res) {
+         return true
+      } else {
+         return false
+      }
+   }
+
    changePassword(currPass: string, newPass: string) {
       const sUrl = API_URL + '/admin/editPassword';
       const body = JSON.stringify({

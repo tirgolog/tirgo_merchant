@@ -1,0 +1,95 @@
+.table {
+   overflow: auto;
+   padding: rem(20);
+   padding-bottom: rem(100);
+
+
+   .mat-mdc-table {
+      box-shadow: 0 0 rem(3) rgba(#000, 0.2);
+
+      .mat-mdc-row {
+         position: relative;
+         &:hover {
+            background-color: rgba($mainGray, 0.3);
+         }
+      }
+   }
+
+   .mat-mdc-header-row {
+      height: rem(40);
+      background: $mainColor;
+   }
+
+   .mat-mdc-row {
+      height: rem(50);
+      transition: all 0.2s ease 0s;
+   }
+   .mdc-data-table__cell {
+      overflow: visible;
+   }
+   .mat-mdc-header-cell {
+      color: #fff;
+      font-weight: 400;
+   }
+
+   .mat-mdc-cell {
+      padding: 0 rem(10);
+
+      position: relative;
+
+      &:not(:last-child, :first-child) {
+         &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+
+            translate: 0 -50%;
+
+            height: rem(10);
+            width: rem(1);
+            background: $mainGray;
+         }
+      }
+   }
+
+   .mat-mdc-cell {
+      border-bottom: rem(1) solid $mainGray;
+      button.icm-setting {
+         padding: rem(5);
+         font-size: rem(20);
+         border-radius: rem(5);
+         background: rgba($mainGray, 0.2);
+         &::before {
+            font-weight: 600;
+         }
+      }
+   }
+
+   .big-text {
+      @include hide(18, 3);
+      width: rem(400);
+      margin: rem(5) 0;
+   }
+
+   .points {
+      display: grid;
+      gap: rem(10);
+      position: relative;
+
+      padding-left: rem(30);
+      i.icm-goto {
+         position: absolute;
+         left: 0;
+         top: 50%;
+
+         font-size: rem(24);
+
+         translate: 0 -50%;
+      }
+
+      &__item {
+         white-space: nowrap;
+      }
+   }
+}
