@@ -183,12 +183,21 @@
             </tr>
          </thead>
          <tbody>
-            <tr *ngFor="let order of helper.orders" (click)="viewOrder(order)">
-               <td>{{ order.id }}</td>
+            <tr style="position: relative;" *ngFor="let order of helper.orders" (click)="viewOrder(order)">
+               <td>
+                  <!-- <div class="offer-wrapper"> -->
+                  {{ order.id }}
+                  <div class="offer" *ngIf="order.acceptedOrders?.length && order.status !== 1 && order.status !== 2">{{ order.acceptedOrders?.length }}</div>
+               <!-- </div> -->
+               </td>
                <td>{{ order.merchant?.companyName }}</td>
                <td>{{ order.sendLocation }}</td>
                <td>{{ order.cargoDeliveryLocation }}</td>
-               <td>{{ order.status }}</td>
+               <td [class.blue]="order.status == 0" [class.yellow]="order.status == 1" [class.green]="order.status == 2">
+                  <span *ngIf="order.status == 0">Ожидающий</span>
+                  <span *ngIf="order.status == 1">Принято</span>
+                  <span *ngIf="order.status == 2">Выполнен</span>
+               </td>
                <td>{{ order.cargoType?.name }}</td>
                <td>{{ order.transportType?.name }}</td>
                <td>{{ order.status }}</td>
