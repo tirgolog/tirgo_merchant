@@ -25,7 +25,7 @@ export class CreateorderComponent {
   types:any[]= [];
   transportTypes:any[]= [];
   currencies:any[]= [];
-
+  isSafeModal:boolean = false;
   currentUser
   timeHeader = MatDatepickerTimeHeaderComponent;
   data = {
@@ -45,7 +45,10 @@ export class CreateorderComponent {
     sendCargoDate: '',
     sendCargoTime: '',
     merchantId: '',
-    isSafe: false
+    isSafe: false,
+    start_lat: '',
+    start_lng: '',
+
   }
 
   constructor(
@@ -105,19 +108,12 @@ export class CreateorderComponent {
     this.data.isCashlessPayment = ev.checked
   }
   selectIsSafe(ev: any) {
-    const dialogRef = this.dialog.open(this.dialogRef, {
-      data: { isSafe: ev.checked },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        if (result === true) {
-          this.changeIsSafe(true);
-        } else if (result === false) {
-          this.changeIsSafe(false);
-        }
-      }
-    });
+    if(ev.checked) {
+      this.isSafeModal = true
+      this.data.isSafe = ev.checked;
+    }else {
+      this.isSafeModal = false
+    }
   }
 
   addTwoDays(ev:any){
@@ -156,8 +152,9 @@ export class CreateorderComponent {
     })
   }
 
-  changeIsSafe(isSafe: boolean) {
-    this.data.isSafe = isSafe;
+  changeIsSafe(type) {
+    this.isSafeModal = false;
+    this.data.isSafe = type;
   }
 
 }

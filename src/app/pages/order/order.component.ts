@@ -17,7 +17,7 @@ import {UserComponent} from "../user/user.component";
 })
 export class OrderComponent {
    @ViewChild("dialogRef") dialogRef: TemplateRef<any>;
-
+   tax
    gridOptions: any;
    orders_accepted:any[]=[];
    drivers:any[]=[];
@@ -150,14 +150,15 @@ export class OrderComponent {
       }
    }
 
-   acceptOffer(item: any): void {
+   acceptOffer(): void {
       let clientId = this.data.id.split('M')[1] ? this.data.id.split('M')[1] : this.data.id;
+      
       const obj = {
          clientId,
-         driverId: item.user_id,
-         order_id: item.order_id,
-         amount: item.price,
-         additionalAmount: item.additional_price,
+         driverId: this.selectDriver.user_id,
+         orderId : this.selectDriver.orderid,
+         amount: this.selectDriver.priceorder,
+         additionalAmount: this.selectDriver.additional_price,
          isSafe: this.data.isSafe
       }
       this.authService.acceptOfferDriver(obj).subscribe((res: any) => {
@@ -166,9 +167,20 @@ export class OrderComponent {
    }
 
    showAcceptOffer(item) {
-      this.selectDriver = item
+      this.selectDriver = item;
+      
       const dialogRef = this.dialog.open(this.dialogRef, {
          data: '',
        });
    } 
+
+   returnTax() {
+      this.tax = 0;
+      return this.tax = (12 /100) + this.selectDriver.priceorder / 0.88
+   }
+
+   returnAmount() {
+      let amount = 0;
+      return amount = this.selectDriver.priceorder + this.tax + 100
+   }
 }
