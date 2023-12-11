@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {HelperService} from "../../services/helper.service";
 import {AuthService} from "../../services/auth.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ListService} from "../../services/list.service";
 import {ToastrService} from "ngx-toastr";
 import { jwtDecode } from 'jwt-decode';
@@ -14,6 +14,8 @@ import { MatDatepickerTimeHeaderComponent } from 'mat-datepicker-time-header';
   styleUrls: ['./createorder.component.scss']
 })
 export class CreateorderComponent {
+  @ViewChild("dialogRef") dialogRef: TemplateRef<any>;
+
   findList: any[] | undefined = [];
   viewText = false;
   sendCargoTime;
@@ -42,7 +44,8 @@ export class CreateorderComponent {
     isCashlessPayment: false,
     sendCargoDate: '',
     sendCargoTime: '',
-    merchantId: ''
+    merchantId: '',
+    isSafe: false
   }
 
   constructor(
@@ -50,7 +53,7 @@ export class CreateorderComponent {
       public dialog: MatDialog,
       private toastr: ToastrService,
       private authService: AuthService,
-      public listService: ListService
+      public listService: ListService,
   ) {
     this.listService.getTypeCargo().subscribe((res) => {
       if(res) {
@@ -101,9 +104,26 @@ export class CreateorderComponent {
   selectNoCash(ev:any){
     this.data.isCashlessPayment = ev.checked
   }
+  selectIsSafe(ev: any) {
+    const dialogRef = this.dialog.open(this.dialogRef, {
+      data: { isSafe: ev.checked },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        if (result === true) {
+          this.changeIsSafe(true);
+        } else if (result === false) {
+          this.changeIsSafe(false);
+        }
+      }
+    });
+  }
+
   addTwoDays(ev:any){
     this.data.isUrgent = ev.checked
   }
+
   async addOrder(){
     const confirm = await this.helper.openDialogConfirm('Вы уверены?', 'Вы уверены что хотите создать заказ?', 2)
     if (confirm){
@@ -135,4 +155,9 @@ export class CreateorderComponent {
         this.transportTypes = res;
     })
   }
+
+  changeIsSafe(isSafe: boolean) {
+    this.data.isSafe = isSafe;
+  }
+
 }

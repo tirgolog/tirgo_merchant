@@ -165,12 +165,9 @@ export class AuthService {
       });
       return this.http.post<any>(sUrl, body);
    }
-   acceptOfferDriver(id: number, price: string, orderid: number) {
+   acceptOfferDriver(data) {
       const sUrl = API_URL + '/cargo/accept-offer';
-      const body = JSON.stringify({
-         id, price, orderid
-      });
-      return this.http.post<any>(sUrl, body);
+      return this.http.post<any>(sUrl, data);
    }
    createClient(data) {
       const sUrl = API_URL + '/users';

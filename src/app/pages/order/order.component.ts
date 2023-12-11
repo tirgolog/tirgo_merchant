@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, TemplateRef, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {HelperService} from "../../services/helper.service";
 import {SpollersService} from "../../services/spollers.service";
@@ -16,10 +16,13 @@ import {UserComponent} from "../user/user.component";
    host: { "id": "main" }
 })
 export class OrderComponent {
+   @ViewChild("dialogRef") dialogRef: TemplateRef<any>;
+
    gridOptions: any;
    orders_accepted:any[]=[];
    drivers:any[]=[];
    selectdriver:boolean = false;
+   selectDriver:any;
    driverid:number = 0;
    price:string = '';
    public citiesSelected: FormControl = new FormControl();
@@ -148,8 +151,24 @@ export class OrderComponent {
    }
 
    acceptOffer(item: any): void {
-      this.authService.acceptOfferDriver(item.user_id, item.priceorder, item.orderid).subscribe((res: any) => {
+      let clientId = this.data.id.split('M')[1] ? this.data.id.split('M')[1] : this.data.id;
+      const obj = {
+         clientId,
+         driverId: item.user_id,
+         order_id: item.order_id,
+         amount: item.price,
+         additionalAmount: item.additional_price,
+         isSafe: this.data.isSafe
+      }
+      this.authService.acceptOfferDriver(obj).subscribe((res: any) => {
          this.dialog.closeAll();
       })
    }
+
+   showAcceptOffer(item) {
+      this.selectDriver = item
+      const dialogRef = this.dialog.open(this.dialogRef, {
+         data: '',
+       });
+   } 
 }

@@ -38,13 +38,14 @@
                <div class="view__list">
                   <p class="tw-flex tw-justify-between">
                      <span>Пользователь:</span>
-                     <span class="cursor-pointer" (click)="viewUser(data.merchant.id)">{{data.merchant.companyName}}</span>
+                     <span class="cursor-pointer"
+                        (click)="viewUser(data.merchant.id)">{{data.merchant.companyName}}</span>
                   </p>
                   <p class="tw-flex tw-justify-between">
                      <span>Вес груза: </span>
                      <span>{{data.cargoWeight}} кг.</span>
                   </p>
-                  
+
                   <p class="tw-flex tw-justify-between">
                      <span>Стоимость: </span>
                      <span class="tw-uppercase">{{data.offeredPrice}} {{data.currency.name}}</span>
@@ -55,7 +56,8 @@
                   </p>
                   <div class="tw-flex tw-justify-between">
                      <p>Заказ назначен на:</p>
-                     <span>{{ data.sendCargoDate | formatTime: 'DD MMMM YYYY'}} {{data.sendCargoDate | formatTime: "HH:mm"}}</span>
+                     <span>{{ data.sendCargoDate | formatTime: 'DD MMMM YYYY'}} {{data.sendCargoDate | formatTime:
+                        "HH:mm"}}</span>
                   </div>
                   <p class="tw-flex tw-justify-between">
                      <span>Статус</span>
@@ -85,16 +87,17 @@
             </div>
 
             <span [hidden]="!selectdriver">
-               <div class="sed-driver-block" >
+               <div class="sed-driver-block">
                   <mat-form-field class="form__input">
                      <mat-label>Водитель</mat-label>
-                     <input  matInput type="text" name="name" placeholder="ID водителя" [(ngModel)]="driverid" />
+                     <input matInput type="text" name="name" placeholder="ID водителя" [(ngModel)]="driverid" />
                   </mat-form-field>
                   <mat-form-field class="form__input">
                      <mat-label>Предложенная сумма</mat-label>
-                     <input  matInput type="text" name="name" placeholder="Предложенная сумма" [(ngModel)]="price" />
+                     <input matInput type="text" name="name" placeholder="Предложенная сумма" [(ngModel)]="price" />
                   </mat-form-field>
-                  <button class="view__btn btn-yellow ion-ni-margin ion-no-padding" type="button" (click)="saveNewDriver()">
+                  <button class="view__btn btn-yellow ion-ni-margin ion-no-padding" type="button"
+                     (click)="saveNewDriver()">
                      Сохранить
                   </button>
                </div>
@@ -115,7 +118,7 @@
                   </thead>
                   <tbody>
                      <tr *ngFor="let item of data.acceptedOrders; let idx = index">
-                        <td>{{ idx +1  }}</td>
+                        <td>{{ idx +1 }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.priceorder }}</td>
                         <td>{{ item.phone }}</td>
@@ -125,7 +128,9 @@
                            <span *ngIf="item.status_order == 2">Доставлено</span>
                         </td>
                         <td>
-                           <button [disabled]="item.status_order == 1 || item.status_order == 2" class="view__btn btn-green ion-ni-margin ion-no-padding" type="button" (click)="acceptOffer(item)">
+                           <button [disabled]="item.status_order == 1 || item.status_order == 2"
+                              class="view__btn btn-green ion-ni-margin ion-no-padding" type="button"
+                              (click)="showAcceptOffer(item)">
                               Принять
                            </button>
                         </td>
@@ -172,3 +177,37 @@
       </div> -->
    </section>
 </main>
+
+<ng-template #dialogRef>
+   <form #form="ngForm">
+      <mat-card>
+         <mat-card-header><span class="title">Счёт</span>
+         </mat-card-header>
+
+         <mat-card-content style="margin-top: 20px">
+            <div style="display: flex;">
+               <ul>
+                  <li><b>Услуга “Безопасная сделка”:</b></li>
+                  <li><b>Налог:</b></li>
+                  <li><b>Водителю:</b></li>
+                  <li><b>В итоге:</b></li>
+               </ul>
+               <ul>
+                  <li>100$</li>
+                  <li>180$</li>
+                  <li>1430$</li>
+                  <li>1600$</li>
+               </ul>
+            </div>
+         </mat-card-content>
+         <mat-card-actions>
+            <button [disabled]="!form.valid" style="margin-left: auto" class="btn-red" (click)="close()">
+               Закрить
+            </button>
+            <button [disabled]="!form.valid" style="margin-left: auto" class="btn-green" >
+               Подтверждаю
+            </button>
+         </mat-card-actions>
+      </mat-card>
+   </form>
+</ng-template>

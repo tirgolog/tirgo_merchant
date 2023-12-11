@@ -1,50 +1,62 @@
 @import "base";
 
 .order {
-   &__map {
-      margin-top: rem(50);
-      @include fluid("height", 700, 500);
-   }
+  &__map {
+    margin-top: rem(50);
+    @include fluid("height", 700, 500);
+  }
 }
-.sed-driver-block{
-   width: 100%;
-   margin-top: 10px;
-   mat-form-field{
-      width: 100%;
-      mat-select{
-         display: flex;
-         flex-direction: row;
-         align-items: center;
-         align-content: center;
-         height: 100%;
-      }
-   }
-   button{
-      margin-left: 0;
-   }
+
+.sed-driver-block {
+  width: 100%;
+  margin-top: 10px;
+
+  mat-form-field {
+    width: 100%;
+
+    mat-select {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      align-content: center;
+      height: 100%;
+    }
+  }
+
+  button {
+    margin-left: 0;
+  }
 }
 
 .offers {
-   margin-top: 20px;
-   table {
-      width: 100%;
-      border-collapse: collapse;
-      box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2)
-   }
+  margin-top: 20px;
 
-   tr {
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-collapse: collapse;
-   }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2)
+  }
 
-   th {
-      font-weight: 500;
-      padding: 10px;
-      text-align: start;
-   }
+  tr {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-collapse: collapse;
+  }
 
-   td {
-      font-size: 14px;
-      padding: 10px;
-   }
+  th {
+    font-weight: 500;
+    padding: 10px;
+    text-align: start;
+  }
+
+  td {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+ul {
+  margin: 0px 10px;
+  li {
+    margin: 10px 0;
+  }
 }
