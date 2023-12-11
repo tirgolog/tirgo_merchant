@@ -4,19 +4,17 @@
       <h2 class="page-header__title title">Финансы</h2>
       <div style="text-align: center">
         <div style="font-weight: 600">Активный баланс</div>
-        <div>{{ balance }}</div>
+        <div>{{ activeBalance }} $</div>
       </div>
-      <!-- <div style="text-align: center">
-            <div style="font-weight: 600">Заморожено</div>
-            <div>450$</div>
-          </div> -->
+      <div style="text-align: center">
+        <div style="font-weight: 600">Заморожено</div>
+        <div>{{ frozenBalance }} $</div>
+      </div>
     </div>
   </section>
 
   <section class="table">
-    <div
-      style="display: flex; justify-content: space-between; align-items: center"
-    >
+    <div style="display: flex; justify-content: space-between; align-items: center">
       <div class="title">История платежей</div>
 
       <div class="page-header__actions">
@@ -53,62 +51,39 @@
       <ng-container matColumnDef="date">
         <mat-header-cell *matHeaderCellDef>Дата </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{ row.createdAt | formatTime : "DD.MM.YYYY HH:mm"  }}
+          {{ row.createdAt | formatTime : "DD.MM.YYYY HH:mm" }}
         </mat-cell>
       </ng-container>
 
-      <mat-header-row
-        *matHeaderRowDef="['id', 'user', 'type', 'sum', 'date']"
-      ></mat-header-row>
-      <mat-row
-        *matRowDef="let row; columns: ['id', 'user', 'type', 'sum', 'date']"
-      ></mat-row>
+      <mat-header-row *matHeaderRowDef="['id', 'user', 'type', 'sum', 'date']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['id', 'user', 'type', 'sum', 'date']"></mat-row>
     </mat-table>
-    <mat-paginator
-      [length]="helper?.transactions_type?.length"
-      showFirstLastButtons
-      [pageSizeOptions]="sizespage"
-      (page)="handlePage($event)"
-    ></mat-paginator>
+    <mat-paginator [length]="helper?.transactions_type?.length" showFirstLastButtons [pageSizeOptions]="sizespage"
+      (page)="handlePage($event)"></mat-paginator>
   </section>
 </main>
 
 <ng-template #dialogRef>
   <form #form="ngForm">
     <mat-card>
-      <mat-card-header
-        ><span class="title">Пополнить баланс</span>
+      <mat-card-header><span class="title">Пополнить баланс</span>
       </mat-card-header>
 
       <mat-card-content style="margin-top: 20px">
-        <mat-button-toggle-group
-          name="transactionType"
-          [(ngModel)]="payment.transactionType"
-          required
-          aria-label="transactionType"
-        >
+        <mat-button-toggle-group name="transactionType" [(ngModel)]="payment.transactionType" required
+          aria-label="transactionType">
           <mat-button-toggle value="topup">Пополнить баланс</mat-button-toggle>
           <mat-button-toggle value="withdrow">Вывод стредств</mat-button-toggle>
         </mat-button-toggle-group>
         <div style="display: flex; margin-left: auto; margin-top: 20px">
           <mat-form-field class="form__input" style="width: 100%">
             <mat-label>Введите сумму</mat-label>
-            <input
-              name="amount"
-              [(ngModel)]="payment.amount"
-              matInput
-              required
-            />
+            <input name="amount" [(ngModel)]="payment.amount" matInput required />
           </mat-form-field>
         </div>
       </mat-card-content>
-      <mat-card-actions
-        ><button
-          [disabled]="!form.valid"
-          style="margin-left: auto"
-          class="btn-green"
-          (click)="createTransaction()"
-        >
+      <mat-card-actions><button [disabled]="!form.valid" style="margin-left: auto" class="btn-green"
+          (click)="createTransaction()">
           Сохранить
         </button>
       </mat-card-actions>

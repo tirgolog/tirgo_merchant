@@ -16,7 +16,8 @@ export class FinanceComponent implements OnInit {
   currentUser: any;
   data: any[] = [];
   payment: any;
-  balance: any;
+  activeBalance: any;
+  frozenBalance: any;
   id: string = '';
   sizespage = [
     50, 100, 200, 500, 1000, 5000
@@ -66,7 +67,8 @@ export class FinanceComponent implements OnInit {
   getBalance() {
     this.list.getBalanceMerchant(this.currentUser.merchantId).subscribe((res) => {
       if (res.success) {
-        this.balance = res.data.topup - res.data.withdrow
+        this.activeBalance = res.data.activeBalance;
+        this.frozenBalance = res.data.frozenBalance;
       }
     })
   }
