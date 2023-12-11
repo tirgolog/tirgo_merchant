@@ -202,6 +202,9 @@
             <td>{{ order.createdAt | formatTime: 'DD.MM.YYYY' }}</td>
             <td>{{ order.isUrgent ? (order.createdAt | addDays: 2 | formatTime: 'DD.MM.YYYY') : (order.createdAt |
               formatTime: 'DD.MM.YYYY') }}</td>
+              <td *ngIf="order.status == 3">
+                <button class="btn-green" (click)="orderFinished(order)">Заверщить</button>
+              </td>
           </tr>
         </tbody>
       </table>
