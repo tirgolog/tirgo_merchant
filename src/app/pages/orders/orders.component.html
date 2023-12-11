@@ -198,7 +198,7 @@
             <td>{{ order.transportType?.name }}</td>
             <td>{{ order.status }}</td>
             <td>{{ order.offeredPrice }}</td>
-            <td>{{ order.secure_transaction ? 'Да':'Нет' }}</td>
+            <td>{{ order.isSafe ? 'Да':'Нет' }}</td>
             <td>{{ order.createdAt | formatTime: 'DD.MM.YYYY' }}</td>
             <td>{{ order.isUrgent ? (order.createdAt | addDays: 2 | formatTime: 'DD.MM.YYYY') : (order.createdAt |
               formatTime: 'DD.MM.YYYY') }}</td>
@@ -207,7 +207,6 @@
       </table>
       <mat-paginator [length]="helper.orders.length" showFirstLastButtons [pageSizeOptions]="sizespage"
         (page)="handlePage($event)"></mat-paginator>
-
     </div>
 
   </div>

@@ -1,215 +1,172 @@
 <main class="add-admin">
-    <section class="page-header">
-      <div class="page-header__top">
-        <h2 class="page-header__title title">Создание заказа</h2>
-      </div>
-    </section>
-    <form class="page-form">
-      <div class="page-form__main">
-        <div class="form__group">
-          <div class="tw-grid tw-gap-4">
-  
-            <mat-form-field class="form__input" appearance="fill">
-              <mat-label>Место отправки груза</mat-label>
-              <input type="text"
-                     matInput
-                     name="sendLocation"
-                     [(ngModel)]="data.sendLocation"
-                     [matAutocomplete]="auto"
-                     (input)="findCity($event)"> 
-              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let option of findList" [value]="option.value">
-                  {{option.value}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-  
-            <mat-form-field class="form__input" appearance="fill">
-              <mat-label>Место доставки груза</mat-label> 
-              <input type="text"
-                     matInput
-                     name="cargoDeliveryLocation"
-                     [(ngModel)]="data.cargoDeliveryLocation"
-                     [matAutocomplete]="auto"
-                     (input)="findCity($event)"> 
-              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let option of findList" [value]="option.value">
-                  {{option.value}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-  
-          
-            <mat-form-field class="form__input" appearance="fill">
-              <mat-label>Тип груза</mat-label>
-              <mat-select name="cargoTypeId" [(ngModel)]="data.cargoTypeId">
-                <mat-option *ngFor="let type of types" [value]="type.id">{{type.name}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-  
-            <mat-form-field class="form__input" appearance="fill">
-              <mat-label>Тип транспорта</mat-label>
-              <mat-select name="transportTypeId" [(ngModel)]="data.transportTypeId">
-                <mat-option *ngFor="let type of transportTypes" [value]="type.id">{{type.name}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-  
-            <mat-form-field class="form__input" appearance="fill">
-              <mat-label>Валюта</mat-label>
-              <mat-select name="currencyId" [(ngModel)]="data.currencyId">
-                <mat-option *ngFor="let currency of currencies" [value]="currency.id">{{currency.name}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            
-            <mat-form-field class="form__input">
-              <mat-label>Предлагаемая цена</mat-label>
-              <input
-                matInput
-                type="number"
-                name="offeredPrice"
-                [(ngModel)]="data.offeredPrice"
-              />
-            </mat-form-field>
-  
-            <mat-form-field class="form__input">
-              <mat-label>Дата отправки груза</mat-label>
-              <input
-                type="date"
-                matInput
-                placeholder="Дата отправки груза"
-                name="sendCargoDate"
-                [(ngModel)]="sendCargoDate"
-              />
-              <mat-datepicker-toggle matIconSuffix [for]="dateStartpicker">
-                <i class="icm-calendar" matDatepickerToggleIcon></i>
-              </mat-datepicker-toggle>
-              <mat-datepicker #dateStartpicker></mat-datepicker>
-            </mat-form-field>
-  
-            <mat-form-field class="form__input">
-              <mat-label>Время отправки груза</mat-label>
-              <input matInput type="time" name="sendCargoTime" [(ngModel)]="sendCargoTime" />
-            </mat-form-field>
-  
-            <mat-form-field class="form__input">
-              <mat-label>Вес груза</mat-label>
-              <input
-                matInput
-                type="number"
-                name="cargoWeight"
-                [(ngModel)]="data.cargoWeight"
-  
-              />
-            </mat-form-field>
-  
-            <mat-form-field class="form__input">
-              <mat-label>Длина</mat-label>
-              <input
-                matInput
-                type="text"
-                name="cargoLength"
-                [(ngModel)]="data.cargoLength"
-              />
-            </mat-form-field>
-  
-            <mat-form-field class="form__input">
-              <mat-label>Ширина</mat-label>
-              <input
-                matInput
-                type="text"
-                name="cargoWidth"
-                [(ngModel)]="data.cargoWidth"
-              />
-            </mat-form-field>
-  
-            <mat-form-field class="form__input">
-              <mat-label>Высота</mat-label>
-              <input
-                matInput
-                type="text"
-                name="cargoHeight"
-                [(ngModel)]="data.cargoHeight"
-              />
-            </mat-form-field>
-  
-            <div class="form__status">
-              <mat-slide-toggle
-                color="primary"
-                name="isUrgent"
-                [(ngModel)]="data.isUrgent"
-                [checked]="data.isUrgent"
-                (change)="addTwoDays($event)"
-                >+2 дня (Оставьте тумблер выключенным если это срочный
-                заказ)</mat-slide-toggle
-              >
-            </div>
-  
-            <div class="form__status">
-              <mat-slide-toggle
-                color="primary"
-                name="isDangrousCargo"
-                [(ngModel)]="data.isDangrousCargo"
-                [checked]="data.isDangrousCargo"
-                (change)="selectAdr($event)"
-                >ADR (Перевозка опасного груза)</mat-slide-toggle
-              >
-            </div>
-  
-            <div class="form__status">
-              <mat-slide-toggle
-                color="primary"
-                name="isCashlessPayment"
-                [(ngModel)]="data.isCashlessPayment"
-                [checked]="data.isCashlessPayment"
-                (change)="selectNoCash($event)"
-                >Безналичная оплата</mat-slide-toggle
-              >
-            </div>
+  <section class="page-header" *ngIf="!isSafeModal">
+    <div class="page-header__top">
+      <h2 class="page-header__title title">Создание заказа</h2>
+    </div>
+  </section>
+  <form class="page-form" *ngIf="!isSafeModal">
+    <div class="page-form__main">
+      <div class="form__group">
+        <div class="tw-grid tw-gap-4">
 
-            <div class="form__status">
-              <mat-slide-toggle
-                color="primary"
-                name="isSafe"
-                [(ngModel)]="data.isSafe"
-                (click)="selectIsSafe($event)"
-                >Безопасная сделка</mat-slide-toggle
-              >
-            </div>
-  
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Место отправки груза</mat-label>
+            <input type="text" matInput name="sendLocation" [(ngModel)]="data.sendLocation" [matAutocomplete]="auto"
+              (input)="findCity($event)">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of findList" [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Место доставки груза</mat-label>
+            <input type="text" matInput name="cargoDeliveryLocation" [(ngModel)]="data.cargoDeliveryLocation"
+              [matAutocomplete]="auto" (input)="findCity($event)">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of findList" [value]="option.value">
+                {{option.value}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Тип груза</mat-label>
+            <mat-select name="cargoTypeId" [(ngModel)]="data.cargoTypeId">
+              <mat-option *ngFor="let type of types" [value]="type.id">{{type.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Тип транспорта</mat-label>
+            <mat-select name="transportTypeId" [(ngModel)]="data.transportTypeId">
+              <mat-option *ngFor="let type of transportTypes" [value]="type.id">{{type.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Валюта</mat-label>
+            <mat-select name="currencyId" [(ngModel)]="data.currencyId">
+              <mat-option *ngFor="let currency of currencies" [value]="currency.id">{{currency.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="form__input">
+            <mat-label>Предлагаемая цена</mat-label>
+            <input matInput type="number" name="offeredPrice" [(ngModel)]="data.offeredPrice" />
+          </mat-form-field>
+
+          <mat-form-field class="form__input">
+            <mat-label>Дата отправки груза</mat-label>
+            <input type="date" matInput placeholder="Дата отправки груза" name="sendCargoDate"
+              [(ngModel)]="sendCargoDate" />
+            <mat-datepicker-toggle matIconSuffix [for]="dateStartpicker">
+              <i class="icm-calendar" matDatepickerToggleIcon></i>
+            </mat-datepicker-toggle>
+            <mat-datepicker #dateStartpicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="form__input">
+            <mat-label>Время отправки груза</mat-label>
+            <input matInput type="time" name="sendCargoTime" [(ngModel)]="sendCargoTime" />
+          </mat-form-field>
+
+          <mat-form-field class="form__input">
+            <mat-label>Вес груза</mat-label>
+            <input matInput type="number" name="cargoWeight" [(ngModel)]="data.cargoWeight" />
+          </mat-form-field>
+
+          <mat-form-field class="form__input">
+            <mat-label>Длина</mat-label>
+            <input matInput type="text" name="cargoLength" [(ngModel)]="data.cargoLength" />
+          </mat-form-field>
+
+          <mat-form-field class="form__input">
+            <mat-label>Ширина</mat-label>
+            <input matInput type="text" name="cargoWidth" [(ngModel)]="data.cargoWidth" />
+          </mat-form-field>
+
+          <mat-form-field class="form__input">
+            <mat-label>Высота</mat-label>
+            <input matInput type="text" name="cargoHeight" [(ngModel)]="data.cargoHeight" />
+          </mat-form-field>
+
+          <div class="form__status">
+            <mat-slide-toggle color="primary" name="isUrgent" [(ngModel)]="data.isUrgent" [checked]="data.isUrgent"
+              (change)="addTwoDays($event)">+2 дня (Оставьте тумблер выключенным если это срочный
+              заказ)</mat-slide-toggle>
           </div>
+
+          <div class="form__status">
+            <mat-slide-toggle color="primary" name="isDangrousCargo" [(ngModel)]="data.isDangrousCargo"
+              [checked]="data.isDangrousCargo" (change)="selectAdr($event)">ADR (Перевозка опасного
+              груза)</mat-slide-toggle>
+          </div>
+
+          <div class="form__status">
+            <mat-slide-toggle color="primary" name="isCashlessPayment" [(ngModel)]="data.isCashlessPayment"
+              [checked]="data.isCashlessPayment" (change)="selectNoCash($event)">Безналичная оплата</mat-slide-toggle>
+          </div>
+
+          <div class="form__status">
+            <mat-slide-toggle color="primary" name="isSafe" [(ngModel)]="data.isSafe"
+              (change)="selectIsSafe($event)">Безопасная сделка</mat-slide-toggle>
+          </div>
+
         </div>
       </div>
-      <div class="page-form__footer">
-        <button class="page-form__btn btn-green" (click)="addOrder()">
-          Создать заказ
-        </button>
-      </div>
-    </form>
+    </div>
+    <div class="page-form__footer">
+      <button class="page-form__btn btn-green" (click)="addOrder()">
+        Создать заказ
+      </button>
+    </div>
+  </form>
 </main>
 
 
-<ng-template #dialogRef>
-  <form #form="ngForm">
-     <mat-card>
-        <mat-card-header><span class="title">Согласен ?</span>
-        </mat-card-header>
+<form #form="ngForm" *ngIf="isSafeModal">
+  <mat-card>
+    <mat-card-header><span class="title">Согласен ?</span>
+    </mat-card-header>
 
-        <mat-card-content style="margin-top: 20px">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam lectus risus, finibus ornare vestibulum et, feugiat quis dui. Vivamus sit amet dolor et magna facilisis rhoncus. Curabitur maximus est sed porta scelerisque. Sed suscipit, arcu volutpat feugiat posuere, eros nisi tristique nibh, mollis vehicula lectus tortor eu purus. Donec ut tortor blandit, sagittis diam eget, suscipit eros. Quisque at magna neque. Nulla faucibus mi at nunc mattis placerat. Pellentesque quis augue quis elit tristique auctor. Integer varius est orci, vel egestas felis dictum nec. Phasellus porta ex sit amet turpis finibus, sed vestibulum nisl efficitur. Praesent ultrices diam enim. In ut tellus sed sem placerat sollicitudin. Donec quis mollis dolor. Etiam viverra, arcu cursus porttitor porttitor, diam nunc auctor nisl, quis placerat magna erat et odio. Phasellus feugiat turpis quis mollis lacinia. Sed ac orci et nisi venenatis pharetra ac non arcu.
-          In a dapibus nulla. Aenean erat orci, egestas non orci at, varius tempus risus. Ut suscipit lorem magna, quis auctor leo molestie ac. Integer ut efficitur neque. Curabitur sollicitudin ipsum dolor, et tempus massa lacinia a. Donec efficitur egestas facilisis. Aliquam feugiat convallis arcu quis sollicitudin. Nullam eleifend iaculis sapien id scelerisque.
-          Pellentesque justo turpis, ullamcorper in dapibus non, auctor at odio. Nulla interdum, lectus vel fringilla laoreet, libero ligula vulputate neque, quis tincidunt arcu ex sed ipsum. Aliquam a lobortis erat. Curabitur tristique aliquam lectus, tempor dignissim lorem tincidunt et. Vivamus velit velit, laoreet id iaculis quis, sagittis et magna. Morbi eget neque vestibulum, accumsan ipsum volutpat, interdum nulla. Cras maximus, diam ultricies tristique luctus, ex mi consectetur dui, ut feugiat magna purus et felis. Maecenas sit amet fringilla nunc. Donec vel ex vitae elit tincidunt pretium. Vivamus in nibh eu massa rhoncus finibus id quis orci. Proin vel libero quam. Vestibulum non maximus erat. Etiam condimentum, augue a rutrum efficitur, enim odio cursus elit, vitae fermentum dolor est in ipsum.
-          Vivamus ultricies facilisis mauris, non facilisis velit pretium in. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce eget posuere nibh. Sed sit amet eleifend ante. Mauris scelerisque at turpis ut tristique. Morbi consequat lorem lectus. Fusce augue nulla, efficitur ac pulvinar non, laoreet non sem. Fusce malesuada tincidunt purus sollicitudin eleifend.
-          Integer at pulvinar tsed condimentum nisi semper quis. Nullam pulvinar venenatis commodo.
-        </mat-card-content>
-        <mat-card-actions>
-           <button [disabled]="!form.valid" style="margin-left: auto" class="btn-red" (click)="changeIsSafe(false)">
-          Несогласен
-           </button>
-           <button [disabled]="!form.valid" style="margin-left: auto" class="btn-green" (click)="changeIsSafe(true)">
-            Согласен
-           </button>
-        </mat-card-actions>
-     </mat-card>
-  </form>
-</ng-template>
-
+    <mat-card-content style="margin-top: 20px">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam lectus risus, finibus ornare vestibulum et,
+      feugiat quis dui. Vivamus sit amet dolor et magna facilisis rhoncus. Curabitur maximus est sed porta scelerisque.
+      Sed suscipit, arcu volutpat feugiat posuere, eros nisi tristique nibh, mollis vehicula lectus tortor eu purus.
+      Donec ut tortor blandit, sagittis diam eget, suscipit eros. Quisque at magna neque. Nulla faucibus mi at nunc
+      mattis placerat. Pellentesque quis augue quis elit tristique auctor. Integer varius est orci, vel egestas felis
+      dictum nec. Phasellus porta ex sit amet turpis finibus, sed vestibulum nisl efficitur. Praesent ultrices diam
+      enim. In ut tellus sed sem placerat sollicitudin. Donec quis mollis dolor. Etiam viverra, arcu cursus porttitor
+      porttitor, diam nunc auctor nisl, quis placerat magna erat et odio. Phasellus feugiat turpis quis mollis lacinia.
+      Sed ac orci et nisi venenatis pharetra ac non arcu.
+      In a dapibus nulla. Aenean erat orci, egestas non orci at, varius tempus risus. Ut suscipit lorem magna, quis
+      auctor leo molestie ac. Integer ut efficitur neque. Curabitur sollicitudin ipsum dolor, et tempus massa lacinia a.
+      Donec efficitur egestas facilisis. Aliquam feugiat convallis arcu quis sollicitudin. Nullam eleifend iaculis
+      sapien id scelerisque.
+      Pellentesque justo turpis, ullamcorper in dapibus non, auctor at odio. Nulla interdum, lectus vel fringilla
+      laoreet, libero ligula vulputate neque, quis tincidunt arcu ex sed ipsum. Aliquam a lobortis erat. Curabitur
+      tristique aliquam lectus, tempor dignissim lorem tincidunt et. Vivamus velit velit, laoreet id iaculis quis,
+      sagittis et magna. Morbi eget neque vestibulum, accumsan ipsum volutpat, interdum nulla. Cras maximus, diam
+      ultricies tristique luctus, ex mi consectetur dui, ut feugiat magna purus et felis. Maecenas sit amet fringilla
+      nunc. Donec vel ex vitae elit tincidunt pretium. Vivamus in nibh eu massa rhoncus finibus id quis orci. Proin vel
+      libero quam. Vestibulum non maximus erat. Etiam condimentum, augue a rutrum efficitur, enim odio cursus elit,
+      vitae fermentum dolor est in ipsum.
+      Vivamus ultricies facilisis mauris, non facilisis velit pretium in. Orci varius natoque penatibus et magnis dis
+      parturient montes, nascetur ridiculus mus. Fusce eget posuere nibh. Sed sit amet eleifend ante. Mauris scelerisque
+      at turpis ut tristique. Morbi consequat lorem lectus. Fusce augue nulla, efficitur ac pulvinar non, laoreet non
+      sem. Fusce malesuada tincidunt purus sollicitudin eleifend.
+      Integer at pulvinar tsed condimentum nisi semper quis. Nullam pulvinar venenatis commodo.
+    </mat-card-content>
+    <mat-card-actions>
+      <button [disabled]="!form.valid" style="margin-left: auto" class="btn-red" (click)="changeIsSafe(false)">
+        Несогласен
+      </button>
+      <button [disabled]="!form.valid" style="margin-left: auto" class="btn-green" (click)="changeIsSafe(true)">
+        Согласен
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
