@@ -265,6 +265,11 @@ export class AuthService {
       });
       return this.http.post<any>(sUrl, body);
    }
+   finishOrder(item) {
+      const sUrl = API_URL + '/cargo/finish-order/'+item.id;
+      return this.http.put<any>(sUrl, item);
+   }
+   
    findCity(query: any): Observable<any[]> {
       const sUrl = 'https://tirgo-server.onrender.com' + '/users/findCity';
       const body = JSON.stringify({

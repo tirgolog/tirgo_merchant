@@ -10,6 +10,7 @@ import { SocketService } from "../../services/socket.service";
 import { ListService } from "../../services/list.service";
 import { jwtDecode } from 'jwt-decode';
 import { CreateorderComponent } from '../createorder/createorder.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -46,6 +47,7 @@ export class OrdersComponent {
     private socketService: SocketService,
     public listService: ListService,
     public authService: AuthService,
+    private toastr: ToastrService,
   ) {
 
   }
@@ -180,4 +182,14 @@ export class OrdersComponent {
     this.helper.isLoading = false;
   }
 
+  orderFinished(item) {
+    this.authService.finishOrder(item).subscribe((res:any) => {
+      if(res) {
+        this.toastr.success('Заказ завершен')
+        this.getAllOrders();
+      }
+    }, error => {
+      this.toastr.error(error.message)
+    })
+  } 
 }
