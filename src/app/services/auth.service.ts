@@ -271,7 +271,7 @@ export class AuthService {
    }
    
    findCity(query: any): Observable<any[]> {
-      const sUrl = 'https://tirgo-server.onrender.com' + '/users/findCity';
+      const sUrl = API_URL + '/users/findCity';
       const body = JSON.stringify({
          query
       });
