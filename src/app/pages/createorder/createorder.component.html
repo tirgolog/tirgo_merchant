@@ -11,23 +11,32 @@
 
           <mat-form-field class="form__input" appearance="fill">
             <mat-label>Место отправки груза</mat-label>
-            <input type="text" matInput name="sendLocation" [(ngModel)]="data.sendLocation" [matAutocomplete]="auto"
+            <input type="text" matInput name="cities_start" [(ngModel)]="citystart" [matAutocomplete]="auto"
               (input)="findCity($event)">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of findList" [value]="option.value">
-                {{option.value}}
-              </mat-option>
+              <ng-container *ngFor="let city of findList">
+                <mat-option
+                  [value]="city.data.city + ', ' + city.data.country + ':'+ city.data.geo_lat + ':'+ city.data.geo_lon">
+                  {{city.data.city}} {{city.data.country}} {{city.data.geoname_id}} {{city.data.geo_lat}}
+                  {{city.data.geo_lon}}
+                </mat-option>
+              </ng-container>
             </mat-autocomplete>
+
           </mat-form-field>
 
           <mat-form-field class="form__input" appearance="fill">
             <mat-label>Место доставки груза</mat-label>
-            <input type="text" matInput name="cargoDeliveryLocation" [(ngModel)]="data.cargoDeliveryLocation"
-              [matAutocomplete]="auto" (input)="findCity($event)">
+            <input type="text" matInput name="cityfinish" [(ngModel)]="cityfinish" [matAutocomplete]="auto"
+              (input)="findCity($event)">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of findList" [value]="option.value">
-                {{option.value}}
-              </mat-option>
+              <ng-container *ngFor="let city of findList">
+                <mat-option
+                  [value]="city.data.city + ', ' + city.data.country + ':'+ city.data.geo_lat + ':'+ city.data.geo_lon">
+                  {{city.data.city}} {{city.data.country}} {{city.data.geoname_id}} {{city.data.geo_lat}}
+                  {{city.data.geo_lon}}
+                </mat-option>
+              </ng-container>
             </mat-autocomplete>
           </mat-form-field>
 

@@ -155,8 +155,6 @@ export class OrderComponent {
    }
 
    acceptOffer(): void {
-      // let clientId = this.data.id.split('M')[1] ? this.data.id.split('M')[1] : this.data.id;
-
       const obj = {
          clientId: this.currentUser.merchantId,
          driverId: this.selectDriver.user_id,
@@ -184,7 +182,6 @@ export class OrderComponent {
    }
 
    returnAmount() {
-      let amount = 0;
-      return amount = this.selectDriver.priceorder + this.tax + 100
+      return this.selectDriver.priceorder + this.tax + 100
    }
 }
