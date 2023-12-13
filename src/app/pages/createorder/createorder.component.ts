@@ -131,10 +131,10 @@ export class CreateorderComponent {
       this.data.sendCargoTime = this.sendCargoTime
       this.data.merchantId = this.currentUser.merchantId
       
-      this.data.start_lat = this.citystart.split(':')[2];
-      this.data.start_lng = this.citystart.split(':')[3];
-      this.data.finish_lat = this.cityfinish.split(':')[2];
-      this.data.finish_lng = this.cityfinish.split(':')[3];
+      this.data.start_lat = this.citystart.split(':')[1];
+      this.data.start_lng = this.citystart.split(':')[2];
+      this.data.finish_lat = this.cityfinish.split(':')[1];
+      this.data.finish_lng = this.cityfinish.split(':')[2];
 
       try {
         const res = await this.authService.createOrder(this.data).toPromise()
