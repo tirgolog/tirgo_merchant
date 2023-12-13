@@ -175,6 +175,7 @@
             <th>Безопасная сделка</th>
             <th>Дата создания</th>
             <th>Дата погрузки</th>
+            <th>Операция</th>
           </tr>
         </thead>
         <tbody>
@@ -189,10 +190,11 @@
             <td>{{ order.merchant?.companyName }}</td>
             <td>{{ order.sendLocation }}</td>
             <td>{{ order.cargoDeliveryLocation }}</td>
-            <td [class.blue]="order.status == 0" [class.yellow]="order.status == 1" [class.green]="order.status == 2">
+            <td [class.blue]="order.status == 0" [class.yellow]="order.status == 1" [class.green]="order.status == 2" [class.darkgreen]="order.status == 3">
               <span *ngIf="order.status == 0">Ожидающий</span>
               <span *ngIf="order.status == 1">Принято</span>
               <span *ngIf="order.status == 2">Выполнен</span>
+              <span *ngIf="order.status == 3">Завершен</span>
             </td>
             <td>{{ order.cargoType?.name }}</td>
             <td>{{ order.transportType?.name }}</td>
@@ -202,7 +204,7 @@
             <td>{{ order.createdAt | formatTime: 'DD.MM.YYYY' }}</td>
             <td>{{ order.isUrgent ? (order.createdAt | addDays: 2 | formatTime: 'DD.MM.YYYY') : (order.createdAt |
               formatTime: 'DD.MM.YYYY') }}</td>
-              <td *ngIf="order.status == 3">
+              <td *ngIf="order.status == 2">
                 <button class="btn-green" (click)="orderFinished(order)">Заверщить</button>
               </td>
           </tr>

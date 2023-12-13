@@ -266,8 +266,8 @@ export class AuthService {
       return this.http.post<any>(sUrl, body);
    }
    finishOrder(item) {
-      const sUrl = API_URL + '/cargo/finish-order/'+item.id;
-      return this.http.put<any>(sUrl, item);
+      const sUrl = API_URL + '/cargo/finish-cargo';
+      return this.http.put<any>(sUrl, { orderId: item.id });
    }
    
    findCity(query: any): Observable<any[]> {

@@ -169,11 +169,18 @@ export class OrderComponent {
    }
 
    showAcceptOffer(item) {
-      this.selectDriver = item;
-
-      const dialogRef = this.dialog.open(this.dialogRef, {
-         data: '',
-      });
+      this.listService.getBalanceMerchant(this.currentUser.merchantId).subscribe((res) => {
+         if (res.success) {
+           if(res.data.activeBalance >= (item.priceorder + item.additional_price)) {
+              this.selectDriver = item;
+              const dialogRef = this.dialog.open(this.dialogRef, {
+                 data: '',
+              });
+           } else {
+            this.toastr.error('Недостатончо стредств на балансе чтобы принять заказ. Пополните баланс')
+           }
+         }
+       })
    }
 
    returnTax() {
