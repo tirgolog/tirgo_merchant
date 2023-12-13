@@ -126,7 +126,7 @@
                   <span *ngIf="item.status_order == 2">Доставлено</span>
                 </td>
                 <td>
-                  <button [disabled]="item.status_order == 1 || item.status_order == 2"
+                  <button [disabled]="item.status_order != 0"
                     class="view__btn btn-green ion-ni-margin ion-no-padding" type="button"
                     (click)="showAcceptOffer(item)">
                     Принять

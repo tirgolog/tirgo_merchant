@@ -183,7 +183,7 @@
             <td>
               <!-- <div class="offer-wrapper"> -->
               {{ order.id }}
-              <div class="offer" *ngIf="order.acceptedOrders?.length && order.status !== 1 && order.status !== 2">{{
+              <div class="offer" *ngIf="order.acceptedOrders?.length && order.status == 0">{{
                 order.acceptedOrders?.length }}</div>
               <!-- </div> -->
             </td>
