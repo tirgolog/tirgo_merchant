@@ -166,13 +166,13 @@
             </ng-container> -->
       </div>
     </div>
-    <!-- <div class="order__map">
-         <ya-map [center]="[data.route.from_lat, data.route.from_lng]" [zoom]="12">
+    <div class="order__map">
+         <ya-map [center]="[data.start_lat, data.start_lng]" [zoom]="12">
             <ya-multiroute
-                    [referencePoints]="[[data.route.from_lat, data.route.from_lng], [data.route.to_lat, data.route.to_lng]]">
+                    [referencePoints]="[[data.start_lat, data.start_lng], [data.finish_lat, data.finish_lng]]">
             </ya-multiroute>
          </ya-map>
-      </div> -->
+      </div>
   </section>
 </main>
 
