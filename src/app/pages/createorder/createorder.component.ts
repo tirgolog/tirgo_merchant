@@ -93,6 +93,7 @@ export class CreateorderComponent {
       if (findText.length >= 2) {
         this.viewText = true;
         this.findList = await this.authService.findCity(findText).toPromise();
+        console.log(this.findList)
       } else {
         this.viewText = false;
         this.findList = [];

@@ -271,13 +271,13 @@ export class AuthService {
    }
    
    findCity(query: any): Observable<any[]> {
-      const sUrl = API_URL + '/users/findCity';
+      const sUrl = API_URL + '/cargo/find-city';
       const body = JSON.stringify({
          query
       });
       return this.http.post<any>(sUrl, body)
          .pipe(map(res => {
-            if (res.status) {
+            if (res.success) {
                return res.data.suggestions;
             } else {
                return [];
