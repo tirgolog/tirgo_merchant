@@ -118,6 +118,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RegistrationComponent } from './pages/registration/registration.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { LayoutModule } from '@angular/cdk/layout';
 import { FinanceComponent } from './pages/finance/finance.component';
@@ -252,7 +253,8 @@ const mapConfig: YaConfig = {
       MatExpansionModule,
       AgGridModule,
       MatButtonModule,
-      MatToolbarModule
+      MatToolbarModule,
+      MatBadgeModule
    ],
 
    providers: [
