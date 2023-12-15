@@ -321,3 +321,14 @@ a{
    justify-content: center;
 }
 
+.hoverTextOrder{
+   cursor: pointer!important;
+   width: 100px!important;
+   white-space: nowrap;
+   overflow: hidden!important;
+   text-overflow: ellipsis!important;
+   word-break: break-all!important;
+}
+.hoverTextOrder:hover{
+   white-space: normal!important;
+}
