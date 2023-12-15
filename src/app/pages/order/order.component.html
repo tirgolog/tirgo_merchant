@@ -60,7 +60,13 @@
             </div>
             <p class="tw-flex tw-justify-between">
               <span>Статус</span>
-              <span>{{data.status}}</span>
+              <span>
+                <span *ngIf="data.status == 0">Ожидающий</span>
+                <span *ngIf="data.status == 1">Принято</span>
+                <span *ngIf="data.status == 2">Выполнен</span>
+                <span *ngIf="data.status == 3">Завершен</span>
+                <!-- {{data.status}} -->
+              </span>
             </p>
           </div>
         </div>
@@ -126,9 +132,8 @@
                   <span *ngIf="item.status_order == 2">Доставлено</span>
                 </td>
                 <td>
-                  <button [disabled]="item.status_order != 0"
-                    class="view__btn btn-green ion-ni-margin ion-no-padding" type="button"
-                    (click)="showAcceptOffer(item)">
+                  <button [disabled]="item.status_order != 0" class="view__btn btn-green ion-ni-margin ion-no-padding"
+                    type="button" (click)="showAcceptOffer(item)">
                     Принять
                   </button>
                 </td>
@@ -137,42 +142,14 @@
           </table>
         </div>
 
-        <!-- <ng-container *ngIf="data.orders_accepted.length">
-               <h4 class="view__title title-sec">Предложения</h4>
-               <mat-table [dataSource]="data.orders_accepted">
-                  <ng-container matColumnDef="id">
-                     <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
-                     <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="name">
-                     <mat-header-cell *matHeaderCellDef>ФИО</mat-header-cell>
-                     <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="priceorder">
-                     <mat-header-cell *matHeaderCellDef>Предлагаемая цена</mat-header-cell>
-                     <mat-cell *matCellDef="let row"> {{row.priceorder}} $ </mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="status_order">
-                     <mat-header-cell *matHeaderCellDef>Статус</mat-header-cell>
-                     <mat-cell *matCellDef="let row"> {{returnStatusDriver(row.status_order)}} </mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="date_create_accepted">
-                     <mat-header-cell *matHeaderCellDef>Дата</mat-header-cell>
-                     <mat-cell *matCellDef="let row"> {{row.date_create_accepted | formatTime: 'DD.MM.YYYY'}} </mat-cell>
-                  </ng-container>
-                  <mat-header-row *matHeaderRowDef="['id', 'name', 'priceorder', 'status_order', 'date_create_accepted']"></mat-header-row>
-                  <mat-row (click)="viewUser(row.id)" *matRowDef="let row; columns: ['id', 'name', 'priceorder', 'status_order', 'date_create_accepted']"></mat-row>
-               </mat-table>
-            </ng-container> -->
       </div>
     </div>
     <div class="order__map">
-         <ya-map [center]="[data.start_lat, data.start_lng]" [zoom]="12">
-            <ya-multiroute
-                    [referencePoints]="[[data.start_lat, data.start_lng], [data.finish_lat, data.finish_lng]]">
-            </ya-multiroute>
-         </ya-map>
-      </div>
+      <ya-map [center]="[data.start_lat, data.start_lng]" [zoom]="12">
+        <ya-multiroute [referencePoints]="[[data.start_lat, data.start_lng], [data.finish_lat, data.finish_lng]]">
+        </ya-multiroute>
+      </ya-map>
+    </div>
   </section>
 </main>
 
