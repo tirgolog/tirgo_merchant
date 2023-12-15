@@ -39,7 +39,7 @@ export class DocumentsComponent implements OnInit{
   getAllDocuments() {
      this.list.getDocument(this.currentUser.merchantId).subscribe((res) => {
       if(res) {
-        this.data = res
+        this.data = res;
       }
     })
   }
