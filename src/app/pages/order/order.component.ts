@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, TemplateRef, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {HelperService} from "../../services/helper.service";
 import {SpollersService} from "../../services/spollers.service";
@@ -16,6 +16,8 @@ import {UserComponent} from "../user/user.component";
    host: { "id": "main" }
 })
 export class OrderComponent {
+   @ViewChild("dialogRef") dialogRef: TemplateRef<any>;
+   selectedDriver:any;
    gridOptions: any;
    orders_accepted:any[]=[];
    drivers:any[]=[];
@@ -147,9 +149,22 @@ export class OrderComponent {
       }
    }
 
-   acceptOffer(item: any): void {
-      this.authService.acceptOfferDriver(item.user_id, item.priceorder, item.orderid).subscribe((res: any) => {
-         this.dialog.closeAll();
-      })
+   showAcceptOffer(item) {
+      this.selectedDriver = item;      
+      const dialogRef = this.dialog.open(this.dialogRef, {
+         data: '',
+       });
+       dialogRef.afterClosed().subscribe(() => {
+         // this.getAllFinance();
+       });
+   }
+
+   acceptOffer(): void {
+      if(this.selectedDriver) {
+         this.authService.acceptOfferDriver(this.selectedDriver.user_id, this.selectedDriver.priceorder, this.selectedDriver.orderid).subscribe((res: any) => {
+            this.dialog.closeAll();
+         })
+      }
+      
    }
 }

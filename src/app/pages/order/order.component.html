@@ -125,7 +125,7 @@
                            <span *ngIf="item.status_order == 2">Доставлено</span>
                         </td>
                         <td>
-                           <button [disabled]="item.status_order == 1 || item.status_order == 2" class="view__btn btn-green ion-ni-margin ion-no-padding" type="button" (click)="acceptOffer(item)">
+                           <button [disabled]="item.status_order == 1 || item.status_order == 2" class="view__btn btn-green ion-ni-margin ion-no-padding" type="button"  (click)="showAcceptOffer(item)">
                               Принять
                            </button>
                         </td>
@@ -172,3 +172,45 @@
       </div> -->
    </section>
 </main>
+
+<ng-template #dialogRef>
+   <form #form="ngForm">
+     <mat-card>
+       <mat-card-content style="margin-top: 10px">
+         <div style="display: flex;">
+            <ul style="margin-right: 20px;">
+               <li class="info-item"><b>Предлагаемая цена водителем:</b> </li>
+               <li class="info-item"><b>Налог:</b> </li>
+               <li class="info-item"><b>Комиссия:</b> </li>
+               <li class="info-item"><b>Услуги Tirgo:</b> </li>
+               <li class="info-item"><b>В итоге:</b> </li>
+            </ul>
+            <ul>
+               <li class="info-item">1000$</li>
+               <li class="info-item">10$</li>
+               <li class="info-item">10$</li>
+               <li class="info-item">100$</li>
+               <li class="info-item">1250$</li>
+            </ul>
+         </div>
+       </mat-card-content>
+       <mat-card-actions
+         ><button
+           [disabled]="!form.valid"
+           class="btn-green"
+           (click)="acceptOffer()"
+         >
+         Подтверждаю
+         </button>
+         <button
+           [disabled]="!form.valid"
+           style="margin-left: 10px"
+           class="btn-red"
+           (click)="close()"
+         >
+         Закрыть
+         </button>
+       </mat-card-actions>
+     </mat-card>
+   </form>
+ </ng-template>

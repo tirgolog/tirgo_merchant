@@ -160,11 +160,7 @@
       </mat-table> -->
       
       <div class="new-table-wrapper">
-         <div class="new-table-header">
-         <div class="new-pagination">
-            <mat-paginator [length]="helper.orders.length" showFirstLastButtons [pageSizeOptions]="sizespage" (page)="handlePage($event)"></mat-paginator>
-         </div>
-      </div>
+        
       <table class="new-table">
          <thead>
             <tr>
@@ -175,7 +171,7 @@
                <th>Статус</th>
                <th>Тип груза</th>
                <th>Тип транспорта</th>
-               <th>Статус обработки</th>
+               <!-- <th>Статус обработки</th> -->
                <th>Предлагаемая стоимость</th>
                <th>Безопасная сделка</th>
                <th>Дата создания</th>
@@ -191,7 +187,7 @@
                <td>{{ order.status }}</td>
                <td>{{ order.cargoType?.name }}</td>
                <td>{{ order.transportType?.name }}</td>
-               <td>{{ order.status }}</td>
+               <!-- <td>{{ order.status }}</td> -->
                <td>{{ order.offeredPrice }}</td>
                <td>{{ order.secure_transaction ? 'Да':'Нет' }}</td>
                <td>{{ order.createdAt | formatTime: 'DD.MM.YYYY' }}</td>
@@ -199,6 +195,8 @@
             </tr>
          </tbody>
       </table>
+      <mat-paginator [length]="helper.orders.length" showFirstLastButtons [pageSizeOptions]="sizespage" (page)="handlePage($event)"></mat-paginator>
+
      </div>
 
    </div>
