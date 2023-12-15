@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {HelperService} from "../../services/helper.service";
 import {AuthService} from "../../services/auth.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ListService} from "../../services/list.service";
 import {ToastrService} from "ngx-toastr";
 import { jwtDecode } from 'jwt-decode';
@@ -14,6 +14,8 @@ import { MatDatepickerTimeHeaderComponent } from 'mat-datepicker-time-header';
   styleUrls: ['./createorder.component.scss']
 })
 export class CreateorderComponent {
+  @ViewChild("dialogRef") dialogRef: TemplateRef<any>;
+
   findList: any[] | undefined = [];
   viewText = false;
   sendCargoTime;
@@ -23,7 +25,7 @@ export class CreateorderComponent {
   types:any[]= [];
   transportTypes:any[]= [];
   currencies:any[]= [];
-
+  isSafeModal:boolean = false;
   currentUser
   timeHeader = MatDatepickerTimeHeaderComponent;
   data = {
@@ -42,7 +44,12 @@ export class CreateorderComponent {
     isCashlessPayment: false,
     sendCargoDate: '',
     sendCargoTime: '',
-    merchantId: ''
+    merchantId: '',
+    isSafe: false,
+    start_lat: '',
+    start_lng: '',
+    finish_lat: '',
+    finish_lng: ""
   }
 
   constructor(
@@ -50,7 +57,7 @@ export class CreateorderComponent {
       public dialog: MatDialog,
       private toastr: ToastrService,
       private authService: AuthService,
-      public listService: ListService
+      public listService: ListService,
   ) {
     this.listService.getTypeCargo().subscribe((res) => {
       if(res) {
@@ -86,6 +93,7 @@ export class CreateorderComponent {
       if (findText.length >= 2) {
         this.viewText = true;
         this.findList = await this.authService.findCity(findText).toPromise();
+        console.log(this.findList)
       } else {
         this.viewText = false;
         this.findList = [];
@@ -101,16 +109,34 @@ export class CreateorderComponent {
   selectNoCash(ev:any){
     this.data.isCashlessPayment = ev.checked
   }
+  selectIsSafe(ev: any) {
+    if(ev.checked) {
+      this.isSafeModal = true
+      this.data.isSafe = ev.checked;
+    }else {
+      this.isSafeModal = false
+    }
+  }
+
   addTwoDays(ev:any){
     this.data.isUrgent = ev.checked
   }
+
   async addOrder(){
     const confirm = await this.helper.openDialogConfirm('Вы уверены?', 'Вы уверены что хотите создать заказ?', 2)
     if (confirm){
       await this.helper.loadingCreate();
+      this.data.sendLocation = this.citystart.split(':')[0];
+      this.data.cargoDeliveryLocation = this.cityfinish.split(':')[0];
       this.data.sendCargoDate = this.sendCargoDate
       this.data.sendCargoTime = this.sendCargoTime
       this.data.merchantId = this.currentUser.merchantId
+      
+      this.data.start_lat = this.citystart.split(':')[1];
+      this.data.start_lng = this.citystart.split(':')[2];
+      this.data.finish_lat = this.cityfinish.split(':')[1];
+      this.data.finish_lng = this.cityfinish.split(':')[2];
+
       try {
         const res = await this.authService.createOrder(this.data).toPromise()
         if (res.success){
@@ -135,4 +161,14 @@ export class CreateorderComponent {
         this.transportTypes = res;
     })
   }
+
+  changeIsSafe(type) {
+    this.isSafeModal = false;
+    this.data.isSafe = type;
+  }
+
+  getFormattedValue(city: any): string {
+    return city.data.city + ', ' + city.data.country;
+  }
+
 }

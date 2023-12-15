@@ -1,16 +1,16 @@
 <div class="orders">
-   <section class="page-header">
-      <div class="page-header__top">
-         <h2 class="page-header__title title">Грузы</h2>
-         <div class="page-header__actions">
-            <button class="page-header__btn btn-green" (click)="openCreateOrder()">
-               Добавить груз
-            </button>
-         </div>
+  <section class="page-header">
+    <div class="page-header__top">
+      <h2 class="page-header__title title">Грузы</h2>
+      <div class="page-header__actions">
+        <button class="page-header__btn btn-green" (click)="openCreateOrder()">
+          Добавить груз
+        </button>
       </div>
-   </section>
-   <div class="table">
-      <!-- <div class="filter">
+    </div>
+  </section>
+  <div class="table">
+    <!-- <div class="filter">
          <div class="filter-inputs">
             <input type="text" class="page__search" placeholder="Поиск по id" [(ngModel)]="id"/>
             <input type="text" class="page__search" placeholder="Поиск по id клиента" [(ngModel)]="id_client"/>
@@ -62,7 +62,7 @@
          </div>
       </div>  -->
 
-      <!-- <div class="statuses" style="display: flex; justify-content: space-between; margin: 10px 0px">
+    <!-- <div class="statuses" style="display: flex; justify-content: space-between; margin: 10px 0px">
          <mat-card>
             <mat-card-content style="text-align: center;">
                <div style="font-weight: 600;">Ожидающий</div>
@@ -94,7 +94,7 @@
             </mat-card-content>
           </mat-card>
       </div> -->
-      <!-- <mat-table [dataSource]="helper.orders">
+    <!-- <mat-table [dataSource]="helper.orders">
          <ng-container matColumnDef="id">
             <div class="offer-wrapper">
             <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
@@ -158,9 +158,8 @@
          <mat-header-row *matHeaderRowDef="['id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'secure_transaction', 'date_create', 'date_send']"></mat-header-row>
          <mat-row (click)="viewOrder(row)" *matRowDef="let row; columns: ['id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'secure_transaction', 'date_create', 'date_send']"></mat-row>
       </mat-table> -->
-      
-      <div class="new-table-wrapper">
-        
+
+    <div class="new-table-wrapper">
       <table class="new-table">
          <thead>
             <tr>
@@ -194,10 +193,58 @@
                <td>{{ order.isUrgent ? (order.createdAt | addDays: 2 | formatTime: 'DD.MM.YYYY') : (order.createdAt | formatTime: 'DD.MM.YYYY') }}</td>
             </tr>
          </tbody>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Клиент</th>
+            <th>Маршрут Откуда</th>
+            <th>Маршрут Куда</th>
+            <th>Статус</th>
+            <th>Тип груза</th>
+            <th>Тип транспорта</th>
+            <th>Статус обработки</th>
+            <th>Предлагаемая стоимость</th>
+            <th>Безопасная сделка</th>
+            <th>Дата создания</th>
+            <th>Дата погрузки</th>
+            <th>Операция</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="position: relative;" *ngFor="let order of helper.orders" (click)="viewOrder(order)">
+            <td>
+              <!-- <div class="offer-wrapper"> -->
+              {{ order.id }}
+              <div class="offer" *ngIf="order.acceptedOrders?.length && order.status == 0">{{
+                order.acceptedOrders?.length }}</div>
+              <!-- </div> -->
+            </td>
+            <td>{{ order.merchant?.companyName }}</td>
+            <td>{{ order.sendLocation }}</td>
+            <td>{{ order.cargoDeliveryLocation }}</td>
+            <td [class.blue]="order.status == 0" [class.yellow]="order.status == 1" [class.green]="order.status == 2" [class.darkgreen]="order.status == 3">
+              <span *ngIf="order.status == 0">Ожидающий</span>
+              <span *ngIf="order.status == 1">Принято</span>
+              <span *ngIf="order.status == 2">Выполнен</span>
+              <span *ngIf="order.status == 3">Завершен</span>
+            </td>
+            <td>{{ order.cargoType?.name }}</td>
+            <td>{{ order.transportType?.name }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.offeredPrice }}</td>
+            <td>{{ order.isSafe ? 'Да':'Нет' }}</td>
+            <td>{{ order.createdAt | formatTime: 'DD.MM.YYYY' }}</td>
+            <td>{{ order.isUrgent ? (order.createdAt | addDays: 2 | formatTime: 'DD.MM.YYYY') : (order.createdAt |
+              formatTime: 'DD.MM.YYYY') }}</td>
+              <td *ngIf="order.status == 2">
+                <button class="btn-green" (click)="orderFinished(order)">Заверщить</button>
+              </td>
+          </tr>
+        </tbody>
       </table>
-      <mat-paginator [length]="helper.orders.length" showFirstLastButtons [pageSizeOptions]="sizespage" (page)="handlePage($event)"></mat-paginator>
+      <mat-paginator [length]="helper.orders.length" showFirstLastButtons [pageSizeOptions]="sizespage"
+        (page)="handlePage($event)"></mat-paginator>
+    </div>
 
-     </div>
-
-   </div>
+  </div>
 </div>

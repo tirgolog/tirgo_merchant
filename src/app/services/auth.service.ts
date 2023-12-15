@@ -165,12 +165,9 @@ export class AuthService {
       });
       return this.http.post<any>(sUrl, body);
    }
-   acceptOfferDriver(id: number, price: string, orderid: number) {
+   acceptOfferDriver(data) {
       const sUrl = API_URL + '/cargo/accept-offer';
-      const body = JSON.stringify({
-         id, price, orderid
-      });
-      return this.http.post<any>(sUrl, body);
+      return this.http.post<any>(sUrl, data);
    }
    createClient(data) {
       const sUrl = API_URL + '/users';
@@ -268,14 +265,19 @@ export class AuthService {
       });
       return this.http.post<any>(sUrl, body);
    }
+   finishOrder(item) {
+      const sUrl = API_URL + '/cargo/finish-cargo';
+      return this.http.put<any>(sUrl, { orderId: item.id });
+   }
+   
    findCity(query: any): Observable<any[]> {
-      const sUrl = 'https://tirgo-server.onrender.com' + '/users/findCity';
+      const sUrl = API_URL + '/cargo/find-city';
       const body = JSON.stringify({
          query
       });
       return this.http.post<any>(sUrl, body)
          .pipe(map(res => {
-            if (res.status) {
+            if (res.success) {
                return res.data.suggestions;
             } else {
                return [];

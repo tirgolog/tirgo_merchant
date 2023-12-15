@@ -45,7 +45,7 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: -15%;
+  left: 0;
   top: 0;
 }
 
@@ -119,6 +119,26 @@
         font-weight: 400;
         font-size: 14px;
         padding: 15px 10px;
+
+        &.blue {
+          background-color: #003366;
+          color: white;
+        }
+
+        &.green {
+          background-color: #1da706;
+          color: white;
+        }
+
+        &.yellow {
+          background-color: #ed901e;
+          color: white;
+        }
+
+        &.darkgreen {
+          background-color: #027148;
+          color: white;
+        }
 
         &.new-index {
           width: 44px;
