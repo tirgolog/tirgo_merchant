@@ -4,124 +4,149 @@
       <h2 class="page-header__title title">Документы</h2>
     </div>
   </section>
-	
+
 
   <section>
     <form #form="ngForm">
-      <ul style="display: grid; gap: 20px;grid-template-columns: auto auto auto; width: 100%;">
+
+      <div class="tw-grid tw-gap-5 xl:tw-grid-cols-2">
+        <div class="view__list">
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.email ? 'black' : 'red'}">
+            <span>Электронная почта:</span>
+            <span>{{ data.email ? data.email : 'Не введен' }}</span>
+          </p>
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.companyName ? 'black' : 'red'}">
+            <span>Название компании:</span>
+            <span>{{data.companyName ? data.companyName : 'Не введен'}}</span>
+          </p>
+
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.supervisorFullName ? 'black' : 'red'}">
+            <span>Ф.И.О руководителя: </span>
+            <span>{{data.supervisorFullName ? data.supervisorFullName : 'Не введен'}}</span>
+          </p>
+
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.bankName ? 'black' : 'red'}">
+            <span>Наименование банка: </span>
+            <span>{{data.bankName ? data.bankName : 'Не введен'}}</span>
+          </p>
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.inn ? 'black' : 'red'}">
+            <span>ИНН:</span>
+            <span>{{data.inn ? data.inn : 'Не введен'}}</span>
+          </p>
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.oked ? 'black' : 'red'}">
+            <span>ОКЭД:</span>
+            <span>{{data.oked ? data.oked : 'Не введен' }}</span>
+          </p>
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.mfo ? 'black' : 'red'}">
+            <span>МФО:</span>
+            <span>{{data.mfo ? data.mfo : 'Не введен' }}</span>
+          </p>
+        </div>
+        <div class="view__list">
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.dunsNumber ? 'black' : 'red'}">
+            <span>DUNS номер:</span>
+            <span class="cursor-pointer">{{data.dunsNumber ? data.dunsNumber : 'Не введен' }}</span>
+          </p>
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.note ? 'black' : 'red'}">
+            <span>Заметки: </span>
+            <span>{{data.note ? data.note : 'Не введен' }}</span>
+          </p>
+
+          <p class="tw-flex tw-justify-between" *ngFor="let phone of data.phoneNumbers" [ngStyle]="{'color': phone ? 'black' : 'red'}">
+            <span>Телефон: </span>
+            <span>{{phone ? phone : 'Не введен' }}</span>
+          </p>
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.legalAddress ? 'black' : 'red'}">
+            <span>Юридический адрес: </span>
+            <span>{{data.legalAddress ? data.legalAddress : 'Не введен' }}</span>
+          </p>
+          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.factAddress ? 'black' : 'red'}">
+            <span>Фактический адрес: </span>
+            <span>{{data.factAddress ? data.factAddress : 'Не введен' }}</span>
+          </p>
+          <p class="tw-flex tw-justify-between" *ngFor="let account of data.bankAccounts"  [ngStyle]="{'color': data.bankAccounts ? 'black' : 'red'}">
+            <span>Расчетный счет: </span>
+            <span>{{account.account  ? account.account : 'Не введен' }} ({{account.currencyName ? account.currencyName : ''}})</span>
+          </p>
+
+        </div>
+      </div>
+
+      <!-- <ul style="display: grid; gap: 20px;grid-template-columns: auto auto auto; width: 100%;">
         <li>
           <div style="width: 100%;">
             <mat-form-field style="display: block">
               <mat-toolbar>
-                <input
-									disabled="true"
-                  matInput
-                  [value]="
+                <input disabled="true" matInput [value]="
                     passportNames.length ? passportNames : 'Паспорт руководителя'
-                  "
-                />
+                  " />
               </mat-toolbar>
-      
-              <input
-                type="file"
-                class="fileInput"
-                name="supervisor_passport"
-                [(ngModel)]="data.supervisor_passport"
-                accept="image/*"
-                (change)="selectPassport($event)"
-              />
-              <mat-icon matSuffix>file_download</mat-icon>
-            </mat-form-field>
-          </div> 
-      
-          <div style="width: 100%;">
-            <mat-form-field style="display: block">
-              <mat-toolbar>
-                <input
-								disabled
-                  matInput
-                  [value]="
-                    certificateNames.length
-                      ? certificateNames
-                      : 'Свидетельство о регистрации'
-                  "
-                />
-              </mat-toolbar>
-      
-              <input
-                type="file"
-                class="fileInput"
-                name="certificate_registration"
-                [(ngModel)]="data.certificate_registration"
-                accept="image/*"
-                (change)="selectCertificate($event)"
-              />
+
+              <input type="file" class="fileInput" name="supervisor_passport" [(ngModel)]="data.supervisor_passport"
+                accept="image/*" (change)="selectPassport($event)" />
               <mat-icon matSuffix>file_download</mat-icon>
             </mat-form-field>
           </div>
 
-					<div style="width: 100%;">
-						<mat-form-field style="display: block">
-							<mat-toolbar>
-								<input
-									disabled
-									matInput
-									[value]="
+          <div style="width: 100%;">
+            <mat-form-field style="display: block">
+              <mat-toolbar>
+                <input disabled matInput [value]="
+                    certificateNames.length
+                      ? certificateNames
+                      : 'Свидетельство о регистрации'
+                  " />
+              </mat-toolbar>
+
+              <input type="file" class="fileInput" name="certificate_registration"
+                [(ngModel)]="data.certificate_registration" accept="image/*" (change)="selectCertificate($event)" />
+              <mat-icon matSuffix>file_download</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div style="width: 100%;">
+            <mat-form-field style="display: block">
+              <mat-toolbar>
+                <input disabled matInput [value]="
 										selectedFileNames.length ? selectedFileNames : 'Логотип'
-									"
-								/>
-							</mat-toolbar>
-							<input
-								type="file"
-								class="fileInput"
-								name="logo"
-								[(ngModel)]="data.logo"
-								accept="image/*"
-								(change)="selectFiles($event)"
-							/>
-							<mat-icon matSuffix>file_download</mat-icon>
-						</mat-form-field>
-					</div>
+									" />
+              </mat-toolbar>
+              <input type="file" class="fileInput" name="logo" [(ngModel)]="data.logo" accept="image/*"
+                (change)="selectFiles($event)" />
+              <mat-icon matSuffix>file_download</mat-icon>
+            </mat-form-field>
+          </div>
 
         </li>
-        
+
         <li>
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>Электронная почта</mat-label>
-                <input matInput name="email" [(ngModel)]="data.email" disabled/>
+                <input matInput name="email" [(ngModel)]="data.email" disabled />
               </mat-form-field>
             </div>
           </div>
-  
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>Название компании</mat-label>
-                <input
-                  required
-                  matInput
-                  name="companyName"
-                  [(ngModel)]="data.companyName" disabled
-                />
+                <input required matInput name="companyName" [(ngModel)]="data.companyName" disabled />
               </mat-form-field>
             </div>
           </div>
-  
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>Ф.И.О руководителя</mat-label>
-                <input
-                  matInput
-                  name="supervisorFullName"
-                  [(ngModel)]="data.supervisorFullName" disabled
-                />
+                <input matInput name="supervisorFullName" [(ngModel)]="data.supervisorFullName" disabled />
               </mat-form-field>
             </div>
           </div>
-  
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
@@ -130,58 +155,35 @@
               </mat-form-field>
             </div>
           </div>
-  
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>ИНН</mat-label>
-                <input
-                  type="number"
-                  mask="999999999"
-                  matInput
-                  name="inn"
-                  [(ngModel)]="data.inn"
-                  maxlength="9"
-									disabled
-                />
+                <input type="number" mask="999999999" matInput name="inn" [(ngModel)]="data.inn" maxlength="9"
+                  disabled />
               </mat-form-field>
             </div>
           </div>
-  
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>ОКЭД</mat-label>
-                <input
-                  type="number"
-                  mask="99999"
-                  matInput
-                  name="oked"
-                  [(ngModel)]="data.oked"
-                  maxlength="5"
-									disabled
-                />
+                <input type="number" mask="99999" matInput name="oked" [(ngModel)]="data.oked" maxlength="5" disabled />
               </mat-form-field>
             </div>
           </div>
-  
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>МФО</mat-label>
-                <input
-                  type="number"
-                  matInput
-                  name="mfo"
-                  [(ngModel)]="data.mfo"
-                  mask="99999"
-                  maxlength="5"
-									disabled
-                />
+                <input type="number" matInput name="mfo" [(ngModel)]="data.mfo" mask="99999" maxlength="5" disabled />
               </mat-form-field>
             </div>
           </div>
-  
+
         </li>
 
         <li>
@@ -189,19 +191,12 @@
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>DUNS номер</mat-label>
-                <input
-                  type="number"
-                  matInput
-                  name="dunsNumber"
-                  [(ngModel)]="data.dunsNumber"
-                  mask="999999999"
-                  maxlength="9"
-									disabled
-                />
+                <input type="number" matInput name="dunsNumber" [(ngModel)]="data.dunsNumber" mask="999999999"
+                  maxlength="9" disabled />
               </mat-form-field>
             </div>
           </div>
-  
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
@@ -210,72 +205,48 @@
               </mat-form-field>
             </div>
           </div>
-  
-  
+
+
           <div class="dynamic-inputs-wrapper" *ngFor="let phone of data.phoneNumbers;let i=index">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>Телефон</mat-label>
-                <input
-                  disabled
-                  matInput
-                  type="text"
-                  name="phoneNumbers"
-                  mask="+999999999999"
-                  [(ngModel)]="data.phoneNumbers[i]"
-                  required
-                />
+                <input disabled matInput type="text" name="phoneNumbers" mask="+999999999999"
+                  [(ngModel)]="data.phoneNumbers[i]" required />
               </mat-form-field>
             </div>
-          </div> 
-  
+          </div>
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>Юридический адрес</mat-label>
-                <input
-                  matInput
-									disabled
-                  type="text"
-                  name="legalAddress"
-                  [(ngModel)]="data.legalAddress"
-                />
+                <input matInput disabled type="text" name="legalAddress" [(ngModel)]="data.legalAddress" />
               </mat-form-field>
             </div>
-  
+
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>Фактический адрес</mat-label>
-                <input
-									disabled
-                  matInput
-                  type="text"
-                  name="factAddress"
-                  [(ngModel)]="data.factAddress"
-                />
+                <input disabled matInput type="text" name="factAddress" [(ngModel)]="data.factAddress" />
               </mat-form-field>
             </div>
           </div>
-  
+
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs" *ngFor="let item of data.bankAccounts; let i=index">
               <mat-form-field class="form__input">
                 <mat-label>Расчетный счет</mat-label>
-                <input
-                  matInput
-									disabled
-                  type="number"
-                  name="bankAccounts_{{i}}"
-                  [(ngModel)]="data.bankAccounts[i].account"
-                />
+                <input matInput disabled type="number" name="bankAccounts_{{i}}"
+                  [(ngModel)]="data.bankAccounts[i].account" />
               </mat-form-field>
             </div>
           </div>
         </li>
-      </ul>
+      </ul> -->
 
     </form>
-    
+
   </section>
 
 </main>
