@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { jwtDecode } from 'jwt-decode';
-import { AuthService } from 'src/app/services/auth.service';
-import { HelperService } from 'src/app/services/helper.service';
-import { ListService } from 'src/app/services/list.service';
+import { Component, OnInit } from "@angular/core";
+import { jwtDecode } from "jwt-decode";
+import { AuthService } from "src/app/services/auth.service";
+import { HelperService } from "src/app/services/helper.service";
+import { ListService } from "src/app/services/list.service";
 
 @Component({
-  selector: 'app-documents',
-  templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.scss']
+  selector: "app-documents",
+  templateUrl: "./documents.component.html",
+  styleUrls: ["./documents.component.scss"],
 })
-export class DocumentsComponent implements OnInit{
+export class DocumentsComponent implements OnInit {
   passportFile: FileList;
   passportNames: string[] = [];
 
@@ -19,29 +19,35 @@ export class DocumentsComponent implements OnInit{
   selectedFiles: FileList;
   selectedFileNames: string[] = [];
 
-  phone2:boolean = false;
-  factAddressShow:boolean = false;
+  phone2: boolean = false;
+  factAddressShow: boolean = false;
   bankAccountCurrency: boolean = false;
-  data
-  currentUser:any;
+  data;
+  currentUser: any;
   constructor(
     public list: ListService,
     public authService: AuthService,
     public helper: HelperService
-    ) {}
+  ) {}
   ngOnInit(): void {
-    this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
-
-    this.data = {supervisor_passport:'', certificate_registration:'',email:'', phoneNumbers:['']}
+    this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+    this.data = {
+      supervisor_passport: "",
+      certificate_registration: "",
+      email: "",
+      phoneNumbers: [""],
+    };
     this.getAllDocuments();
+    this.helper.global_loading = true;
   }
 
   getAllDocuments() {
-     this.list.getDocument(this.currentUser.merchantId).subscribe((res) => {
-      if(res) {
+    this.list.getDocument(this.currentUser.merchantId).subscribe((res) => {
+      if (res) {
+        this.helper.global_loading = false;
         this.data = res;
       }
-    })
+    });
   }
 
   selectPassport(event: any): void {
@@ -52,8 +58,7 @@ export class DocumentsComponent implements OnInit{
       const numberOfFiles = this.passportFile.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-        reader.onload = (e: any) => {
-        };
+        reader.onload = (e: any) => {};
         reader.readAsDataURL(this.passportFile[i]);
         this.passportNames.push(this.passportFile[i].name);
       }
@@ -68,8 +73,7 @@ export class DocumentsComponent implements OnInit{
       const numberOfFiles = this.certificateFile.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-        reader.onload = (e: any) => {
-        };
+        reader.onload = (e: any) => {};
         reader.readAsDataURL(this.certificateFile[i]);
         this.certificateNames.push(this.certificateFile[i].name);
       }
@@ -84,12 +88,10 @@ export class DocumentsComponent implements OnInit{
       const numberOfFiles = this.selectedFiles.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-        reader.onload = (e: any) => {
-        };
+        reader.onload = (e: any) => {};
         reader.readAsDataURL(this.selectedFiles[i]);
         this.selectedFileNames.push(this.selectedFiles[i].name);
       }
     }
   }
-  
 }

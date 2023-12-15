@@ -3,7 +3,7 @@
    <app-sidebar  [logo]="logo"></app-sidebar>
    <!--<app-header></app-header>-->
 <mat-progress-bar class="green-progress" *ngIf="helper.isLoading" mode="indeterminate"></mat-progress-bar>
-<div class="loading-global" *ngIf="helper.global_loading">
+<div class="loading-global" *ngIf="helper.global_loading" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
    <mat-spinner color="primary"></mat-spinner>
 </div>
 </div>
