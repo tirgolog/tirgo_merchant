@@ -185,7 +185,7 @@ export class OrderComponent {
 
    returnTax() {
       this.tax = 0;
-      return this.tax = (12 / 100) + this.selectDriver.priceorder / 0.88
+      return this.tax = (12 / 100) * (this.selectDriver.priceorder / 0.88)
    }
 
    returnAmount() {
