@@ -35,7 +35,7 @@ export class OrdersComponent {
   sizespage = [50, 100, 200, 500, 1000, 5000];
   gridOptions: any;
   items: any[] = [];
-
+  orders:any
   constructor(
     public dialog: MatDialog,
     public spoller: SpollersService,

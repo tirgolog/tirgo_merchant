@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { jwtDecode } from "jwt-decode";
 import { AuthService } from "src/app/services/auth.service";
 import { HelperService } from "src/app/services/helper.service";
@@ -27,8 +27,14 @@ export class DocumentsComponent implements OnInit {
   constructor(
     public list: ListService,
     public authService: AuthService,
-    public helper: HelperService
+    public helper: HelperService,
+    private cdr: ChangeDetectorRef
   ) {}
+
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+  }
+
   ngOnInit(): void {
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
     this.data = {
@@ -46,6 +52,7 @@ export class DocumentsComponent implements OnInit {
       if (res) {
         this.helper.global_loading = false;
         this.data = res;
+
       }
     });
   }

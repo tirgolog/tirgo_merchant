@@ -11,60 +11,60 @@
 
       <div class="tw-grid tw-gap-5 xl:tw-grid-cols-2">
         <div class="view__list">
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.email ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.email ? 'black' : 'red'">
             <span>Электронная почта:</span>
             <span>{{ data.email ? data.email : 'Не введен' }}</span>
           </p>
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.companyName ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.companyName ? 'black' : 'red'">
             <span>Название компании:</span>
             <span>{{data.companyName ? data.companyName : 'Не введен'}}</span>
           </p>
 
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.supervisorFullName ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.supervisorFullName ? 'black' : 'red'">
             <span>Ф.И.О руководителя: </span>
             <span>{{data.supervisorFullName ? data.supervisorFullName : 'Не введен'}}</span>
           </p>
 
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.bankName ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.bankName ? 'black' : 'red'">
             <span>Наименование банка: </span>
             <span>{{data.bankName ? data.bankName : 'Не введен'}}</span>
           </p>
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.inn ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.inn ? 'black' : 'red'">
             <span>ИНН:</span>
             <span>{{data.inn ? data.inn : 'Не введен'}}</span>
           </p>
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.oked ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.oked ? 'black' : 'red'">
             <span>ОКЭД:</span>
             <span>{{data.oked ? data.oked : 'Не введен' }}</span>
           </p>
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.mfo ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.mfo ? 'black' : 'red'">
             <span>МФО:</span>
             <span>{{data.mfo ? data.mfo : 'Не введен' }}</span>
           </p>
         </div>
         <div class="view__list">
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.dunsNumber ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.dunsNumber ? 'black' : 'red'">
             <span>DUNS номер:</span>
             <span class="cursor-pointer">{{data.dunsNumber ? data.dunsNumber : 'Не введен' }}</span>
           </p>
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.note ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.note ? 'black' : 'red'">
             <span>Заметки: </span>
             <span>{{data.note ? data.note : 'Не введен' }}</span>
           </p>
 
-          <p class="tw-flex tw-justify-between" *ngFor="let phone of data.phoneNumbers" [ngStyle]="{'color': phone ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" *ngFor="let phone of data.phoneNumbers" [style.color]="phone ? 'black' : 'red'">
             <span>Телефон: </span>
             <span>{{phone ? phone : 'Не введен' }}</span>
           </p>
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.legalAddress ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.legalAddress ? 'black' : 'red'">
             <span>Юридический адрес: </span>
             <span>{{data.legalAddress ? data.legalAddress : 'Не введен' }}</span>
           </p>
-          <p class="tw-flex tw-justify-between" [ngStyle]="{'color': data.factAddress ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" [style.color]="data.factAddress ? 'black' : 'red'">
             <span>Фактический адрес: </span>
             <span>{{data.factAddress ? data.factAddress : 'Не введен' }}</span>
           </p>
-          <p class="tw-flex tw-justify-between" *ngFor="let account of data.bankAccounts"  [ngStyle]="{'color': data.bankAccounts ? 'black' : 'red'}">
+          <p class="tw-flex tw-justify-between" *ngFor="let account of data.bankAccounts" [style.color]="data.bankAccounts ? 'black' : 'red'">
             <span>Расчетный счет: </span>
             <span>{{account.account  ? account.account : 'Не введен' }} ({{account.currencyName ? account.currencyName : ''}})</span>
           </p>

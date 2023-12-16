@@ -129,7 +129,8 @@
                 <td>
                   <span *ngIf="item.status_order == 0">Ожидающий</span>
                   <span *ngIf="item.status_order == 1">Принято</span>
-                  <span *ngIf="item.status_order == 2">Доставлено</span>
+                  <span *ngIf="item.status_order == 2">Выполнен</span>
+                  <span *ngIf="item.status_order == 3">Завершен</span>
                 </td>
                 <td>
                   <button [disabled]="item.status_order != 0" class="view__btn btn-green ion-ni-margin ion-no-padding"
