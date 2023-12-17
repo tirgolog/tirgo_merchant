@@ -11,6 +11,7 @@ import { ListService } from "../../services/list.service";
 import { jwtDecode } from "jwt-decode";
 import { CreateorderComponent } from "../createorder/createorder.component";
 import { ToastrService } from "ngx-toastr";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -35,7 +36,7 @@ export class OrdersComponent {
   sizespage = [50, 100, 200, 500, 1000, 5000];
   gridOptions: any;
   items: any[] = [];
-  orders:any
+  orders: any;
   constructor(
     public dialog: MatDialog,
     public spoller: SpollersService,
@@ -44,20 +45,20 @@ export class OrdersComponent {
     private socketService: SocketService,
     public listService: ListService,
     public authService: AuthService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-
-    // @ts-ignore
     if (+this.route.snapshot.paramMap.get("status") === 100) {
       this.status = "all";
     } else {
       this.status = this.route.snapshot.paramMap.get("status");
     }
     this.getAllOrders();
-    this.helper.global_loading = false;
+    // this.helper.global_loading = true;
 
     this.spoller.initSpollers();
     this.gridOptions = <GridOptions>{};
@@ -70,17 +71,16 @@ export class OrdersComponent {
   ngAfterViewInit(): void {
     this.spoller.initSpollers();
   }
-
   getAllOrders() {
     this.listService
       .getOrdersByMerchant(this.currentUser.merchantId)
       .subscribe((res: any) => {
         if (res.success) {
           this.helper.orders = res.data;
+          this.spinner.hide();
         }
       });
   }
-
   openCreateOrder(): void {
     const dialogRef = this.dialog.open(CreateorderComponent, {
       width: "90%",
@@ -131,7 +131,6 @@ export class OrdersComponent {
         return "status-order";
     }
   }
-
   transportTypeFind(ev) {
     this.typetransport = ev.target.value;
   }
@@ -181,7 +180,6 @@ export class OrdersComponent {
     this.helper.orders = this.helper.orders.concat(...neworders.data);
     this.helper.orders_count = neworders.data_count;
   }
-
   async filterList() {
     this.helper.isLoading = true;
     let neworders = await this.listService
@@ -228,7 +226,6 @@ export class OrdersComponent {
     this.helper.orders_count = neworders.data_count;
     this.helper.isLoading = false;
   }
-
   orderFinished(item) {
     this.authService.finishOrder(item).subscribe(
       (res: any) => {
@@ -242,4 +239,5 @@ export class OrdersComponent {
       }
     );
   }
+
 }

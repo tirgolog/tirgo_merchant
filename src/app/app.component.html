@@ -1,14 +1,20 @@
 <div class="all-wrapper">
    <div class="sidebar_f" *ngIf="this.authService.tokenExist()">
-   <app-sidebar  [logo]="logo"></app-sidebar>
-   <!--<app-header></app-header>-->
-<mat-progress-bar class="green-progress" *ngIf="helper.isLoading" mode="indeterminate"></mat-progress-bar>
-<div class="loading-global" *ngIf="helper.global_loading" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-   <mat-spinner color="primary"></mat-spinner>
-</div>
-</div>
-<div class="routes_f">
-   <router-outlet></router-outlet>
-</div>
+      <app-sidebar [logo]="logo"></app-sidebar>
+      <!--<app-header></app-header>-->
+      <mat-progress-bar class="green-progress" *ngIf="helper.isLoading" mode="indeterminate"></mat-progress-bar>
+      <div class="loading-global" *ngIf="helper.global_loading"
+         style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+         <mat-spinner color="primary"></mat-spinner>
+         
+
+      </div>
+   </div>
+   <div class="routes_f">
+      <router-outlet></router-outlet>
+   </div>
 
 </div>
+<ngx-spinner size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+   <p style="font-size: 20px; color: white">Загружаем...</p>
+</ngx-spinner>

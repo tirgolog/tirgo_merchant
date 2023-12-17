@@ -17,8 +17,8 @@ import { ListService } from 'src/app/services/list.service';
 
 export class AuthComponent {
 
-  login: string = "emial@tirgoooo.uz"
-  password: string = "password"
+  login: string = ""
+  password: string = ""
   error: boolean = false
 
   constructor(
