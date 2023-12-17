@@ -28,6 +28,7 @@ export class RegistrationComponent implements OnInit {
   passportNames: string[] = [];
 
   formDone: boolean = false;
+  formData = new FormData();
   constructor(
     public authService: AuthService,
     public helper: HelperService,
@@ -103,9 +104,9 @@ export class RegistrationComponent implements OnInit {
   async createMerchant() {
     if (this.phone2)
       this.data.phoneNumbers.push(this.data.phone2)
-    if(this.data.bankAccountCurrency) {
+    if (this.data.bankAccountCurrency) {
       this.data.bankAccounts = [{ account: this.data.bankAccounts, currency: this.currency }, { account: this.data.bankAccountCurrency, currency: this.currency2 }]
-    }else {
+    } else {
       this.data.bankAccounts = [{ account: this.data.bankAccounts, currency: this.currency }]
     }
     let patch = {
@@ -122,7 +123,10 @@ export class RegistrationComponent implements OnInit {
       legalAddress: this.data.legalAddress,
       factAddress: this.data.factAddress,
       email: this.data.email,
-      phoneNumbers: this.data.phoneNumbers
+      phoneNumbers: this.data.phoneNumbers,
+      logoFilePath: this.data.logo,
+      passportFilePath: this.data.supervisor_passport,
+      registrationCertificateFilePath: this.data.certificate_registration,
     }
     const res = await this.authService.addMerchant(patch).toPromise();
     if (res) {
@@ -141,5 +145,24 @@ export class RegistrationComponent implements OnInit {
       this.currency = this.currencies[0].id;
       this.currency2 = this.currencies[0].id;
     })
+  }
+
+  selectFile(event: any, name: string) {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    this.authService.fileUpload(formData).subscribe(
+      response => {
+        console.log('File uploaded successfully:', response);
+        // Handle the response as needed
+        if (response) {
+          this.data[name] = response.filename
+        }
+      },
+      error => {
+        console.error('Error uploading file:', error);
+        // Handle the error as needed
+      }
+    );
   }
 }

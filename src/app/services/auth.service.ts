@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ListService } from './list.service';
 
 const TOKEN_KEY = 'jwttirgomerhant';
-const API_URL = 'https://merchant.tirgo.io/api/v1'
+const API_URL = 'http://localhost:3000/api/v1'
 @Injectable({
    providedIn: 'root'
 })
@@ -137,6 +137,13 @@ export class AuthService {
       return this.http.post<any>(sUrl, data);
 
    }
+
+   fileUpload(data: any) {
+      const sUrl = API_URL + '/file/upload';
+      return this.http.post<any>(sUrl, data);
+
+   }
+
    adminBanned(banned: boolean, userid: number) {
       const sUrl = API_URL + '/admin/bannedAdmin';
       const body = JSON.stringify({
@@ -269,7 +276,7 @@ export class AuthService {
       const sUrl = API_URL + '/cargo/finish-cargo';
       return this.http.put<any>(sUrl, { orderId: item.id });
    }
-   
+
    findCity(query: any): Observable<any[]> {
       const sUrl = API_URL + '/cargo/find-city';
       const body = JSON.stringify({
