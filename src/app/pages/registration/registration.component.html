@@ -332,7 +332,7 @@
               name="logo"
               [(ngModel)]="data.logo"
               accept="image/*"
-              (change)="selectFiles($event)"
+              (change)="selectFile($event, 'logo')"
             />
             <mat-icon matSuffix>file_download</mat-icon>
           </mat-form-field>
@@ -357,7 +357,7 @@
               name="certificate_registration"
               [(ngModel)]="data.certificate_registration"
               accept="image/*"
-              (change)="selectCertificate($event)"
+              (change)="selectFile($event, 'certificate_registration')"
             />
             <mat-icon matSuffix>file_download</mat-icon>
           </mat-form-field>
@@ -380,7 +380,7 @@
               name="supervisor_passport"
               [(ngModel)]="data.supervisor_passport"
               accept="image/*"
-              (change)="selectPassport($event)"
+              (change)="selectFile($event, 'supervisor_passport')"
             />
             <mat-icon matSuffix>file_download</mat-icon>
           </mat-form-field>
