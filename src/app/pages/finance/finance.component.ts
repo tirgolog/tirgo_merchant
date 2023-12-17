@@ -1,6 +1,7 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { jwtDecode } from 'jwt-decode';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from 'src/app/app.component';
 import { HelperService } from 'src/app/services/helper.service';
@@ -9,7 +10,8 @@ import { ListService } from 'src/app/services/list.service';
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
-  styleUrls: ['./finance.component.scss']
+  styleUrls: ['./finance.component.scss'],
+  host: { id: "main" },
 })
 export class FinanceComponent implements OnInit {
   @ViewChild("dialogRef") dialogRef: TemplateRef<any>;
@@ -27,13 +29,18 @@ export class FinanceComponent implements OnInit {
     private list: ListService,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private app: AppComponent
+    private app: AppComponent,
+    private spinner: NgxSpinnerService
   ) { }
 
+  ngAfterViewInit() {
+
+  }
+
   ngOnInit() {
+    this.spinner.show();
     this.payment = { transactionType: '', amount: '', merchantId: '' }
     this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
-    
     this.getAllFinance();
     this.getBalance();
   }
@@ -48,20 +55,21 @@ export class FinanceComponent implements OnInit {
   }
 
   getAllFinance() {
-    if(this.app.currentUser.role.name === 'Super admin') {
+    if (this.app.currentUser.role.name === 'Super admin') {
       this.list.getFinanceByMerchant(this.currentUser.merchantId).subscribe((res) => {
         if (res) {
+          this.spinner.hide();
           this.helper.transactions_type = res.data;
         }
       })
-    }else {
+    } else {
       this.list.getTransactionsByUser(this.currentUser.sub).subscribe((res) => {
         if (res) {
           this.helper.transactions_type = res.data;
+          this.spinner.hide();
         }
       })
     }
-    
   }
 
   getBalance() {

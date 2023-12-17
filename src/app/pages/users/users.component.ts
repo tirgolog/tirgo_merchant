@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ColDef } from 'ag-grid-community';
 import { jwtDecode } from 'jwt-decode';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { HelperService } from 'src/app/services/helper.service';
 import { ListService } from 'src/app/services/list.service';
@@ -41,10 +42,12 @@ export class UsersComponent implements OnInit {
 		public helper: HelperService,
 		public list: ListService,
 		public toastr: ToastrService,
-		private router: Router
+		private router: Router,
+		private spinner: NgxSpinnerService
 	) { }
 
 	ngOnInit(): void {
+		this.spinner.show();
 		this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
 		this.getAllUsers();
 	}
@@ -53,6 +56,7 @@ export class UsersComponent implements OnInit {
 		this.list.getUsersMerchant(this.currentUser.merchantId).subscribe((res) => {
 			if (res) {
 				this.users = res.data;
+				this.spinner.hide();
 			}
 		})
 	}
@@ -64,11 +68,16 @@ export class UsersComponent implements OnInit {
 	}
 
 	changeStatus(item) {
+		this.helper.global_loading = true;
 		this.list.changeStatus(item).subscribe((res:any) => {
 			if(res.success) {
+				this.helper.global_loading = false;
 				this.toastr.success('Статус успешно обновлен')
 				this.getAllUsers()
 			}
+		}, error => {
+			this.helper.global_loading = false;
+			this.toastr.success(error.message)
 		})
 	}
 

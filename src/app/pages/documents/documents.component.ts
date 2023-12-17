@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { jwtDecode } from "jwt-decode";
+import { NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from "src/app/services/auth.service";
 import { HelperService } from "src/app/services/helper.service";
 import { ListService } from "src/app/services/list.service";
@@ -28,14 +29,11 @@ export class DocumentsComponent implements OnInit {
     public list: ListService,
     public authService: AuthService,
     public helper: HelperService,
-    private cdr: ChangeDetectorRef
+    public spinner: NgxSpinnerService
   ) {}
 
-  ngAfterViewInit(): void {
-    this.cdr.detectChanges();
-  }
-
-  ngOnInit(): void {
+  ngOnInit() {
+    this.spinner.show();
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
     this.data = {
       supervisor_passport: "",
@@ -44,16 +42,14 @@ export class DocumentsComponent implements OnInit {
       phoneNumbers: [""],
     };
     this.getAllDocuments();
-    this.helper.global_loading = true;
   }
 
   getAllDocuments() {
     this.list.getDocument(this.currentUser.merchantId).subscribe((res) => {
       if (res) {
-        this.helper.global_loading = false;
         this.data = res;
-
-      }
+        this.spinner.hide();
+      } 
     });
   }
 

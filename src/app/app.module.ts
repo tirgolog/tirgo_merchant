@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -126,6 +126,7 @@ import { DocumentsComponent } from './pages/documents/documents.component';
 import { SupportComponent } from './support/support.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { AddDaysPipe } from './pipes/add-days.pipe';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 registerLocaleData(ruLocale);
@@ -254,7 +255,8 @@ const mapConfig: YaConfig = {
       AgGridModule,
       MatButtonModule,
       MatToolbarModule,
-      MatBadgeModule
+      MatBadgeModule,
+      NgxSpinnerModule
    ],
 
    providers: [
@@ -266,6 +268,8 @@ const mapConfig: YaConfig = {
       },
       {provide: LocationStrategy, useClass: HashLocationStrategy}
    ],
+   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
    bootstrap: [
        AppComponent
    ]
