@@ -34,6 +34,7 @@
       "ngx-mat-select-search": "^7.0.0",
       "ngx-order-pipe": "^2.2.0",
       "ngx-pipes": "^3.2.2",
+      "ngx-spinner": "^16.0.2",
       "ngx-toastr": "^16.0.1",
       "rxjs": "~7.5.0",
       "tslib": "^2.3.0",
