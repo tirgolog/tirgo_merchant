@@ -137,6 +137,13 @@ export class AuthService {
       return this.http.post<any>(sUrl, data);
 
    }
+
+   fileUpload(data: any) {
+      const sUrl = API_URL + '/file/upload';
+      return this.http.post<any>(sUrl, data);
+
+   }
+
    adminBanned(banned: boolean, userid: number) {
       const sUrl = API_URL + '/admin/bannedAdmin';
       const body = JSON.stringify({
@@ -269,7 +276,7 @@ export class AuthService {
       const sUrl = API_URL + '/cargo/finish-cargo';
       return this.http.put<any>(sUrl, { orderId: item.id });
    }
-   
+
    findCity(query: any): Observable<any[]> {
       const sUrl = API_URL + '/cargo/find-city';
       const body = JSON.stringify({
