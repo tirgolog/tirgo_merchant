@@ -19,11 +19,22 @@ export class ApiInterceptor implements HttpInterceptor {
       token = AuthService.jwt;
     }
 
-    const authReq = req.clone({
-      setHeaders: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    let authReq: any;
+    if(req.url == 'https://merchant.tirgo.io/api/v1/file/upload') {
+      authReq = req.clone({
+        setHeaders: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+    } else {
+      authReq = req.clone({
+        setHeaders: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+    }
 
     return next.handle(authReq).pipe(
       map((event: HttpEvent<any>) => {
