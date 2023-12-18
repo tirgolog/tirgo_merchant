@@ -76,6 +76,7 @@ export class OrdersComponent {
       .getOrdersByMerchant(this.currentUser.merchantId)
       .subscribe((res: any) => {
         if (res) {
+          this.spinner.hide();
           this.helper.orders = res.data;
         }
       },error => {

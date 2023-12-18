@@ -58,6 +58,7 @@ export class FinanceComponent implements OnInit {
     if(this.app.currentUser.role.name === 'Super admin') {
       this.list.getFinanceByMerchant(this.currentUser.merchantId).subscribe((res) => {
         if (res) {
+          this.spinner.hide();
           this.helper.transactions_type = res.data;
         }
       },error => {
@@ -67,6 +68,7 @@ export class FinanceComponent implements OnInit {
     }else {
       this.list.getTransactionsByUser(this.currentUser.sub).subscribe((res) => {
         if (res) {
+          this.spinner.hide();
           this.helper.transactions_type = res.data;
         }
       },error => {
