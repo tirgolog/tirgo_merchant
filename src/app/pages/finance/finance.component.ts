@@ -55,21 +55,26 @@ export class FinanceComponent implements OnInit {
   }
 
   getAllFinance() {
-    if (this.app.currentUser.role.name === 'Super admin') {
+    if(this.app.currentUser.role.name === 'Super admin') {
       this.list.getFinanceByMerchant(this.currentUser.merchantId).subscribe((res) => {
         if (res) {
-          this.spinner.hide();
           this.helper.transactions_type = res.data;
         }
+      },error => {
+        this.spinner.hide();
+        this.toastr.error(error.message)
       })
-    } else {
+    }else {
       this.list.getTransactionsByUser(this.currentUser.sub).subscribe((res) => {
         if (res) {
           this.helper.transactions_type = res.data;
-          this.spinner.hide();
         }
+      },error => {
+        this.spinner.hide();
+        this.toastr.error(error.message)
       })
     }
+    
   }
 
   getBalance() {
