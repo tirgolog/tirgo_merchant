@@ -9,6 +9,8 @@ import { SocketService } from "./services/socket.service";
 import { ToastrService } from "ngx-toastr";
 import { lastDayOfMonth } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
+import { SseService } from './services/sse.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +28,17 @@ export class AppComponent {
     public helper: HelperService,
     private socketService: SocketService,
     private toastr: ToastrService,
-    public listService: ListService
+    public listService: ListService,
+    private sseService: SseService
   ) { }
   title = 'tirgo-merchant';
-  logo = "/assets/img/logo.svg"
+  logo = "/assets/img/logo.svg";
+  receivedData: any;
+  private sseSubscription: Subscription;
+
   async ngOnInit() {
     this.spoller.initSpollers()
+    this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
     this.getUsers();
     this.authService.checkToken();
     if (this.authService.currentUser) {
@@ -48,6 +55,30 @@ export class AppComponent {
       }
     })
     this.getAllUsers();
+    this.getBalance();
+    this.sseSubscription = this.sseService.getUpdates().subscribe(
+      (data) => {
+        if(data.type == 'update-balance') {
+          this.getBalance();
+      }        
+      },
+      (error) => {
+        console.error(error);
+      }
+    );  
+
+  }
+  
+  getBalance() {
+    const user: any = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+    this.listService.getBalanceMerchant(user.merchantId).subscribe((res) => {
+    if (res.success) {
+        this.helper.merchantBalance = {
+          activeBalance: res.data.activeBalance,
+          frozenBalance: res.data.frozenBalance
+        }
+      }
+    })
   }
 
   async getUsers() {

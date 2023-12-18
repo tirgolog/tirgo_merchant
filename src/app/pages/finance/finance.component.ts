@@ -3,9 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { jwtDecode } from 'jwt-decode';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { HelperService } from 'src/app/services/helper.service';
 import { ListService } from 'src/app/services/list.service';
+import { SseService } from 'src/app/services/sse.service';
 
 @Component({
   selector: 'app-finance',
@@ -24,13 +26,15 @@ export class FinanceComponent implements OnInit {
   sizespage = [
     50, 100, 200, 500, 1000, 5000
   ]
+  private sseSubscription: Subscription;
   constructor(
     public helper: HelperService,
     private list: ListService,
     private dialog: MatDialog,
     private toastr: ToastrService,
     private app: AppComponent,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private sseService: SseService
   ) { }
 
   ngAfterViewInit() {
@@ -43,6 +47,17 @@ export class FinanceComponent implements OnInit {
     this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
     this.getAllFinance();
     this.getBalance();
+
+    this.sseSubscription = this.sseService.getUpdates().subscribe(
+      (data) => {
+        if(data.type == 'transaction-verified') {
+          this.getAllFinance();
+      }        
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   openDialog(): void {
@@ -80,12 +95,8 @@ export class FinanceComponent implements OnInit {
   }
 
   getBalance() {
-    this.list.getBalanceMerchant(this.currentUser.merchantId).subscribe((res) => {
-      if (res.success) {
-        this.activeBalance = res.data.activeBalance;
-        this.frozenBalance = res.data.frozenBalance;
-      }
-    })
+        this.activeBalance = this.helper.merchantBalance.activeBalance;
+        this.frozenBalance = this.helper.merchantBalance.frozenBalance;
   }
 
   createTransaction() {

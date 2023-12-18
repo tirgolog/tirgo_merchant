@@ -3,6 +3,7 @@ export class User {
     public username: string;
     public name: string;
     public role: number;
+    public merchantId: any;
     constructor(user: any) {
         this.id = user.id;
         this.username = user.username;
