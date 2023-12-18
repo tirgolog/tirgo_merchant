@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 
 const API_URL = 'https://merchant.tirgo.io/api/v1'
 @Injectable({
@@ -8,7 +8,8 @@ const API_URL = 'https://merchant.tirgo.io/api/v1'
 })
 
 export class ListService {
-  adminJwt
+  adminJwt;
+  orderFinishedSubject$ = new BehaviorSubject<boolean>(false);
   constructor(
     private http: HttpClient,
   ) {
