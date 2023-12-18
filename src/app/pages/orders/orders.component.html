@@ -153,7 +153,7 @@
       </ng-container>
       <ng-container matColumnDef="secure_transaction">
         <mat-header-cell *matHeaderCellDef>Безопасная сделка</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.secure_transaction ? 'Да':'Нет'}}</mat-cell>
+        <mat-cell *matCellDef="let row">{{row.isSafe ? 'Да':'Нет'}}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="date_create">
         <mat-header-cell *matHeaderCellDef>Дата создания</mat-header-cell>
@@ -170,7 +170,7 @@
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef>Операция</mat-header-cell>
         <mat-cell *matCellDef="let row">
-          <button *ngIf="row.status == 2" class="btn-green" (click)="orderFinished(row)">Заверщить</button>
+          <button *ngIf="row.status == 2" class="btn-green" (click)="orderFinished(row)">Завершить</button>
         </mat-cell>
       </ng-container>
       <mat-header-row
