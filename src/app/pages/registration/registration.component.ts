@@ -148,20 +148,24 @@ export class RegistrationComponent implements OnInit {
   }
 
   selectFile(event: any, name: string) {
+    if (name == "logo") this.selectedFileNames = event.target.files[0].name;
+    if (name == "certificate_registration")
+      this.certificateNames = event.target.files[0].name;
+    if (name == "supervisor_passport")
+      this.passportNames = event.target.files[0].name;
+    
     const file = event.target.files[0];
     const formData = new FormData();
-    formData.append('file', file, file.name);
+    formData.append("file", file, file.name);
     this.authService.fileUpload(formData).subscribe(
-      response => {
-        console.log('File uploaded successfully:', response);
-        // Handle the response as needed
+      (response) => {
         if (response) {
-          this.data[name] = response.filename
+          this.toastr.success('Файл успешно загружен')
+          this.data[name] = response.filename;
         }
       },
-      error => {
-        console.error('Error uploading file:', error);
-        // Handle the error as needed
+      (error) => {
+          this.toastr.error(error.message)
       }
     );
   }

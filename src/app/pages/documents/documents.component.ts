@@ -11,6 +11,8 @@ import { ListService } from "src/app/services/list.service";
   styleUrls: ["./documents.component.scss"],
 })
 export class DocumentsComponent implements OnInit {
+  fileApi = "https://merchant.tirgo.io/api/v1/file/download/"
+
   passportFile: FileList;
   passportNames: string[] = [];
 
