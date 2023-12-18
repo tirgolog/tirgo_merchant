@@ -248,13 +248,13 @@
         <mat-card class="example-card" style="margin: 20px; margin-left: 0;">
           <div style="padding: 10px;"> <b>Логотип</b> </div>
           <img *ngIf="data.logoFilePath" mat-card-image [src]="fileApi+data.logoFilePath" alt="Photo of logo" width="300">
-          <p *ngIf="!data.logoFilePath" style="color: red;"><b>Не введен</b></p>
+          <p *ngIf="!data.logoFilePath" style="color: red;padding: 10px"><b>Не введен</b></p>
         </mat-card>
 
         <mat-card class="example-card" style="margin: 20px">
           <div style="padding: 10px;"> <b>Паспорт</b> </div>
           <img *ngIf="data.passportFilePath" mat-card-image [src]="fileApi+data.passportFilePath" alt="Photo of passport" width="300">
-          <p *ngIf="!data.passportFilePath" style="color: red;"><b>Не введен</b></p>
+          <p *ngIf="!data.passportFilePath" style="color: red;padding: 10px"><b>Не введен</b></p>
 
         </mat-card>
 
@@ -262,7 +262,7 @@
           <div style="padding: 10px;"> <b>Регистрационное свидетельство</b> </div>
           <img *ngIf="data.registrationCertificateFilePath" mat-card-image [src]="fileApi+data.registrationCertificateFilePath"
             alt="Photo of `registration Certificate" width="300">
-            <p *ngIf="!data.registrationCertificateFilePath" style="color: red;"><b>Не введен</b></p>
+            <p *ngIf="!data.registrationCertificateFilePath" style="color: red;padding: 10px"><b>Не введен</b></p>
         </mat-card>
         </div>
     </form>

@@ -65,7 +65,6 @@
                 <span *ngIf="data.status == 1">Принято</span>
                 <span *ngIf="data.status == 2">Выполнен</span>
                 <span *ngIf="data.status == 3">Завершен</span>
-                <!-- {{data.status}} -->
               </span>
             </p>
           </div>
@@ -125,7 +124,10 @@
                 <td>{{ idx +1 }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.priceorder + item.additional_price}}</td>
-                <td>{{ item.phone }}</td>
+                <td>
+                  <span *ngIf="item.status_order != 0">{{ item.phone }}</span>
+                  <span *ngIf="item.status_order == 0"></span>
+                </td>
                 <td>
                   <span *ngIf="item.status_order == 0">Ожидающий</span>
                   <span *ngIf="item.status_order == 1">Принято</span>

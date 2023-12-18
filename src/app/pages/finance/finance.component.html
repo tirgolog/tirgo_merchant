@@ -20,7 +20,7 @@
       <div class="page-header__actions">
         <div style="display: flex; margin-left: auto; margin-bottom: 10px">
           <button (click)="openDialog()" class="btn-green">
-            Пополнить баланс
+            Пополнить/Снять стредства
           </button>
         </div>
       </div>
@@ -66,9 +66,6 @@
 <ng-template #dialogRef>
   <form #form="ngForm">
     <mat-card>
-      <mat-card-header><span class="title">Пополнить баланс</span>
-      </mat-card-header>
-
       <mat-card-content style="margin-top: 20px">
         <mat-button-toggle-group name="transactionType" [(ngModel)]="payment.transactionType" required
           aria-label="transactionType">
