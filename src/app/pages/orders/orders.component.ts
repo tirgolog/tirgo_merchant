@@ -75,10 +75,12 @@ export class OrdersComponent {
     this.listService
       .getOrdersByMerchant(this.currentUser.merchantId)
       .subscribe((res: any) => {
-        if (res.success) {
+        if (res) {
           this.helper.orders = res.data;
-          this.spinner.hide();
         }
+      },error => {
+        this.spinner.hide();
+        this.toastr.error(error.message)
       });
   }
   openCreateOrder(): void {
