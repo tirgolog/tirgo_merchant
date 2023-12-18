@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ListService } from './list.service';
 
 const TOKEN_KEY = 'jwttirgomerhant';
-const API_URL = 'https://merchant.tirgo.io/api/v1'
+const API_URL = 'http://localhost:3000/api/v1'
 @Injectable({
    providedIn: 'root'
 })

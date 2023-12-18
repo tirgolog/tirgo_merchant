@@ -12,6 +12,8 @@ import { jwtDecode } from "jwt-decode";
 import { CreateorderComponent } from "../createorder/createorder.component";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
+import { Subscription } from 'rxjs';
+import { SseService } from "src/app/services/sse.service";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -37,6 +39,7 @@ export class OrdersComponent {
   gridOptions: any;
   items: any[] = [];
   orders: any;
+   private sseSubscription: Subscription;
   constructor(
     public dialog: MatDialog,
     public spoller: SpollersService,
@@ -46,7 +49,8 @@ export class OrdersComponent {
     public listService: ListService,
     public authService: AuthService,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private sseService: SseService
   ) { }
 
   ngOnInit(): void {
@@ -67,6 +71,17 @@ export class OrdersComponent {
     this.gridOptions.headerHeight = 75;
     // this.socketService.updateAllList().subscribe(async (res: any) => {
     // })
+
+    this.sseSubscription = this.sseService.getUpdates().subscribe(
+      (data) => {
+        if(data.type == 'driver-finish') {
+          this.getAllOrders();
+      }        
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
   ngAfterViewInit(): void {
     this.spoller.initSpollers();
