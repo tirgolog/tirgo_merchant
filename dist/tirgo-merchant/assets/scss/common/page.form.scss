@@ -1,0 +1,17 @@
+.page-form {
+   @include fluid("padding", 20, 10);
+   &__main {
+      display: grid;
+      gap: rem(30);
+
+      @media (min-width: $mobileSmall) {
+         grid-template-columns: repeat(auto-fit, minmax(rem(460), 1fr));
+      }
+   }
+   &__footer {
+      margin-top: rem(40);
+
+      display: flex;
+      justify-content: space-between;
+   }
+}
