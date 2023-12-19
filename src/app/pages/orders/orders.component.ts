@@ -74,9 +74,9 @@ export class OrdersComponent {
 
     this.sseSubscription = this.sseService.getUpdates().subscribe(
       (data) => {
-        if(data.type == 'driver-finish') {
+        if(data.type == 'driver-finish' || data.type == 'driver-offer') {
           this.getAllOrders();
-      }        
+        }
       },
       (error) => {
         console.error(error);
