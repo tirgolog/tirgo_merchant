@@ -50,16 +50,16 @@ export class FinanceComponent implements OnInit {
     this.getAllFinance();
     this.getBalance();
 
-    this.sseSubscription = this.sseService.getUpdates().subscribe(
-      (data) => {
-        if (data.type == "transaction-verified") {
-          this.getAllFinance();
-        }
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    // this.sseSubscription = this.sseService.getUpdates().subscribe(
+    //   (data) => {
+    //     if (data.type == "transaction-verified") {
+    //       this.getAllFinance();
+    //     }
+    //   },
+    //   (error) => {
+    //     console.error(error);
+    //   }
+    // );
   }
 
   openDialog(): void {

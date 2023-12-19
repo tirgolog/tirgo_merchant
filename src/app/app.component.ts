@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { documentActions } from 'src/assets/scripts/document.actions';
 import { AuthService } from './services/auth.service';
@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
   host: { "class": "wrapper" }
 })
 
-export class AppComponent {
+export class AppComponent implements OnDestroy{
   currentUser
   constructor(
     public authService: AuthService,
@@ -61,7 +61,46 @@ export class AppComponent {
       (data) => {
         if(data.type == 'update-balance') {
           this.getBalance();
-      }        
+        }   
+        else if (data.type == "transaction-verified") {
+          if (this.currentUser.role.name === "Super admin") {
+            this.listService.getFinanceByMerchant(this.currentUser.merchantId).subscribe(
+              (res) => {
+                if (res) {
+                  // this.spinner.hide();
+                  this.helper.transactions_type = res.data;
+                }
+              },
+              (error) => {
+                // this.spinner.hide();
+                this.toastr.error(error.message);
+              }
+            );
+          } else {
+            this.listService.getTransactionsByUser(this.currentUser.sub).subscribe(
+              (res) => {
+                if (res) {
+                  // this.spinner.hide();
+                  this.helper.transactions_type = res.data;
+                }
+              },
+              (error) => {
+                // this.spinner.hide();
+                this.toastr.error(error.message);
+              }
+            );        }}     
+        else if(data.type == 'driver-finish' || data.type == 'driver-offer') {
+          this.listService
+          .getOrdersByMerchant(this.currentUser.merchantId)
+          .subscribe((res: any) => {
+            if (res) {
+              // this.spinner.hide();
+              this.helper.orders = res.data;
+            }
+          },error => {
+            // this.spinner.hide();
+            this.toastr.error(error.message)
+          });        }
       },
       (error) => {
         console.error(error);
@@ -69,6 +108,12 @@ export class AppComponent {
     );  
 
     // this.socketService.connect()
+  }
+
+  disconnect() {
+    if (this.sseSubscription) {
+      this.sseSubscription.unsubscribe();
+    }
   }
   
   getBalance() {
@@ -199,6 +244,10 @@ export class AppComponent {
     } else {
       alert("Geolocation is not supported by this browser.");
     }
+  }
+
+  ngOnDestroy() {
+    this.disconnect();
   }
 
 }
