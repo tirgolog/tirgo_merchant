@@ -164,6 +164,7 @@ export class OrderComponent {
          isSafe: this.data.isSafe
       }
       this.authService.acceptOfferDriver(obj).subscribe((res: any) => {
+         location.reload()
          if(res) {
             // this.listService.orderFinishedSubject$.next(true);
          }
