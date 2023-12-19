@@ -67,6 +67,7 @@ export class AppComponent {
       }
     );  
 
+    this.socketService.connect()
   }
   
   getBalance() {

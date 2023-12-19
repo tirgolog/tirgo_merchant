@@ -128,7 +128,6 @@ import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { AddDaysPipe } from './pipes/add-days.pipe';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
-
 registerLocaleData(ruLocale);
 
 const mapConfig: YaConfig = {
