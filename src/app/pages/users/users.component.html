@@ -88,8 +88,8 @@
 
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="changeStatus(row)">
-              <span *ngIf="row.disabled == 1">Деактивировать</span>
-              <span *ngIf="row.disabled == 0">Активировать</span>
+              <span *ngIf="row.disabled == 0">Деактивировать</span>
+              <span *ngIf="row.disabled == 1">Активировать</span>
             </button>
           </mat-menu>
         </mat-cell>
