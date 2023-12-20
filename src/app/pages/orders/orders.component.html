@@ -95,6 +95,12 @@
       </div>  -->
 
     <mat-table [dataSource]="helper.orders">
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Операция</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button *ngIf="row.status == 2" class="btn-green" (click)="orderFinished(row)">Завершить</button>
+        </mat-cell>
+      </ng-container>
       <ng-container matColumnDef="id">
         <div class="offer-wrapper">
           <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
@@ -167,19 +173,14 @@
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef>Операция</mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          <button *ngIf="row.status == 2" class="btn-green" (click)="orderFinished(row)">Завершить</button>
-        </mat-cell>
-      </ng-container>
+
       <mat-header-row
-        *matHeaderRowDef="['id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'secure_transaction', 'date_create', 'date_send','action']"></mat-header-row>
+        *matHeaderRowDef="['action','id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'secure_transaction', 'date_create', 'date_send']"></mat-header-row>
       <mat-row (click)="viewOrder(row)"
-        *matRowDef="let row; columns: ['id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'secure_transaction', 'date_create', 'date_send','action']"></mat-row>
+        *matRowDef="let row; columns: ['action','id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type', 'orders_accepted', 'price', 'secure_transaction', 'date_create', 'date_send','action']"></mat-row>
     </mat-table>
     <mat-paginator [length]="helper.orders.length" showFirstLastButtons [pageSizeOptions]="sizespage"
-    (page)="handlePage($event)"></mat-paginator>
+      (page)="handlePage($event)"></mat-paginator>
 
   </div>
 </div>
