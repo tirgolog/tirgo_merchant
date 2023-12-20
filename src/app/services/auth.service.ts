@@ -141,7 +141,6 @@ export class AuthService {
    fileUpload(data: any) {
       const sUrl = API_URL + '/file/upload';
       return this.http.post<any>(sUrl, data);
-
    }
 
    adminBanned(banned: boolean, userid: number) {
