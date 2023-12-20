@@ -62,6 +62,11 @@ import { EdituserComponent } from './pages/edituser/edituser.component';
 const routes: Routes = [
    {
       path: "",
+      pathMatch:'full',
+      redirectTo: 'orders',
+   },
+   {
+      path: "loading",
       component: LoadingComponent,
       title: "Загрузка"
    },

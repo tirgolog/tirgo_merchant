@@ -102,8 +102,8 @@ export class FinanceComponent implements OnInit {
   }
 
   getBalance() {
-    this.activeBalance = this.helper.merchantBalance.activeBalance;
-    this.frozenBalance = this.helper.merchantBalance.frozenBalance;
+    this.activeBalance = this.helper.merchantBalance?.activeBalance;
+    this.frozenBalance = this.helper.merchantBalance?.frozenBalance;
   }
 
   createTransaction() {
