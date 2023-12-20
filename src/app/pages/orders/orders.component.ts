@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { GridOptions } from "ag-grid-community";
 import { SpollersService } from "src/app/services/spollers.service";
 import { OrderComponent } from "../order/order.component";
@@ -12,7 +12,7 @@ import { jwtDecode } from "jwt-decode";
 import { CreateorderComponent } from "../createorder/createorder.component";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 import { SseService } from "src/app/services/sse.service";
 
 @Component({
@@ -39,7 +39,7 @@ export class OrdersComponent {
   gridOptions: any;
   items: any[] = [];
   orders: any;
-   private sseSubscription: Subscription;
+  private sseSubscription: Subscription;
   constructor(
     public dialog: MatDialog,
     public spoller: SpollersService,
@@ -51,7 +51,7 @@ export class OrdersComponent {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private sseService: SseService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.spinner.show();
@@ -72,32 +72,33 @@ export class OrdersComponent {
     // this.socketService.updateAllList().subscribe(async (res: any) => {
     // })
 
-  //   this.sseSubscription = this.sseService.getUpdates().subscribe(
-  //     (data) => {
-  //       if(data.type == 'driver-finish' || data.type == 'driver-offer') {
-  //         this.getAllOrders();
-  //       }
-  //     },
-  //     (error) => {
-  //       console.error(error);
-  //     }
-  //   );
+    //   this.sseSubscription = this.sseService.getUpdates().subscribe(
+    //     (data) => {
+    //       if(data.type == 'driver-finish' || data.type == 'driver-offer') {
+    //         this.getAllOrders();
+    //       }
+    //     },
+    //     (error) => {
+    //       console.error(error);
+    //     }
+    //   );
   }
   ngAfterViewInit(): void {
     this.spoller.initSpollers();
   }
   getAllOrders() {
-    this.listService
-      .getOrdersByMerchant(this.currentUser.merchantId)
-      .subscribe((res: any) => {
+    this.listService.getOrdersByMerchant(this.currentUser.merchantId).subscribe(
+      (res: any) => {
         if (res) {
           this.spinner.hide();
           this.helper.orders = res.data;
         }
-      },error => {
+      },
+      (error) => {
         this.spinner.hide();
-        this.toastr.error(error.message)
-      });
+        this.toastr.error(error.message);
+      }
+    );
   }
   openCreateOrder(): void {
     const dialogRef = this.dialog.open(CreateorderComponent, {
@@ -110,12 +111,17 @@ export class OrdersComponent {
     });
   }
   viewOrder(ev: any) {
-    const dialogRef = this.dialog.open(OrderComponent, {
-      width: "90%",
-      height: "80%",
-      panelClass: "custom-dialog-class",
-      data: ev,
-    });
+    const isActionButton = (event.target as HTMLElement).classList.contains(
+      "btn-green"
+    );
+    if (!isActionButton) {
+      const dialogRef = this.dialog.open(OrderComponent, {
+        width: "90%",
+        height: "80%",
+        panelClass: "custom-dialog-class",
+        data: ev,
+      });
+    }
   }
   statusOrderCheck(params) {
     switch (params) {
@@ -257,5 +263,4 @@ export class OrdersComponent {
       }
     );
   }
-
 }
