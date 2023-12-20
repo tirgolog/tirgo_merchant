@@ -43,7 +43,6 @@ export class AppComponent implements OnDestroy{
     this.authService.checkToken();
     if (this.authService.currentUser) {
       this.authService.globalLoading = false;
-      this.router.navigate(['orders']);
     } else {
       await this.router.navigate(['auth']);
     }
