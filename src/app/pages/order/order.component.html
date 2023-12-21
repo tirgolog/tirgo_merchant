@@ -81,7 +81,7 @@
             </button>
           </ng-container>
           <ng-container>
-            <button class="view__btn btn-green" type="button" (click)="selectdriver = !selectdriver">
+            <button class="view__btn btn-green" *ngIf="data.status !== 3" type="button" (click)="selectdriver = !selectdriver">
               Назначить водителя
             </button>
           </ng-container>
@@ -90,7 +90,7 @@
           </button>
         </div>
 
-        <span [hidden]="!selectdriver">
+        <span [hidden]="!selectdriver && data.status != 0">
           <div class="sed-driver-block">
             <mat-form-field class="form__input">
               <mat-label>Водитель</mat-label>
@@ -121,7 +121,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of data.acceptedOrders; let idx = index">
-                <td>{{ idx +1 }}</td>
+                <td>{{ item.user_id }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.priceorder + item.additional_price}}</td>
                 <td>
