@@ -66,12 +66,11 @@ export class AppComponent implements OnDestroy{
             this.listService.getFinanceByMerchant(this.currentUser.merchantId).subscribe(
               (res) => {
                 if (res) {
-                  // this.spinner.hide();
+                  this.getBalance();
                   this.helper.transactions_type = res.data;
                 }
               },
               (error) => {
-                // this.spinner.hide();
                 this.toastr.error(error.message);
               }
             );
@@ -79,12 +78,10 @@ export class AppComponent implements OnDestroy{
             this.listService.getTransactionsByUser(this.currentUser.sub).subscribe(
               (res) => {
                 if (res) {
-                  // this.spinner.hide();
                   this.helper.transactions_type = res.data;
                 }
               },
               (error) => {
-                // this.spinner.hide();
                 this.toastr.error(error.message);
               }
             );        }}     
@@ -119,10 +116,12 @@ export class AppComponent implements OnDestroy{
     const user: any = jwtDecode(localStorage.getItem('jwttirgomerhant'));
     this.listService.getBalanceMerchant(user.merchantId).subscribe((res) => {
     if (res.success) {
-        this.helper.merchantBalance = {
-          activeBalance: res.data.activeBalance,
-          frozenBalance: res.data.frozenBalance
-        }
+      this.helper.merchantBalance.activeBalance = res.data.activeBalance;
+      this.helper.merchantBalance.frozenBalance = res.data.frozenBalance
+        // this.helper.merchantBalance = {
+        //   activeBalance: res.data.activeBalance,
+        //   frozenBalance: res.data.frozenBalance
+        // }
       }
     })
   }

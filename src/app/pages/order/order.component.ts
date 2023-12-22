@@ -41,7 +41,7 @@ export class OrderComponent {
    }
    async ngOnInit() {
       this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
-
+      
       this.data = this.data;
       const index = this.helper.orders.findIndex(e => e.id === +this.data.id)
       if (index >= 0) {

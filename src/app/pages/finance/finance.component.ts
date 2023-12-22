@@ -76,8 +76,8 @@ export class FinanceComponent implements OnInit {
       this.list.getFinanceByMerchant(this.currentUser.merchantId).subscribe(
         (res) => {
           if (res) {
-            this.spinner.hide();
-            this.helper.transactions_type = res.data;
+              this.spinner.hide();
+              this.helper.transactions_type = res.data;
           }
         },
         (error) => {
@@ -109,7 +109,7 @@ export class FinanceComponent implements OnInit {
   createTransaction() {
     this.helper.loadingCreate();
     this.payment.merchantId = this.currentUser.merchantId;
-     if(this.payment.transactionType === 'topup') {
+     if(this.payment.transactionType === 'topup' || (this.payment.transactionType == 'withdrow' && this.payment.amount < this.activeBalance)) {
       this.list.createTransaction(this.payment).subscribe(
         (res) => {
           if (res) {
@@ -129,6 +129,8 @@ export class FinanceComponent implements OnInit {
       this.toastr.error("Недостаточно стредств");
       this.helper.loadingClose();
     }else {
+      console.log(this.payment.amount, this.activeBalance);
+
       this.helper.loadingClose();
       this.toastr.error("Что то пошло не так");
     }

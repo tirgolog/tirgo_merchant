@@ -8,6 +8,7 @@ const API_URL = 'https://merchant.tirgo.io/api/v1'
 })
 
 export class ListService {
+
   adminJwt;
   orderFinishedSubject$ = new BehaviorSubject<boolean>(false);
   constructor(

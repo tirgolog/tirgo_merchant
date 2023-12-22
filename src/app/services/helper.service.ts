@@ -48,7 +48,7 @@ export class HelperService {
 
    public isLoading:boolean = false;
 
-   public merchantBalance: any;
+   public merchantBalance: any = {};
 
    public localeTextAgGrid = {
       // for filter pa
