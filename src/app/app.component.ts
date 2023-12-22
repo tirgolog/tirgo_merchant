@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { documentActions } from 'src/assets/scripts/document.actions';
 import { AuthService } from './services/auth.service';
@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
   host: { "class": "wrapper" }
 })
 
-export class AppComponent implements OnDestroy{
+export class AppComponent implements AfterViewInit, OnDestroy{
   currentUser
   constructor(
     public authService: AuthService,
@@ -30,15 +30,17 @@ export class AppComponent implements OnDestroy{
     private toastr: ToastrService,
     public listService: ListService,
     private sseService: SseService
-  ) { }
+  ) {
+    
+   }
   title = 'tirgo-merchant';
   logo = "/assets/img/logo.svg";
   receivedData: any;
   private sseSubscription: Subscription;
-
+  
   async ngOnInit() {
+
     this.spoller.initSpollers()
-    this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
     this.getUsers();
     this.authService.checkToken();
     if (this.authService.currentUser) {
@@ -105,6 +107,8 @@ export class AppComponent implements OnDestroy{
 
     // this.socketService.connect()
   }
+
+  
 
   disconnect() {
     if (this.sseSubscription) {
@@ -223,6 +227,8 @@ export class AppComponent implements OnDestroy{
  }
 
   ngAfterViewInit() {
+    this.currentUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+
     documentActions()
     this.spoller.initSpollers();
   }
