@@ -10,7 +10,8 @@
             <mat-form-field class="form__input">
               <mat-label>Электронная почта</mat-label>
               <input matInput name="email" [(ngModel)]="data.email" required #email="ngModel" />
-              <span style="margin-left: 0; color: red;" *ngIf="email.invalid && (email.dirty || email.touched)"> Обязательное поле</span>
+              <span style="margin-left: 0; color: red;" *ngIf="email.invalid && (email.dirty || email.touched)">
+                Обязательное поле</span>
             </mat-form-field>
           </div>
         </div>
@@ -19,14 +20,9 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Название компании</mat-label>
-              <input
-                required
-                matInput
-                name="companyName"
-                #companyName="ngModel" 
-                [(ngModel)]="data.companyName"
-              />
-              <span style="margin-left: 0; color: red;" *ngIf="companyName.invalid && (companyName.dirty || companyName.touched)">Обязательное поле</span>
+              <input required matInput name="companyName" #companyName="ngModel" [(ngModel)]="data.companyName" />
+              <span style="margin-left: 0; color: red;"
+                *ngIf="companyName.invalid && (companyName.dirty || companyName.touched)">Обязательное поле</span>
             </mat-form-field>
           </div>
         </div>
@@ -35,14 +31,11 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Ф.И.О руководителя</mat-label>
-              <input
-                matInput
-                required
-                name="supervisorFullName"
-                [(ngModel)]="data.supervisorFullName"
-                #supervisorFullName="ngModel"
-              />
-              <span style="margin-left: 0; color: red;" *ngIf="supervisorFullName.invalid && (supervisorFullName.dirty || supervisorFullName.touched)"> Обязательное поле </span>
+              <input matInput required name="supervisorFullName" [(ngModel)]="data.supervisorFullName"
+                #supervisorFullName="ngModel" />
+              <span style="margin-left: 0; color: red;"
+                *ngIf="supervisorFullName.invalid && (supervisorFullName.dirty || supervisorFullName.touched)">
+                Обязательное поле </span>
             </mat-form-field>
           </div>
         </div>
@@ -51,34 +44,22 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Наименование банка</mat-label>
-              <input
-                matInput
-                name="bankName"
-                required
-                [(ngModel)]="data.bankName"
-                #bankName="ngModel"
-              />
-            <span style="margin-left: 0; color: red;" *ngIf="bankName.invalid && (bankName.dirty || bankName.touched)">Обязательное поле</span>
+              <input matInput name="bankName" required [(ngModel)]="data.bankName" #bankName="ngModel" />
+              <span style="margin-left: 0; color: red;"
+                *ngIf="bankName.invalid && (bankName.dirty || bankName.touched)">Обязательное поле</span>
             </mat-form-field>
           </div>
-         </div>
-        
+        </div>
+
 
         <div class="dynamic-inputs-wrapper">
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>ИНН</mat-label>
-              <input
-                type="text"
-                required
-                mask="999999999"
-                matInput
-                name="inn"
-                [(ngModel)]="data.inn"
-                maxlength="9"
-                #inn="ngModel"
-              />
-              <span style="margin-left: 0; color: red;" *ngIf="inn.invalid && (inn.dirty || inn.touched)"> Обязательное поле </span>
+              <input type="text" required mask="999999999" matInput name="inn" [(ngModel)]="data.inn" maxlength="9"
+                #inn="ngModel" />
+              <span style="margin-left: 0; color: red;" *ngIf="inn.invalid && (inn.dirty || inn.touched)"> Обязательное
+                поле </span>
             </mat-form-field>
           </div>
         </div>
@@ -87,17 +68,10 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>ОКЭД</mat-label>
-              <input
-                type="text"
-                required
-                mask="99999"
-                matInput
-                name="oked"
-                [(ngModel)]="data.oked"
-                maxlength="5"
-                #oked="ngModel"
-              />
-              <span style="margin-left: 0; color: red;" *ngIf="oked.invalid && (oked.dirty || oked.touched)"> Обязательное поле </span>
+              <input type="text" required mask="99999" matInput name="oked" [(ngModel)]="data.oked" maxlength="5"
+                #oked="ngModel" />
+              <span style="margin-left: 0; color: red;" *ngIf="oked.invalid && (oked.dirty || oked.touched)">
+                Обязательное поле </span>
             </mat-form-field>
           </div>
         </div>
@@ -106,17 +80,10 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>МФО</mat-label>
-              <input
-                type="text"
-                matInput
-                required
-                name="mfo"
-                [(ngModel)]="data.mfo"
-                mask="99999"
-                maxlength="5"
-                #mfo="ngModel"
-              />
-              <span style="margin-left: 0; color: red;" *ngIf="mfo.invalid && (mfo.dirty || mfo.touched)"> Обязательное поле </span>
+              <input type="text" matInput required name="mfo" [(ngModel)]="data.mfo" mask="99999" maxlength="5"
+                #mfo="ngModel" />
+              <span style="margin-left: 0; color: red;" *ngIf="mfo.invalid && (mfo.dirty || mfo.touched)"> Обязательное
+                поле </span>
             </mat-form-field>
           </div>
         </div>
@@ -125,14 +92,8 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>DUNS номер</mat-label>
-              <input
-                type="text"
-                matInput
-                name="dunsNumber"
-                [(ngModel)]="data.dunsNumber"
-                mask="999999999"
-                maxlength="9"
-              />
+              <input type="text" matInput name="dunsNumber" [(ngModel)]="data.dunsNumber" mask="999999999"
+                maxlength="9" />
             </mat-form-field>
           </div>
         </div>
@@ -141,14 +102,8 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>IBAN номер</mat-label>
-              <input
-                type="text"
-                matInput
-                name="ibanNumber"
-                [(ngModel)]="data.ibanNumber"
-                mask="999999999"
-                maxlength="9"
-              />
+              <input type="text" matInput name="ibanNumber" [(ngModel)]="data.ibanNumber" mask="999999999"
+                maxlength="9" />
             </mat-form-field>
           </div>
         </div>
@@ -166,15 +121,10 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Парол</mat-label>
-              <input
-                type="password"
-                matInput
-                name="password"
-                [(ngModel)]="data.password"
-                required
-                #password="ngModel"
-              />
-              <span style="margin-left: 0; color: red;" *ngIf="password.invalid && (password.dirty || password.touched)"> Обязательное поле </span>
+              <input type="password" matInput name="password" [(ngModel)]="data.password" required
+                #password="ngModel" />
+              <span style="margin-left: 0; color: red;"
+                *ngIf="password.invalid && (password.dirty || password.touched)"> Обязательное поле </span>
             </mat-form-field>
           </div>
         </div>
@@ -183,19 +133,11 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Телефон</mat-label>
-              <input
-                matInput
-                type="text"
-                name="phoneNumbers"
-                mask="+999999999999"
-                [(ngModel)]="data.phoneNumbers[0]"
-                required
-                #phoneNumbers="ngModel"
-              />
-              <mat-icon matSuffix *ngIf="!phone2" (click)="phone2 = true"
-                >add</mat-icon
-              >
-              <span style="margin-left: 0; color: red;" *ngIf="phoneNumbers.invalid && (phoneNumbers.dirty || phoneNumbers.touched)"> Обязательное поле </span>
+              <input matInput type="text" name="phoneNumbers" mask="+999999999999" [(ngModel)]="data.phoneNumbers[0]"
+                required #phoneNumbers="ngModel" />
+              <mat-icon matSuffix *ngIf="!phone2" (click)="phone2 = true">add</mat-icon>
+              <span style="margin-left: 0; color: red;"
+                *ngIf="phoneNumbers.invalid && (phoneNumbers.dirty || phoneNumbers.touched)"> Обязательное поле </span>
 
             </mat-form-field>
           </div>
@@ -203,13 +145,7 @@
           <div class="dynamic-inputs" *ngIf="phone2">
             <mat-form-field class="form__input example-full-width">
               <mat-label>Телефон</mat-label>
-              <input
-                matInput
-                type="text"
-                name="phone2"
-                mask="+999999999999"
-                [(ngModel)]="data.phone2"
-              />
+              <input matInput type="text" name="phone2" mask="+999999999999" [(ngModel)]="data.phone2" />
               <mat-icon matSuffix (click)="phone2 = false">delete</mat-icon>
             </mat-form-field>
           </div>
@@ -219,36 +155,19 @@
           <div class="dynamic-inputs">
             <mat-form-field class="form__input">
               <mat-label>Юридический адрес</mat-label>
-              <input
-                matInput
-                required
-                type="text"
-                name="legalAddress"
-                [(ngModel)]="data.legalAddress"
-                #legalAddress="ngModel"
-              />
-              <mat-icon
-                matSuffix
-                *ngIf="!factAddressShow"
-                (click)="factAddressShow = true"
-                >add</mat-icon
-              >
-              <span style="margin-left: 0; color: red;" *ngIf="legalAddress.invalid && (legalAddress.dirty || legalAddress.touched)"> Обязательное поле </span>
+              <input matInput required type="text" name="legalAddress" [(ngModel)]="data.legalAddress"
+                #legalAddress="ngModel" />
+              <mat-icon matSuffix *ngIf="!factAddressShow" (click)="factAddressShow = true">add</mat-icon>
+              <span style="margin-left: 0; color: red;"
+                *ngIf="legalAddress.invalid && (legalAddress.dirty || legalAddress.touched)"> Обязательное поле </span>
             </mat-form-field>
           </div>
 
           <div class="dynamic-inputs" *ngIf="factAddressShow">
             <mat-form-field class="form__input">
               <mat-label>Фактический адрес</mat-label>
-              <input
-                matInput
-                type="text"
-                name="factAddress"
-                [(ngModel)]="data.factAddress"
-              />
-              <mat-icon matSuffix (click)="factAddressShow = false"
-                >delete</mat-icon
-              >
+              <input matInput type="text" name="factAddress" [(ngModel)]="data.factAddress" />
+              <mat-icon matSuffix (click)="factAddressShow = false">delete</mat-icon>
             </mat-form-field>
           </div>
         </div>
@@ -257,60 +176,28 @@
           <div class="dynamic-inputs" style="align-items: center">
             <mat-form-field class="form__input">
               <mat-label>Расчетный счет</mat-label>
-              <input
-                required
-                matInput
-                type="number"
-                name="bankAccounts"
-                [(ngModel)]="data.bankAccounts"
-                #bankAccounts="ngModel"
-              />
-              <mat-icon
-                matSuffix
-                *ngIf="!bankAccountCurrency"
-                (click)="bankAccountCurrency = true"
-                >add</mat-icon
-              >
-              <span style="margin-left: 0; color: red;" *ngIf="bankAccounts.invalid && (bankAccounts.dirty || bankAccounts.touched)"> Обязательное поле </span>
+              <input required matInput type="number" name="bankAccounts" [(ngModel)]="data.bankAccounts"
+                #bankAccounts="ngModel" mask="99999999999999999999" maxlength="20"/>
+              <mat-icon matSuffix *ngIf="!bankAccountCurrency" (click)="bankAccountCurrency = true">add</mat-icon>
+              <span style="margin-left: 0; color: red;"
+                *ngIf="bankAccounts.invalid && (bankAccounts.dirty || bankAccounts.touched)"> Обязательное поле </span>
             </mat-form-field>
-            <mat-select
-              class="form__input"
-              name="currency"
-              [(ngModel)]="currency"
-              style="width: 25%; margin-left: 10px"
-            >
-              <mat-option
-                *ngFor="let currency of currencies"
-                value="{{ currency.id }}"
-                >{{ currency.name }}</mat-option
-              >
+            <mat-select class="form__input" name="currency" [(ngModel)]="currency"
+              style="width: 25%; margin-left: 10px">
+              <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name }}</mat-option>
             </mat-select>
           </div>
 
           <div class="dynamic-inputs" *ngIf="bankAccountCurrency">
             <mat-form-field class="form__input">
               <mat-label>Расчетный счет</mat-label>
-              <input
-                matInput
-                type="number"
-                name="bankAccountCurrency"
-                [(ngModel)]="data.bankAccountCurrency"
-              />
-              <mat-icon matSuffix (click)="bankAccountCurrency = false"
-                >delete</mat-icon
-              >
+              <input matInput type="number" name="bankAccountCurrency" [(ngModel)]="data.bankAccountCurrency"
+                mask="99999999999999999999" maxlength="20" />
+              <mat-icon matSuffix (click)="bankAccountCurrency = false">delete</mat-icon>
             </mat-form-field>
-            <mat-select
-              class="form__input"
-              name="currency2"
-              [(ngModel)]="currency2"
-              style="width: 25%; margin-left: 10px"
-            >
-              <mat-option
-                *ngFor="let currency of currencies"
-                value="{{ currency.id }}"
-                >{{ currency.name }}</mat-option
-              >
+            <mat-select class="form__input" name="currency2" [(ngModel)]="currency2"
+              style="width: 25%; margin-left: 10px">
+              <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name }}</mat-option>
             </mat-select>
           </div>
         </div>
@@ -319,21 +206,12 @@
         <div style="margin-left: 15px; width: 100%">
           <mat-form-field style="display: block">
             <mat-toolbar>
-              <input
-                matInput
-                [value]="
+              <input matInput [value]="
                   selectedFileNames.length ? selectedFileNames : 'Логотип'
-                "
-              />
+                " />
             </mat-toolbar>
-            <input
-              type="file"
-              class="fileInput"
-              name="logo"
-              [(ngModel)]="data.logo"
-              accept="image/*"
-              (change)="selectFile($event, 'logo')"
-            />
+            <input type="file" class="fileInput" name="logo" [(ngModel)]="data.logo" accept="image/*"
+              (change)="selectFile($event, 'logo')" />
             <mat-icon matSuffix>file_download</mat-icon>
           </mat-form-field>
         </div>
@@ -341,24 +219,16 @@
         <div style="margin-left: 15px; width: 100%">
           <mat-form-field style="display: block">
             <mat-toolbar>
-              <input
-                matInput
-                [value]="
+              <input matInput [value]="
                   certificateNames.length
                     ? certificateNames
                     : 'Свидетельство о регистрации'
-                "
-              />
+                " />
             </mat-toolbar>
 
-            <input
-              type="file"
-              class="fileInput"
-              name="certificate_registration"
-              [(ngModel)]="data.certificate_registration"
-              accept="image/*"
-              (change)="selectFile($event, 'certificate_registration')"
-            />
+            <input type="file" class="fileInput" name="certificate_registration"
+              [(ngModel)]="data.certificate_registration" accept="image/*"
+              (change)="selectFile($event, 'certificate_registration')" />
             <mat-icon matSuffix>file_download</mat-icon>
           </mat-form-field>
         </div>
@@ -366,31 +236,18 @@
         <div style="margin-left: 15px; width: 100%">
           <mat-form-field style="display: block">
             <mat-toolbar>
-              <input
-                matInput
-                [value]="
+              <input matInput [value]="
                   passportNames.length ? passportNames : 'Паспорт руководителя'
-                "
-              />
+                " />
             </mat-toolbar>
 
-            <input
-              type="file"
-              class="fileInput"
-              name="supervisor_passport"
-              [(ngModel)]="data.supervisor_passport"
-              accept="image/*"
-              (change)="selectFile($event, 'supervisor_passport')"
-            />
+            <input type="file" class="fileInput" name="supervisor_passport" [(ngModel)]="data.supervisor_passport"
+              accept="image/*" (change)="selectFile($event, 'supervisor_passport')" />
             <mat-icon matSuffix>file_download</mat-icon>
           </mat-form-field>
         </div>
-        <button
-          [disabled]="!form.valid"
-          style="margin-left: 10px"
-          class="auth__btn btn-green"
-          (click)="createMerchant()"
-        >
+        <button [disabled]="!form.valid" style="margin-left: 10px" class="auth__btn btn-green"
+          (click)="createMerchant()">
           Завершить
         </button>
       </div>

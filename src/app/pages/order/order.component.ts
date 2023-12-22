@@ -82,7 +82,6 @@ export class OrderComponent {
          return !row.id ? row.id : row.id.toString().includes(ev.target.value) ||
             !row.name ? row.name : row.name.toLowerCase().includes(ev.target.value.toLowerCase());
       });
-      console.log(this.drivers)
    }
    goToColumn(ev: any): void {
       const dialogRef = this.dialog.open(DriverComponent, {
@@ -97,7 +96,6 @@ export class OrderComponent {
       if (res.status) {
          this.toastr.success('Заказ успешно отменен')
          const res = await this.authService.getOrderInfo(this.data.id).toPromise();
-         console.log(res)
          if (res.status) {
             this.data = res.data;
             const index = this.helper.orders.findIndex(e => e.id === +this.data.id)
@@ -113,7 +111,6 @@ export class OrderComponent {
       if (res.status) {
          this.toastr.success('Заказ успешно отменен')
          const res = await this.authService.getOrderInfo(this.data.id).toPromise();
-         console.log(res)
          if (res.status) {
             this.data = res.data;
             const index = this.helper.orders.findIndex(e => e.id === +this.data.id)

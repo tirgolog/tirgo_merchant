@@ -47,9 +47,9 @@
             <span>DUNS номер:</span>
             <span class="cursor-pointer">{{data.dunsNumber ? data.dunsNumber : 'Не введен' }}</span>
           </p>
-          <p class="tw-flex tw-justify-between" [style.color]="data.note ? 'black' : 'red'">
+          <p class="tw-flex tw-justify-between" [style.color]="data.notes ? 'black' : 'red'">
             <span>Заметки: </span>
-            <span>{{data.note ? data.note : 'Не введен' }}</span>
+            <span>{{data.notes ? data.notes : 'Не введен' }}</span>
           </p>
 
           <p class="tw-flex tw-justify-between" *ngFor="let phone of data.phoneNumbers" [style.color]="phone ? 'black' : 'red'">
