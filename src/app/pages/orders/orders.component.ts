@@ -54,7 +54,7 @@ export class OrdersComponent {
   ) {}
 
   ngOnInit(): void {
-    this.spinner.show();
+    // this.spinner.show();
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
     if (+this.route.snapshot.paramMap.get("status") === 100) {
       this.status = "all";

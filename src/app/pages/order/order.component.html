@@ -81,16 +81,16 @@
             </button>
           </ng-container>
           <ng-container>
-            <button class="view__btn btn-green" *ngIf="data.status !== 3" type="button" (click)="selectdriver = !selectdriver">
+            <!-- <button class="view__btn btn-green" *ngIf="data.status !== 3" type="button" (click)="selectdriver = !selectdriver">
               Назначить водителя
-            </button>
+            </button> -->
           </ng-container>
           <button class="view__btn btn-yellow" type="button" (click)="close()">
             Закрыть
           </button>
         </div>
 
-        <span [hidden]="!selectdriver && data.status != 0">
+        <!-- <span [hidden]="!selectdriver && data.status != 0">
           <div class="sed-driver-block">
             <mat-form-field class="form__input">
               <mat-label>Водитель</mat-label>
@@ -104,7 +104,7 @@
               Сохранить
             </button>
           </div>
-        </span>
+        </span> -->
 
         <div class="offers" *ngIf="data.acceptedOrders.length">
           <h2 style="margin-bottom: 10px; font-size: 18px; font-weight: 500;">Предложение</h2>
