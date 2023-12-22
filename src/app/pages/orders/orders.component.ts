@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from "@angular/core";
+import { Component, ViewChild, ViewEncapsulation } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { GridOptions } from "ag-grid-community";
 import { SpollersService } from "src/app/services/spollers.service";
@@ -14,6 +14,9 @@ import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from "rxjs";
 import { SseService } from "src/app/services/sse.service";
+import { MatSort, Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { LiveAnnouncer } from "@angular/cdk/a11y";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,6 +26,9 @@ import { SseService } from "src/app/services/sse.service";
   host: { id: "main" },
 })
 export class OrdersComponent {
+  dataSource = new MatTableDataSource<any>([]); 
+  @ViewChild(MatSort) sort: MatSort;
+
   id: string = "";
   id_client: string = "";
   from_city: string = "";
@@ -50,7 +56,8 @@ export class OrdersComponent {
     public authService: AuthService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private sseService: SseService
+    private sseService: SseService,
+    private _liveAnnouncer: LiveAnnouncer
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +70,6 @@ export class OrdersComponent {
     }
     this.getAllOrders();
     // this.helper.global_loading = true;
-
     this.spoller.initSpollers();
     this.gridOptions = <GridOptions>{};
     this.gridOptions.localeText = this.helper.localeTextAgGrid;
@@ -84,6 +90,7 @@ export class OrdersComponent {
     //   );
   }
   ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;    
     this.spoller.initSpollers();
   }
   getAllOrders() {
@@ -91,7 +98,7 @@ export class OrdersComponent {
       (res: any) => {
         if (res) {
           this.spinner.hide();
-          this.helper.orders = res.data;
+          this.dataSource.data = res.data; 
         }
       },
       (error) => {
@@ -262,5 +269,13 @@ export class OrdersComponent {
         this.toastr.error(error.message);
       }
     );
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { documentActions } from 'src/assets/scripts/document.actions';
 import { AuthService } from './services/auth.service';
@@ -29,7 +29,8 @@ export class AppComponent implements AfterViewInit, OnDestroy{
     private socketService: SocketService,
     private toastr: ToastrService,
     public listService: ListService,
-    private sseService: SseService
+    private sseService: SseService,
+    private cdr: ChangeDetectorRef
   ) {
     
    }
@@ -62,6 +63,7 @@ export class AppComponent implements AfterViewInit, OnDestroy{
       (data) => {
         if(data.type == 'update-balance') {
           this.getBalance();
+          this.cdr.detectChanges();
         }   
         else if (data.type == "transaction-verified") {
           if (this.currentUser.role.name === "Super admin") {
