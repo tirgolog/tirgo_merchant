@@ -72,12 +72,12 @@ export class FinanceComponent implements OnInit {
   }
 
   getAllFinance() {
-    if (this.app.currentUser.role.name === "Super admin") {
+    if (this.app?.currentUser?.role?.name === "Super admin") {
       this.list.getFinanceByMerchant(this.currentUser.merchantId).subscribe(
         (res) => {
           if (res) {
-              this.spinner.hide();
-              this.helper.transactions_type = res.data;
+            this.spinner.hide();
+            this.helper.transactions_type = res.data;
           }
         },
         (error) => {
@@ -109,7 +109,11 @@ export class FinanceComponent implements OnInit {
   createTransaction() {
     this.helper.loadingCreate();
     this.payment.merchantId = this.currentUser.merchantId;
-     if(this.payment.transactionType === 'topup' || (this.payment.transactionType == 'withdrow' && this.payment.amount < this.activeBalance)) {
+    if (
+      this.payment.transactionType === "topup" ||
+      (this.payment.transactionType == "withdrow" &&
+        this.payment.amount < this.activeBalance)
+    ) {
       this.list.createTransaction(this.payment).subscribe(
         (res) => {
           if (res) {
@@ -124,11 +128,13 @@ export class FinanceComponent implements OnInit {
           this.toastr.error("Что то пошло не так");
         }
       );
-    }
-    else if(this.payment.transactionType == 'withdrow' && this.payment.amount > this.activeBalance) {
+    } else if (
+      this.payment.transactionType == "withdrow" &&
+      this.payment.amount > this.activeBalance
+    ) {
       this.toastr.error("Недостаточно стредств");
       this.helper.loadingClose();
-    }else {
+    } else {
       console.log(this.payment.amount, this.activeBalance);
 
       this.helper.loadingClose();
