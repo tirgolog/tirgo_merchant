@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { GridOptions } from "ag-grid-community";
 import { SpollersService } from "src/app/services/spollers.service";
@@ -57,11 +57,12 @@ export class OrdersComponent {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private sseService: SseService,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    private ref: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    // this.spinner.show();
+  ngOnInit() {
+    this.spinner.show();
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
     if (+this.route.snapshot.paramMap.get("status") === 100) {
       this.status = "all";
@@ -89,6 +90,12 @@ export class OrdersComponent {
     //     }
     //   );
   }
+
+  ngOnChanges()	 {
+    this.dataSource.data = this.helper.orders
+    this.ref.detectChanges();
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;    
     this.spoller.initSpollers();
@@ -98,7 +105,9 @@ export class OrdersComponent {
       (res: any) => {
         if (res) {
           this.spinner.hide();
-          this.dataSource.data = res.data; 
+          this.helper.orders = res.data;
+          this.dataSource.data = this.helper.orders; 
+          this.ref.detectChanges();
         }
       },
       (error) => {
@@ -270,7 +279,6 @@ export class OrdersComponent {
       }
     );
   }
-
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
