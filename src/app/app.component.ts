@@ -7,7 +7,6 @@ import { ListService } from './services/list.service';
 import { SpollersService } from './services/spollers.service';
 import { SocketService } from "./services/socket.service";
 import { ToastrService } from "ngx-toastr";
-import { lastDayOfMonth } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 import { SseService } from './services/sse.service';
 import { Subscription } from 'rxjs';
@@ -30,7 +29,7 @@ export class AppComponent implements AfterViewInit, OnDestroy{
     private toastr: ToastrService,
     public listService: ListService,
     private sseService: SseService,
-    private cdr: ChangeDetectorRef
+    private ref: ChangeDetectorRef
   ) {
     
    }
@@ -39,8 +38,7 @@ export class AppComponent implements AfterViewInit, OnDestroy{
   receivedData: any;
   private sseSubscription: Subscription;
   
-  async ngOnInit() {
-
+  async ngOnInit() {    
     this.spoller.initSpollers()
     this.getUsers();
     this.authService.checkToken();
@@ -57,17 +55,19 @@ export class AppComponent implements AfterViewInit, OnDestroy{
         await this.router.navigate(['auth']);
       }
     })
+    this.getAllOrders();
     this.getAllUsers();
     this.getBalance();
     this.sseSubscription = this.sseService.getUpdates().subscribe(
       (data) => {
+      const user: any = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+
         if(data.type == 'update-balance') {
           this.getBalance();
-          this.cdr.detectChanges();
         }   
         else if (data.type == "transaction-verified") {
           if (this.currentUser.role.name === "Super admin") {
-            this.listService.getFinanceByMerchant(this.currentUser.merchantId).subscribe(
+            this.listService.getFinanceByMerchant(user.merchantId).subscribe(
               (res) => {
                 if (res) {
                   this.getBalance();
@@ -79,7 +79,7 @@ export class AppComponent implements AfterViewInit, OnDestroy{
               }
             );
           } else {
-            this.listService.getTransactionsByUser(this.currentUser.sub).subscribe(
+            this.listService.getTransactionsByUser(user.sub).subscribe(
               (res) => {
                 if (res) {
                   this.helper.transactions_type = res.data;
@@ -90,27 +90,15 @@ export class AppComponent implements AfterViewInit, OnDestroy{
               }
             );        }}     
         else if(data.type == 'driver-finish' || data.type == 'driver-offer') {
-          this.listService
-          .getOrdersByMerchant(this.currentUser.merchantId)
-          .subscribe((res: any) => {
-            if (res) {
-              // this.spinner.hide();
-              this.helper.orders = res.data;
-            }
-          },error => {
-            // this.spinner.hide();
-            this.toastr.error(error.message)
-          });        }
+          this.getAllOrders();
+        }
       },
       (error) => {
         console.error(error);
       }
     );  
-
     // this.socketService.connect()
   }
-
-  
 
   disconnect() {
     if (this.sseSubscription) {
@@ -123,11 +111,8 @@ export class AppComponent implements AfterViewInit, OnDestroy{
     this.listService.getBalanceMerchant(user.merchantId).subscribe((res) => {
     if (res.success) {
       this.helper.merchantBalance.activeBalance = res.data.activeBalance;
-      this.helper.merchantBalance.frozenBalance = res.data.frozenBalance
-        // this.helper.merchantBalance = {
-        //   activeBalance: res.data.activeBalance,
-        //   frozenBalance: res.data.frozenBalance
-        // }
+      this.helper.merchantBalance.frozenBalance = res.data.frozenBalance;
+      this.ref.detectChanges();
       }
     })
   }
@@ -254,6 +239,21 @@ export class AppComponent implements AfterViewInit, OnDestroy{
 
   ngOnDestroy() {
     this.disconnect();
+  }
+
+  getAllOrders() {
+    const user: any = jwtDecode(localStorage.getItem('jwttirgomerhant'));
+    this.listService.getOrdersByMerchant(user.merchantId).subscribe(
+      (res: any) => {
+        if (res) {
+          this.helper.orders = res.data; 
+          this.ref.detectChanges();
+        }
+      },
+      (error) => {
+        this.toastr.error(error.message);
+      }
+    );
   }
 
 }

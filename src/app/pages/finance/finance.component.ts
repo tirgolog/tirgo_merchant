@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   OnInit,
   TemplateRef,
@@ -38,7 +37,7 @@ export class FinanceComponent implements OnInit {
     private toastr: ToastrService,
     private app: AppComponent,
     private spinner: NgxSpinnerService,
-    private sseService: SseService
+    private sseService: SseService,
   ) {}
 
   ngAfterViewInit() {}
@@ -72,12 +71,18 @@ export class FinanceComponent implements OnInit {
   }
 
   getAllFinance() {
+    let transaction = []
     if (this.app?.currentUser?.role?.name === "Super admin") {
       this.list.getFinanceByMerchant(this.currentUser.merchantId).subscribe(
         (res) => {
           if (res) {
+            res.data.forEach((v,k) => {
+              if(v.rejected || v.verified) {
+                transaction.push(v)
+              }
+            })
             this.spinner.hide();
-            this.helper.transactions_type = res.data;
+            this.helper.transactions_type = transaction
           }
         },
         (error) => {
@@ -105,7 +110,6 @@ export class FinanceComponent implements OnInit {
     this.activeBalance = this.helper.merchantBalance?.activeBalance;
     this.frozenBalance = this.helper.merchantBalance?.frozenBalance;
   }
-
   createTransaction() {
     this.helper.loadingCreate();
     this.payment.merchantId = this.currentUser.merchantId;
@@ -141,7 +145,6 @@ export class FinanceComponent implements OnInit {
       this.toastr.error("Что то пошло не так");
     }
   }
-
   async handlePage(e: any) {
     this.helper.global_loading = true;
     let from = e.pageIndex * e.pageSize;
