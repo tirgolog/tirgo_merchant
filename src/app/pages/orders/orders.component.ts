@@ -79,16 +79,16 @@ export class OrdersComponent {
     // this.socketService.updateAllList().subscribe(async (res: any) => {
     // })
 
-    //   this.sseSubscription = this.sseService.getUpdates().subscribe(
-    //     (data) => {
-    //       if(data.type == 'driver-finish' || data.type == 'driver-offer') {
-    //         this.getAllOrders();
-    //       }
-    //     },
-    //     (error) => {
-    //       console.error(error);
-    //     }
-    //   );
+      this.sseSubscription = this.sseService.getUpdates().subscribe(
+        (data) => {
+          if(data.type == 'driver-finish' || data.type == 'driver-offer') {
+            this.getAllOrders();
+          }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 
   ngOnChanges()	 {

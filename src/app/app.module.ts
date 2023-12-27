@@ -127,6 +127,8 @@ import { SupportComponent } from './support/support.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { AddDaysPipe } from './pipes/add-days.pipe';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { CodeInputModule } from 'angular-code-input';
 
 registerLocaleData(ruLocale);
 
@@ -205,7 +207,8 @@ const mapConfig: YaConfig = {
       DocumentsComponent,
       SupportComponent,
       AnalyticsComponent,
-      AddDaysPipe
+      AddDaysPipe,
+      ForgotPasswordComponent
    ],
    imports: [
       MatSortModule,
@@ -255,7 +258,12 @@ const mapConfig: YaConfig = {
       MatButtonModule,
       MatToolbarModule,
       MatBadgeModule,
-      NgxSpinnerModule
+      NgxSpinnerModule,
+      CodeInputModule.forRoot({
+         codeLength: 5,
+         isCharsCode: true,
+         code: ''
+       }),
    ],
 
    providers: [

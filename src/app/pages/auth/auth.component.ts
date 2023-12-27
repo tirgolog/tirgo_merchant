@@ -16,11 +16,10 @@ import { ListService } from 'src/app/services/list.service';
 
 
 export class AuthComponent {
-
   login: string = ""
   password: string = ""
   error: boolean = false
-
+  showForgotPassword: boolean = false;
   constructor(
     public authService: AuthService,
     public list: ListService,
@@ -32,6 +31,7 @@ export class AuthComponent {
   }
 
   ngOnInit() {
+    // this.router.navigate(['forgot-password']);
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['orders']);
     }
@@ -52,5 +52,10 @@ export class AuthComponent {
       }
     })
 
+  }
+
+  sendEmail() {
+    this.toastr.success('Sms-код будет отправлен на вашу электронную почту');
+    this.router.navigate(['forgot-password'])
   }
 }
