@@ -31,14 +31,13 @@ export class AppComponent implements AfterViewInit, OnDestroy{
     private sseService: SseService,
     private ref: ChangeDetectorRef
   ) {
-    
    }
   title = 'tirgo-merchant';
   logo = "/assets/img/logo.svg";
   receivedData: any;
   private sseSubscription: Subscription;
   
-  async ngOnInit() {    
+  async ngOnInit() {
     this.spoller.initSpollers()
     this.getUsers();
     this.authService.checkToken();

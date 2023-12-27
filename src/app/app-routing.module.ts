@@ -57,6 +57,7 @@ import { DocumentsComponent } from './pages/documents/documents.component';
 import { SupportComponent } from './support/support.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { EdituserComponent } from './pages/edituser/edituser.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
@@ -64,6 +65,11 @@ const routes: Routes = [
       path: "loading",
       component: LoadingComponent,
       title: "Загрузка"
+   },
+   {
+      path: "forgot-password",
+      component: ForgotPasswordComponent,
+      title: "Забыли пароль"
    },
    {
       path: "dashboard",
