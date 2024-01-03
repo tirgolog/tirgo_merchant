@@ -7,7 +7,7 @@
       <!-- 1 STEP -->
       <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="!registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
-          <mat-select class="form__input" style="width: 25%; margin-left: 10px" name="countryCode"
+          <mat-select class="form__input" style="width: 25%; margin-left: 10px;" name="countryCode"
             [(ngModel)]="countryCode" (ngModelChange)="changedCountry($event)">
             <mat-option *ngFor="let country of countrCodes" [value]="country">
               {{ country.country }}

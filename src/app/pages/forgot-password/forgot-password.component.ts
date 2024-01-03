@@ -25,7 +25,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private activeRoute: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -44,20 +45,20 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   codeCompleted() {
-    this.showChangePasswordModal = true;
-
-    // this.loading = true;
-    // this.authService.emailVerify({email: this.login,code: +this.code}).subscribe((res:any) => {
-    //   if(res.success) {
-    //     this.toastr.success('Success');
-    //     this.showChangePasswordModal = true;
-    //     this.loading = false;
-    //   }
-    //   else if(!res.success) {
-    //     this.toastr.error('Fail');
-    //     this.loading = false;
-    //   }
-    // })
+    this.loading = true;
+    this.authService.emailVerify({email: this.login,code: +this.code}).subscribe((res:any) => {
+      if(res.success) {
+        this.showChangePasswordModal = true;
+        this.loading = false;
+      }
+      else if (!res.success && res.errors[0] === 'Code is Invalid') {
+        this.loading = false;
+        this.toastr.success("Неверный код");
+      }
+    },error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
   }
 
   resetPassword() {
@@ -69,8 +70,10 @@ export class ForgotPasswordComponent implements OnInit {
           (res: any) => {
             if (res.success) {
               this.loading = false;
-              this.toastr.success("Success");
-            } else if (res.success) {
+              this.toastr.success("Пароль успешно обновлен");
+              this.router.navigate(['auth']);
+            } 
+            else if (!res.success) {
               this.loading = false;
               this.toastr.success("Fail");
             }

@@ -71,21 +71,20 @@ export class RegistrationComponent implements OnInit {
   }
 
   sendSms() {
-    this.verficationCode = true;
-    // this.spinner.show();
-    // this.authService.phoneVerify({phone: this.countryCode.code+this.phone, countryCode: this.countryCode.country}).subscribe((res:any) => {
-    //   if(res.success) {
-    //     this.spinner.hide();
-    //     this.verficationCode = true;
-    //   }
-    //   else {
-    //     this.spinner.hide();
-    //     this.toastr.error(res.errors[0]);
-    //   }
-    // },(error) => {
-    //   this.spinner.hide();
-    //   this.toastr.error(error.message);
-    // })
+    this.spinner.show();
+    this.authService.phoneVerify({phone: this.countryCode.code+this.phone, countryCode: this.countryCode.country}).subscribe((res:any) => {
+      if(res.success) {
+        this.spinner.hide();
+        this.verficationCode = true;
+      }
+      else {
+        this.spinner.hide();
+        this.toastr.error(res.errors[0]);
+      }
+    },(error) => {
+      this.spinner.hide();
+      this.toastr.error(error.message);
+    })
   }
 
   startRegistr() {
@@ -180,7 +179,7 @@ export class RegistrationComponent implements OnInit {
       legalAddress: this.data.legalAddress,
       factAddress: this.data.factAddress,
       email: this.data.email,
-      phoneNumbers: this.countryCode.code + this.phone,
+      phoneNumber: this.countryCode.code + this.phone,
       logoFilePath: this.data.logo,
       passportFilePath: this.data.supervisor_passport,
       registrationCertificateFilePath: this.data.certificate_registration,
