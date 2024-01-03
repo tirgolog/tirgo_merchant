@@ -8,7 +8,10 @@
     </mat-form-field>
     <mat-form-field class="form__input" *ngIf="!showForgotPassword">
       <mat-label>Пароль</mat-label>
-      <input matInput type="password" [(ngModel)]="password" />
+      <input matInput type="{{ showPassword ? 'text' : 'password' }}" [(ngModel)]="password" />
+      <button mat-icon-button matSuffix (click)="toggleShowPassword()">
+        <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
     </mat-form-field>
     <div class="auth-helper" *ngIf="!showForgotPassword">
       <a (click)="showForgotPassword = true">{{ showForgotPassword ? 'Войти' : 'Забыл пароль?' }}</a>
@@ -17,8 +20,7 @@
     <button *ngIf="!showForgotPassword" class="auth__btn btn-green" (click)="getLogin()">Войти</button>
     <div style="display: flex;justify-content: space-between;align-items: center;">
       <button *ngIf="showForgotPassword" (click)="showForgotPassword = false">Назад</button>
-      <button *ngIf="showForgotPassword" class="btn-green" (click)="sendEmail()">Отправить</button>
+      <button *ngIf="showForgotPassword" class="btn-green" (click)="sendEmail()" [disabled]="loading">Отправить</button>
     </div>
-   
   </div>
 </main>

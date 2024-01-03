@@ -294,6 +294,27 @@ export class AuthService {
       const sUrl = API_URL + '/cargo';
       return this.http.post<any>(sUrl, data);
    }
+
+   sendEmail(data) {
+      const sUrl = API_URL + '/users/send-code';
+      return this.http.post<any>(sUrl, data);
+   }
+
+   phoneVerify(data) {
+      const sUrl = API_URL + '/users/phone-verify';
+      return this.http.post<any>(sUrl, data);
+   }
+
+   emailVerify(data) {
+      const sUrl = API_URL + '/users/verify-code';
+      return this.http.post<any>(sUrl, data);
+   }
+
+   resetPassword(data) {
+      const sUrl = API_URL + '/users/reset-password';
+      return this.http.post<any>(sUrl, data);
+   }
+
    phones = [
       {
          "name": "Afghanistan",
