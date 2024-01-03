@@ -312,7 +312,12 @@ export class AuthService {
 
    resetPassword(data) {
       const sUrl = API_URL + '/users/reset-password';
-      return this.http.post<any>(sUrl, data);
+      return this.http.patch<any>(sUrl, data);
+   }
+
+   getByEmail(email) {
+      const sUrl = API_URL + '/merchant/email?email='+email;
+      return this.http.get<any>(sUrl, email);
    }
 
    phones = [

@@ -53,27 +53,26 @@ export class AuthComponent {
       });
   }
   sendEmail() {
-    this.router.navigate(["forgot-password",this.login]);
-    // this.loading = true;
-    // this.authService.sendEmail({ email: this.login }).subscribe(
-    //   (res: any) => {
-    //     if (res.success) {
-    //       this.toastr.success("Sms-код будет отправлен на вашу электронную почту");
-    //       this.router.navigate(["forgot-password",this.login]);
-    //       this.loading = false;
-    //     }
-    //     else if(res.errors[0] == "Create data failed") {
-    //       this.toastr.error("Адрес электронной почты не найден");
-    //       this.loading = false;
-    //     }
-    //   },
-    //   (error) => {
-    //     if (error.error.message == "email must be an email") {
-    //       this.toastr.error("Должен быть электронный почта");
-    //       this.loading = false;
-    //     }
-    //   }
-    // );
+    this.loading = true;
+    this.authService.sendEmail({ email: this.login }).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.toastr.success("Sms-код будет отправлен на вашу электронную почту");
+          this.router.navigate(["forgot-password",this.login]);
+          this.loading = false;
+        }
+        else if(res.errors[0] == "Create data failed") {
+          this.toastr.error("Адрес электронной почты не найден");
+          this.loading = false;
+        }
+      },
+      (error) => {
+        if (error.error.message == "email must be an email") {
+          this.toastr.error("Должен быть электронный почта");
+          this.loading = false;
+        }
+      }
+    );
   }
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
