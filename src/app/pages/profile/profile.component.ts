@@ -29,7 +29,6 @@ export class ProfileComponent {
    }
 
    async changePassword() {
-      
       this.list.changePassword({password: this.currentPassword, newPassword:this.newPassword , id:this.currentUser.sub}).subscribe((res) => {
          if(res.success) {
             this.toastr.success('Пароль успешно обновлен');

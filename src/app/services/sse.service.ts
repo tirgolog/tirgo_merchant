@@ -1,7 +1,7 @@
 // sse.service.ts
 
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -14,19 +14,23 @@ export class SseService {
   constructor(private authService: AuthService) {}
 
   getUpdates(): Observable<any> {
-    const token = AuthService.jwt;
-    this.eventSource = new EventSource('https://merchant.tirgo.io/sse/events?token=' + token);
-
-    this.eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      this.receivedDataSubject.next(data);
-    };
-
-    this.eventSource.onerror = (error) => {
-      console.error('Error with SSE connection:', error);
-    };
-
-    return this.receivedDataSubject.asObservable();
+    if(AuthService.jwt) {
+      const token = AuthService.jwt;
+      this.eventSource = new EventSource('https://merchant.tirgo.io/sse/events?token=' + token);
+  
+      this.eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        this.receivedDataSubject.next(data);
+      };
+  
+      this.eventSource.onerror = (error) => {
+        console.error('Error with SSE connection:', error);
+      };
+      return this.receivedDataSubject.asObservable();
+    } 
+    else {
+      return of(null);
+    }
   }
 
   closeConnection(): void {

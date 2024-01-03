@@ -67,7 +67,7 @@ const routes: Routes = [
       title: "Загрузка"
    },
    {
-      path: "forgot-password",
+      path: "forgot-password/:login",
       component: ForgotPasswordComponent,
       title: "Забыли пароль"
    },

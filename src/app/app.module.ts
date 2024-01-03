@@ -129,6 +129,7 @@ import { AddDaysPipe } from './pipes/add-days.pipe';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { CodeInputModule } from 'angular-code-input';
+import {NgxMatIntlTelInputComponent} from 'ngx-mat-intl-tel-input';
 
 registerLocaleData(ruLocale);
 
@@ -259,6 +260,7 @@ const mapConfig: YaConfig = {
       MatToolbarModule,
       MatBadgeModule,
       NgxSpinnerModule,
+      NgxMatIntlTelInputComponent,
       CodeInputModule.forRoot({
          codeLength: 5,
          isCharsCode: true,

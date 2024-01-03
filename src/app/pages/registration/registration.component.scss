@@ -7,7 +7,7 @@
     margin: 0 auto rem(40) auto;
   }
   &__form {
-    width: 80%;
+    max-width: 80%;
     background: #fff;
     padding: rem(30) rem(15);
     display: grid;
@@ -142,3 +142,5 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
