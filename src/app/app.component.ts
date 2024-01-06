@@ -34,15 +34,27 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     public listService: ListService,
     private sseService: SseService,
     private ref: ChangeDetectorRef
-  ) {}
+  ) { }
   title = "tirgo-merchant";
   logo = "/assets/img/logo.svg";
   receivedData: any;
   private sseSubscription: Subscription;
 
   async ngOnInit() {
+    if (localStorage.getItem("jwttirgomerhant")) {
+      let curUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      this.listService.getMerchantById(curUser.sub).subscribe((res) => {
+        if (res.success) {
+          this.currentUser = res.data;
+          if(this.currentUser.completed) {
+            this.socket();
+            this.getAllOrders();
+            this.getBalance();
+          }
+        }
+      })
+    }
     this.spoller.initSpollers();
-    this.getUsers();
     this.authService.checkToken();
     if (this.authService.currentUser) {
       this.authService.globalLoading = false;
@@ -57,9 +69,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         await this.router.navigate(["auth"]);
       }
     });
-    this.getAllOrders();
-    this.getAllUsers();
-    this.getBalance();
+  }
+
+  socket() {
     this.sseSubscription = this.sseService.getUpdates().subscribe(
       (data) => {
         if (localStorage.getItem("jwttirgomerhant")) {
@@ -68,7 +80,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             this.getBalance();
           } else if (data.type == "transaction-verified") {
             if (this.currentUser.role.name === "Super admin") {
-              this.listService.getFinanceByMerchant(user.merchantId).subscribe(
+              this.listService.getFinanceByMerchant(this.currentUser.id).subscribe(
                 (res) => {
                   if (res) {
                     this.getBalance();
@@ -104,17 +116,15 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       }
     );
   }
-
   disconnect() {
     if (this.sseSubscription) {
       this.sseSubscription.unsubscribe();
     }
   }
-
   getBalance() {
     if (localStorage.getItem("jwttirgomerhant")) {
       const user: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.listService.getBalanceMerchant(user.merchantId).subscribe((res) => {
+      this.listService.getBalanceMerchant(this.currentUser.id).subscribe((res) => {
         if (res.success) {
           this.helper.merchantBalance.activeBalance = res.data.activeBalance;
           this.helper.merchantBalance.frozenBalance = res.data.frozenBalance;
@@ -123,106 +133,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       });
     }
   }
-
-  async getUsers() {
-    // await this.authService.getUsers().subscribe(async (res) => {
-    //   if (res) {
-    //     this.authService.currentUser = res;
-    //     if (!this.authService.isAuthenticated()) {
-    //       this.authService.authenticationState.next(true);
-    //     }
-    //     // this.socketService.connect()
-    //   }
-    // })
-  }
-  // async checkSession() {
-  //    await this.authService.checkSession().toPromise().then(async (res) => {
-  //       if (res) {
-  //          this.authService.currentUser = res;
-  //          this.helper.roles = await this.listService.getAllRoles().toPromise()
-  //          const index = this.helper.roles.findIndex(e => e.id === 1)
-  //          this.authService.myrole = this.helper.roles[index]
-  //          if (!this.authService.isAuthenticated()) {
-  //             // @ts-ignore
-  //             this.authService.authenticationState.next(true);
-  //          }
-  //          this.socketService.connect()
-  //          //this.helper.partners = await this.listService.getPartners().toPromise()
-  //          this.helper.typetruck = await this.listService.getTypeTruck().toPromise();
-  //          this.helper.typecargo = await this.listService.getTypeCargo().toPromise();
-  //          this.helper.admins = await this.listService.getAllAdmins().toPromise();
-  //          this.helper.messages = await this.listService.getAllMessages().toPromise();
-  //          this.helper.securetrans = await this.listService.getSecureTrans().toPromise();
-  //          this.helper.transactions_type = await this.listService.getTransactionsType().toPromise();
-
-  //          this.socketService.updateAllMessages().subscribe(async (res:any) => {
-  //             console.log(res)
-  //             this.helper.messages = await this.listService.getAllMessages().toPromise();
-  //          })
-  //          this.socketService.logOutUser().subscribe(async (res:number) => {
-  //             console.log(res)
-  //             if (res === this.authService.currentUser?.id){
-  //                this.authService.logout()
-  //                await this.router.navigate(['auth'], { replaceUrl: true })
-  //             }
-  //          })
-
-  //          const orders = await this.listService.getAllOrders(0,50,null,null,null,null,null,null,null,null,null,null,null).toPromise();
-  //          if (orders.status){
-  //             this.helper.orders = orders.data;
-  //             this.helper.orders_count = orders.data_count;
-  //          }
-
-  //          const drivers = await this.listService.getAllDrivers(0,50,null,null,null,null,null,null,null).toPromise();
-  //          if (drivers.status){
-  //             this.helper.drivers = drivers.data;
-  //             this.helper.drivers_count = drivers.data_count;
-  //          }
-
-  //          const users = await this.listService.getAllUsers(0,50,null,null,null,null,null,null,null,true).toPromise();
-  //          if (users.status){
-  //             this.helper.users = users.data;
-  //             this.helper.users_count = users.data_count;
-  //          }
-
-  //          /*const deletedusers = await this.listService.getDeletedUsers(0,100).toPromise();
-  //          if (deletedusers.status){
-  //             this.helper.deletedusers = deletedusers.data;
-  //             this.helper.deletedusers_count = deletedusers.data_count;
-  //          }*/
-
-  //          /*const activity = await this.listService.getActivityUsers(0,100).toPromise();
-  //          if (activity.status){
-  //             this.helper.activity = activity.data;
-  //             this.helper.activity_count = activity.data_count;
-  //          }*/
-
-  //          this.authService.globalLoading = false;
-
-  //          await this.router.navigate(['dashboard'], { replaceUrl: true })
-  //          //this.getLocation();
-  //       } else {
-  //          await this.router.navigate(['auth']);
-  //       }
-  //    }).catch(async (err) => {
-  //       console.log(err)
-  //    });
-  // }
-
-  getAllUsers() {
-    if (localStorage.getItem("jwttirgomerhant")) {
-      this.listService.getUsers().subscribe((res) => {
-        let curUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-        if (res) {
-          this.helper.users = res.data;
-          this.currentUser = res.data.filter(
-            (user) => user.id === curUser.sub
-          )[0];
-        }
-      });
-    }
-  }
-
+  
   ngAfterViewInit() {
     if (localStorage.getItem("jwttirgomerhant")) {
       this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
@@ -237,9 +148,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           if (position) {
             console.log(
               "Latitude: " +
-                position.coords.latitude +
-                "Longitude: " +
-                position.coords.longitude
+              position.coords.latitude +
+              "Longitude: " +
+              position.coords.longitude
             );
             this.helper.lat = position.coords.latitude;
             this.helper.lng = position.coords.longitude;
@@ -253,15 +164,12 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       alert("Geolocation is not supported by this browser.");
     }
   }
-
   ngOnDestroy() {
     this.disconnect();
   }
-
   getAllOrders() {
     if (localStorage.getItem("jwttirgomerhant")) {
-      const user: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.listService.getOrdersByMerchant(user.merchantId).subscribe(
+      this.listService.getOrdersByMerchant(this.currentUser.id).subscribe(
         (res: any) => {
           if (res) {
             this.helper.orders = res.data;

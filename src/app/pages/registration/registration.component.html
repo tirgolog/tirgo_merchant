@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="verficationCode && !registrationStart">
+      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && !registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
           <mat-form-field class="form__input">
             <mat-label>Введите код</mat-label>
@@ -31,18 +31,18 @@
         </div>
       </div>
 
-      <button *ngIf="!verficationCode" [disabled]="!form.valid" (click)="sendSms()" style="margin: 20px auto"
+      <button *ngIf="!startVerficationCode" [disabled]="!form.valid" (click)="sendSms()" style="margin: 20px auto"
         class="auth__btn btn-green">
         Отправить код
       </button>
-      <button *ngIf="verficationCode && !registrationStart" [disabled]="!form.valid" (click)="startRegistr()"
+      <button *ngIf="startVerficationCode && !registrationStart" [disabled]="!form.valid" (click)="startRegistr()"
         style="margin: 20px auto" class="auth__btn btn-green">
         Продолжить
       </button>
       <!-- 1 STEP -->
 
       <!-- 2 STEP -->
-      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="verficationCode && registrationStart">
+      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
             <mat-form-field class="form__input">
                 <mat-label>Email</mat-label>
@@ -51,16 +51,16 @@
         </div>
     </div>
     
-    <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="verficationCode && registrationStart">
+    <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
             <mat-form-field class="form__input">
                 <mat-label>Наименование фирмы</mat-label>
-                <input matInput type="email" name="companyName" [(ngModel)]="data.companyName" required />
+                <input matInput type="text" name="companyName" [(ngModel)]="data.companyName" required />
             </mat-form-field>
         </div>
     </div>
     
-    <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="verficationCode && registrationStart">
+    <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
             <mat-form-field class="form__input">
                 <mat-label>Ввести пароль</mat-label>
@@ -72,12 +72,12 @@
         </div>
     </div>
     
-    <button *ngIf="verficationCode && registrationStart" [disabled]="!form.valid" (click)="createMerchant()" style="margin: 20px auto" class="auth__btn btn-green">
+    <button *ngIf="startVerficationCode && registrationStart" [disabled]="!form.valid" (click)="createMerchant()" style="margin: 20px auto" class="auth__btn btn-green">
         Сохранить
     </button>
       <!-- 2 STEP -->
 
-      <!-- <div class="form" *ngIf="verficationCode && registrationStart" > 
+      <!-- <div class="form" *ngIf="startVerficationCode&& registrationStart" > 
        <div class="dynamic-inputs-wrapper">
             <mat-form-field class="form__input">
               <mat-label>Электронная почта</mat-label>

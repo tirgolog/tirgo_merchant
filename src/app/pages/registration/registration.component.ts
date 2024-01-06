@@ -34,19 +34,20 @@ export class RegistrationComponent implements OnInit {
   formDone: boolean = false;
   formData = new FormData();
 
-  verficationCode: boolean = false;
+  startVerficationCode: boolean = false;
   registrationStart: boolean = false;
   phone: any;
   countryCode: any;
   country: any;
   verifyCode: any;
+  verificationCode: any;
   constructor(
     public authService: AuthService,
     public helper: HelperService,
     public list: ListService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCurrencies();
@@ -72,26 +73,32 @@ export class RegistrationComponent implements OnInit {
 
   sendSms() {
     this.spinner.show();
-    this.authService.phoneVerify({phone: this.countryCode.code+this.phone, countryCode: this.countryCode.country}).subscribe((res:any) => {
-      if(res.success) {
+    this.authService.phoneVerify({ phone: this.countryCode.code + this.phone, countryCode: this.countryCode.country }).subscribe((res: any) => {
+      if (res.success) {
         this.spinner.hide();
-        this.verficationCode = true;
+        this.verificationCode = res.data.code;
+        this.startVerficationCode = true;
       }
       else {
         this.spinner.hide();
         this.toastr.error(res.errors[0]);
       }
-    },(error) => {
+    }, (error) => {
       this.spinner.hide();
       this.toastr.error(error.message);
     })
   }
-
   startRegistr() {
-    this.registrationStart = true;
+    this.spinner.show();
+    if (this.verificationCode == this.verifyCode) {
+      this.spinner.hide();
+      this.registrationStart = true;
+    } else {
+      this.spinner.hide();
+      this.toastr.error('Пароль не совпадает')
+    }
   }
-
-  saveMerchant() {}
+  saveMerchant() { }
   changedCountry(e) {
     this.phone = e.code;
     this.country = e.country;
@@ -99,15 +106,12 @@ export class RegistrationComponent implements OnInit {
   addItem() {
     this.data.phoneNumbers.push("");
   }
-
   removeItem(i) {
     this.data.phoneNumbers.splice(i, 1);
   }
-
   trackByFn(index: any, item: any) {
     return item;
   }
-
   selectFiles(event: any): void {
     this.selectedFileNames = [];
     this.selectedFiles = event.target.files;
@@ -116,13 +120,12 @@ export class RegistrationComponent implements OnInit {
       const numberOfFiles = this.selectedFiles.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-        reader.onload = (e: any) => {};
+        reader.onload = (e: any) => { };
         reader.readAsDataURL(this.selectedFiles[i]);
         this.selectedFileNames.push(this.selectedFiles[i].name);
       }
     }
   }
-
   selectPassport(event: any): void {
     this.passportNames = [];
     this.passportFile = event.target.files;
@@ -131,13 +134,12 @@ export class RegistrationComponent implements OnInit {
       const numberOfFiles = this.passportFile.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-        reader.onload = (e: any) => {};
+        reader.onload = (e: any) => { };
         reader.readAsDataURL(this.passportFile[i]);
         this.passportNames.push(this.passportFile[i].name);
       }
     }
   }
-
   selectCertificate(event: any): void {
     this.certificateNames = [];
     this.certificateFile = event.target.files;
@@ -146,55 +148,69 @@ export class RegistrationComponent implements OnInit {
       const numberOfFiles = this.certificateFile.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-        reader.onload = (e: any) => {};
+        reader.onload = (e: any) => { };
         reader.readAsDataURL(this.certificateFile[i]);
         this.certificateNames.push(this.certificateFile[i].name);
       }
     }
   }
-
   async createMerchant() {
-    if (this.phone2) this.data.phoneNumbers.push(this.data.phone2);
-    if (this.data.bankAccountCurrency) {
-      this.data.bankAccounts = [
-        { account: this.data.bankAccounts, currency: this.currency },
-        { account: this.data.bankAccountCurrency, currency: this.currency2 },
-      ];
-    } else {
-      this.data.bankAccounts = [
-        { account: this.data.bankAccounts, currency: this.currency },
-      ];
-    }
     let patch = {
-      bankAccounts: this.data.bankAccounts,
-      bankName: this.data.bankName,
-      companyName: this.data.companyName,
-      password: this.data.password,
-      notes: this.data.notes,
-      mfo: this.data.mfo,
-      inn: this.data.inn,
-      oked: this.data.oked,
-      dunsNumber: this.data.dunsNumber,
-      supervisorFullName: this.data.supervisorFullName,
-      legalAddress: this.data.legalAddress,
-      factAddress: this.data.factAddress,
       email: this.data.email,
-      phoneNumber: this.countryCode.code + this.phone,
-      logoFilePath: this.data.logo,
-      passportFilePath: this.data.supervisor_passport,
-      registrationCertificateFilePath: this.data.certificate_registration,
-    };
-    const res = await this.authService.addMerchant(patch).toPromise();
-    if (res) {
-      this.formDone = true;
-      this.toastr.success("Мерчант успешно добавлен");
-      this.loading = false;
-    } else {
-      this.toastr.error(res.error);
-      this.loading = false;
+      password: this.data.password,
+      companyName : this.data.companyName,
+      phoneNumber: this.phone.toString()
     }
+    this.authService.addMerchant(patch).subscribe((res: any) => {
+      if (res.success) {
+        // this.formDone = true;
+        this.toastr.success("Мерчант успешно добавлен");
+        this.loading = false;
+      }else {
+        this.toastr.success("Что то пошло не так");
+        this.loading = false;
+      }
+    })
+    // if (this.phone2) this.data.phoneNumbers.push(this.data.phone2);
+    // if (this.data.bankAccountCurrency) {
+    //   this.data.bankAccounts = [
+    //     { account: this.data.bankAccounts, currency: this.currency },
+    //     { account: this.data.bankAccountCurrency, currency: this.currency2 },
+    //   ];
+    // } else {
+    //   this.data.bankAccounts = [
+    //     { account: this.data.bankAccounts, currency: this.currency },
+    //   ];
+    // }
+    // let patch = {
+    //   bankAccounts: this.data.bankAccounts,
+    //   bankName: this.data.bankName,
+    //   companyName: this.data.companyName,
+    //   password: this.data.password,
+    //   notes: this.data.notes,
+    //   mfo: this.data.mfo,
+    //   inn: this.data.inn,
+    //   oked: this.data.oked,
+    //   dunsNumber: this.data.dunsNumber,
+    //   supervisorFullName: this.data.supervisorFullName,
+    //   legalAddress: this.data.legalAddress,
+    //   factAddress: this.data.factAddress,
+    //   email: this.data.email,
+    //   phoneNumber: this.countryCode.code + this.phone,
+    //   logoFilePath: this.data.logo,
+    //   passportFilePath: this.data.supervisor_passport,
+    //   registrationCertificateFilePath: this.data.certificate_registration,
+    // };
+    // const res = await this.authService.addMerchant(patch).toPromise();
+    // if (res) {
+    //   this.formDone = true;
+    //   this.toastr.success("Мерчант успешно добавлен");
+    //   this.loading = false;
+    // } else {
+    //   this.toastr.error(res.error);
+    //   this.loading = false;
+    // }
   }
-
   getCurrencies() {
     this.list.getCurrencies().subscribe((res) => {
       this.currencies = res;
@@ -202,7 +218,6 @@ export class RegistrationComponent implements OnInit {
       this.currency2 = this.currencies[0].id;
     });
   }
-
   selectFile(event: any, name: string) {
     if (name == "logo") this.selectedFileNames = event.target.files[0].name;
     if (name == "certificate_registration")
@@ -225,7 +240,6 @@ export class RegistrationComponent implements OnInit {
       }
     );
   }
-
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
   }

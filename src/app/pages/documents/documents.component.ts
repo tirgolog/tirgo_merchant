@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { jwtDecode } from "jwt-decode";
 import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/services/auth.service";
 import { HelperService } from "src/app/services/helper.service";
 import { ListService } from "src/app/services/list.service";
@@ -12,7 +13,7 @@ import { ListService } from "src/app/services/list.service";
 })
 export class DocumentsComponent implements OnInit {
   fileApi = "https://merchant.tirgo.io/api/v1/file/download/"
-
+  loading: boolean = false;
   passportFile: FileList;
   passportNames: string[] = [];
 
@@ -26,28 +27,35 @@ export class DocumentsComponent implements OnInit {
   factAddressShow: boolean = false;
   bankAccountCurrency: boolean = false;
   data;
+  phone
   currentUser: any;
+  currencies
+  currency2
+  currency
   constructor(
     public list: ListService,
     public authService: AuthService,
     public helper: HelperService,
-    public spinner: NgxSpinnerService
+    public spinner: NgxSpinnerService,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit() {
+    if (localStorage.getItem("jwttirgomerhant")) {
+      let curUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      this.list.getMerchantById(curUser.sub).subscribe((res) => {
+        if (res.success) {
+          this.currentUser = res.data;
+          this.getAllDocuments(this.currentUser);
+        }
+      })
+    }
     this.spinner.show();
-    this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-    this.data = {
-      supervisor_passport: "",
-      certificate_registration: "",
-      email: "",
-      phoneNumbers: [""],
-    };
-    this.getAllDocuments();
+    this.data = {supervisor_passport: "",certificate_registration: "",email: "",phoneNumbers: [""]};
   }
 
-  getAllDocuments() {
-    this.list.getDocument(this.currentUser.merchantId).subscribe((res) => {
+  getAllDocuments(user) {
+    this.list.getDocument(user.id).subscribe((res) => {
       if (res) {
         this.data = res;
         this.spinner.hide();
@@ -98,5 +106,92 @@ export class DocumentsComponent implements OnInit {
         this.selectedFileNames.push(this.selectedFiles[i].name);
       }
     }
+  }
+  
+  async createMerchant() {
+    let patch = {
+      email: this.data.email,
+      password: this.data.password,
+      companyName : this.data.companyName,
+      phoneNumber: this.phone.toString()
+    }
+    this.authService.addMerchant(patch).subscribe((res: any) => {
+      if (res.success) {
+        // this.formDone = true;
+        this.toastr.success("Мерчант успешно добавлен");
+        this.loading = false;
+      }else {
+        this.toastr.success("Что то пошло не так");
+        this.loading = false;
+      }
+    })
+    // if (this.phone2) this.data.phoneNumbers.push(this.data.phone2);
+    // if (this.data.bankAccountCurrency) {
+    //   this.data.bankAccounts = [
+    //     { account: this.data.bankAccounts, currency: this.currency },
+    //     { account: this.data.bankAccountCurrency, currency: this.currency2 },
+    //   ];
+    // } else {
+    //   this.data.bankAccounts = [
+    //     { account: this.data.bankAccounts, currency: this.currency },
+    //   ];
+    // }
+    // let patch = {
+    //   bankAccounts: this.data.bankAccounts,
+    //   bankName: this.data.bankName,
+    //   companyName: this.data.companyName,
+    //   password: this.data.password,
+    //   notes: this.data.notes,
+    //   mfo: this.data.mfo,
+    //   inn: this.data.inn,
+    //   oked: this.data.oked,
+    //   dunsNumber: this.data.dunsNumber,
+    //   supervisorFullName: this.data.supervisorFullName,
+    //   legalAddress: this.data.legalAddress,
+    //   factAddress: this.data.factAddress,
+    //   email: this.data.email,
+    //   phoneNumber: this.countryCode.code + this.phone,
+    //   logoFilePath: this.data.logo,
+    //   passportFilePath: this.data.supervisor_passport,
+    //   registrationCertificateFilePath: this.data.certificate_registration,
+    // };
+    // const res = await this.authService.addMerchant(patch).toPromise();
+    // if (res) {
+    //   this.formDone = true;
+    //   this.toastr.success("Мерчант успешно добавлен");
+    //   this.loading = false;
+    // } else {
+    //   this.toastr.error(res.error);
+    //   this.loading = false;
+    // }
+  }
+  getCurrencies() {
+    this.list.getCurrencies().subscribe((res) => {
+      this.currencies = res;
+      this.currency = this.currencies[0].id;
+      this.currency2 = this.currencies[0].id;
+    });
+  }
+  selectFile(event: any, name: string) {
+    if (name == "logo") this.selectedFileNames = event.target.files[0].name;
+    if (name == "certificate_registration")
+      this.certificateNames = event.target.files[0].name;
+    if (name == "supervisor_passport")
+      this.passportNames = event.target.files[0].name;
+
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+    this.authService.fileUpload(formData).subscribe(
+      (response) => {
+        if (response) {
+          this.toastr.success("Файл успешно загружен");
+          this.data[name] = response.filename;
+        }
+      },
+      (error) => {
+        this.toastr.error(error.message);
+      }
+    );
   }
 }
