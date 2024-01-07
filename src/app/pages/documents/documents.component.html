@@ -1,9 +1,11 @@
-<main class="documents" id="main">
+<main class="documents" id="main" *ngIf="!formDone">
 
   <section class="page-header">
     <div class="page-header__top">
-      <h2 class="page-header__title title"> <span *ngIf="currentUser?.completed">Документы</span> <span
-          *ngIf="!currentUser?.completed">Добавить информацию</span></h2>
+      <h2 class="page-header__title title">
+        <span *ngIf="currentUser?.completed">Документы</span>
+        <span *ngIf="!currentUser?.completed">Добавить информацию</span>
+      </h2>
     </div>
   </section>
   <section *ngIf="currentUser?.completed">
@@ -275,8 +277,8 @@
 
   <section *ngIf="!currentUser?.completed">
     <form #form="ngForm">
-      <div class="form" style="display: flex;justify-content: space-between;">
-        <div>
+      <div class="form" style="display: flex; gap:15px">
+        <div style="width: 100%;">
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
@@ -289,6 +291,20 @@
               </mat-form-field>
             </div>
           </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Ответственное лицо</mat-label>
+                <input matInput required name="responsiblePerson" [(ngModel)]="data.responsiblePerson"
+                  #responsiblePerson="ngModel" />
+                <span style="margin-left: 0; color: red;"
+                  *ngIf="responsiblePerson.invalid && (responsiblePerson.dirty || responsiblePerson.touched)">
+                  Обязательное поле </span>
+              </mat-form-field>
+            </div>
+          </div>
+
 
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
@@ -375,24 +391,61 @@
                 <mat-label>Юридический адрес</mat-label>
                 <input matInput required type="text" name="legalAddress" [(ngModel)]="data.legalAddress"
                   #legalAddress="ngModel" />
-                <mat-icon matSuffix *ngIf="!factAddressShow" (click)="factAddressShow = true">add</mat-icon>
+                <!-- <mat-icon matSuffix (click)="factAddressShow = true">add</mat-icon> -->
                 <span style="margin-left: 0; color: red;"
                   *ngIf="legalAddress.invalid && (legalAddress.dirty || legalAddress.touched)"> Обязательное поле
                 </span>
               </mat-form-field>
             </div>
 
-            <div class="dynamic-inputs" *ngIf="factAddressShow">
+            <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>Фактический адрес</mat-label>
                 <input matInput type="text" name="factAddress" [(ngModel)]="data.factAddress" />
-                <mat-icon matSuffix (click)="factAddressShow = false">delete</mat-icon>
+                <!-- <mat-icon matSuffix (click)="factAddressShow = false">delete</mat-icon> -->
               </mat-form-field>
             </div>
           </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs" style="align-items: center">
+              <mat-form-field class="form__input">
+                <mat-label>Расчетный счет</mat-label>
+                <input required matInput type="number" name="bankAccounts" [(ngModel)]="data.bankAccounts"
+                  #bankAccounts="ngModel" mask="99999999999999999999" maxlength="20" />
+                <mat-icon matSuffix *ngIf="!bankAccountCurrency" (click)="bankAccountCurrency = true">add</mat-icon>
+                <span style="margin-left: 0; color: red;"
+                  *ngIf="bankAccounts.invalid && (bankAccounts.dirty || bankAccounts.touched)"> Обязательное поле
+                </span>
+              </mat-form-field>
+              <mat-select class="form__input" name="currency" [(ngModel)]="currency"
+                style="width: 18%; margin-left: 5px;">
+                <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name
+                  }}</mat-option>
+              </mat-select>
+            </div>
+
+            <div class="dynamic-inputs" *ngIf="bankAccountCurrency">
+              <mat-form-field class="form__input">
+                <mat-label>Расчетный счет</mat-label>
+                <input matInput type="number" name="bankAccountCurrency" [(ngModel)]="data.bankAccountCurrency"
+                  mask="99999999999999999999" maxlength="20" />
+                <mat-icon matSuffix (click)="bankAccountCurrency = false">delete</mat-icon>
+              </mat-form-field>
+              <mat-select class="form__input" name="currency2" [(ngModel)]="currency2"
+                style="width: 18%; margin-left: 5px;">
+                <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name
+                  }}</mat-option>
+              </mat-select>
+            </div>
+          </div>
+          <button [disabled]="!form.valid" style="margin: 20px 0" class="auth__btn btn-green"
+            (click)="createMerchant()">
+            Завершить
+          </button>
         </div>
 
-        <div>
+        <div style="margin: 0 auto;width: 100%;">
           <div style="margin-left: 15px; width: 100%">
             <mat-form-field style="display: block">
               <mat-toolbar>
@@ -437,43 +490,20 @@
             </mat-form-field>
           </div>
         </div>
-
-        <!-- <div class="dynamic-inputs-wrapper">
-        <div class="dynamic-inputs" style="align-items: center">
-          <mat-form-field class="form__input">
-            <mat-label>Расчетный счет</mat-label>
-            <input required matInput type="number" name="bankAccounts" [(ngModel)]="data.bankAccounts"
-              #bankAccounts="ngModel" mask="99999999999999999999" maxlength="20"/>
-            <mat-icon matSuffix *ngIf="!bankAccountCurrency" (click)="bankAccountCurrency = true">add</mat-icon>
-            <span style="margin-left: 0; color: red;"
-              *ngIf="bankAccounts.invalid && (bankAccounts.dirty || bankAccounts.touched)"> Обязательное поле </span>
-          </mat-form-field>
-          <mat-select class="form__input" name="currency" [(ngModel)]="currency"
-            style="width: 25%; margin-left: 10px">
-            <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name }}</mat-option>
-          </mat-select>
-        </div>
-
-        <div class="dynamic-inputs" *ngIf="bankAccountCurrency">
-          <mat-form-field class="form__input">
-            <mat-label>Расчетный счет</mat-label>
-            <input matInput type="number" name="bankAccountCurrency" [(ngModel)]="data.bankAccountCurrency"
-              mask="99999999999999999999" maxlength="20" />
-            <mat-icon matSuffix (click)="bankAccountCurrency = false">delete</mat-icon>
-          </mat-form-field>
-          <mat-select class="form__input" name="currency2" [(ngModel)]="currency2"
-            style="width: 25%; margin-left: 10px">
-            <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name }}</mat-option>
-          </mat-select>
-        </div>
-      </div> -->
-
-
-        <!-- <button [disabled]="!form.valid" style="margin: 20px auto" class="auth__btn btn-green"
-          (click)="createMerchant()">
-          Завершить
-        </button> -->
       </div>
     </form>
   </section>
+</main>
+
+<main *ngIf="formDone" class="auth" style="display: flex; justify-content: center ; align-items: center; height: 100vh;">
+  <div class="auth__form form">
+    <div class="form-done">
+      <div style="text-align: center">
+        <mat-icon matSuffix>check_circle_outline</mat-icon>
+        <h2 class="title" style="margin: 10px 0;">Ваша заявка принята на обработку</h2>
+        <p>Ответ придет к вам на почту</p>
+        <!-- <button style="margin: 10px auto;" class="btn-green" routerLink="/auth">На главную</button> -->
+      </div>
+    </div>
+  </div>
 </main>

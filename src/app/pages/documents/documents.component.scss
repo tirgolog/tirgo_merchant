@@ -1,5 +1,5 @@
 .form__input {
-  width: 100%;
+  width: 80%;
 }
 
 .mat-input-element {
@@ -32,4 +32,11 @@
       color: rgba(0, 0, 0, 0.87)
     }
   }
+}
+
+mat-icon {
+  color: #2bcd50;
+  font-size: 90px;
+  height: 90px;
+  width: 90px;
 }

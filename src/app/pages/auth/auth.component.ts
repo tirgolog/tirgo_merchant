@@ -40,6 +40,8 @@ export class AuthComponent {
     
     // this.router.navigate(['forgot-password']); 
     if (this.authService.isAuthenticated()) {
+      console.log(this.currentUser);
+      
       if(this.currentUser?.completed) {
         this.router.navigate(["orders"]);
       }
