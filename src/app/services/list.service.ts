@@ -61,6 +61,10 @@ export class ListService {
     const sUrl = API_URL + '/users';
     return this.http.get<any>(sUrl);
   }
+  getMerchantById(id) {
+    const sUrl = API_URL + '/merchant/id?id='+id;
+    return this.http.get<any>(sUrl);
+  }
 
   getUsersMerchant(id) {
     const sUrl = API_URL + '/users/merchant?id='+id;

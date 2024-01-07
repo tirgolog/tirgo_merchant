@@ -26,7 +26,7 @@ import { LiveAnnouncer } from "@angular/cdk/a11y";
   host: { id: "main" },
 })
 export class OrdersComponent {
-  dataSource = new MatTableDataSource<any>([]); 
+  dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
 
   id: string = "";
@@ -59,7 +59,7 @@ export class OrdersComponent {
     private sseService: SseService,
     private _liveAnnouncer: LiveAnnouncer,
     private ref: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -70,51 +70,50 @@ export class OrdersComponent {
       this.status = this.route.snapshot.paramMap.get("status");
     }
     this.getAllOrders();
-    // this.helper.global_loading = true;
     this.spoller.initSpollers();
     this.gridOptions = <GridOptions>{};
     this.gridOptions.localeText = this.helper.localeTextAgGrid;
     this.gridOptions.suppressScrollOnNewData = true;
     this.gridOptions.headerHeight = 75;
-    // this.socketService.updateAllList().subscribe(async (res: any) => {
-    // })
-
-      this.sseSubscription = this.sseService.getUpdates().subscribe(
-        (data) => {
-          if(data.type == 'driver-finish' || data.type == 'driver-offer') {
-            this.getAllOrders();
-          }
-        },
-        (error) => {
-          console.error(error);
+    this.sseSubscription = this.sseService.getUpdates().subscribe(
+      (data) => {
+        if (data.type == 'driver-finish' || data.type == 'driver-offer') {
+          this.getAllOrders();
         }
-      );
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
-  ngOnChanges()	 {
+  ngOnChanges() {
     this.dataSource.data = this.helper.orders
     this.ref.detectChanges();
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;    
+    this.dataSource.sort = this.sort;
     this.spoller.initSpollers();
   }
   getAllOrders() {
-    this.listService.getOrdersByMerchant(this.currentUser.merchantId).subscribe(
-      (res: any) => {
-        if (res) {
+    if (this.currentUser.completed) {
+      this.listService.getOrdersByMerchant(this.currentUser.merchantId).subscribe(
+        (res: any) => {
+          if (res) {
+            this.spinner.hide();
+            this.helper.orders = res.data;
+            this.dataSource.data = this.helper.orders;
+            this.ref.detectChanges();
+          }
+        },
+        (error) => {
           this.spinner.hide();
-          this.helper.orders = res.data;
-          this.dataSource.data = this.helper.orders; 
-          this.ref.detectChanges();
+          this.toastr.error(error.message);
         }
-      },
-      (error) => {
-        this.spinner.hide();
-        this.toastr.error(error.message);
-      }
-    );
+      );
+    }
+    this.spinner.hide();
   }
   openCreateOrder(): void {
     const dialogRef = this.dialog.open(CreateorderComponent, {

@@ -1,12 +1,11 @@
 import { Component } from "@angular/core";
 import { AppComponent } from "src/app/app.component";
 import { AuthService } from "src/app/services/auth.service";
-import { jwtDecode } from "jwt-decode";
-
 import { ToastrService } from "ngx-toastr";
 import { SpollersService } from "src/app/services/spollers.service";
 import { Router } from "@angular/router";
 import { ListService } from "src/app/services/list.service";
+import { jwtDecode } from "jwt-decode";
 
 @Component({
   selector: "app-auth",
@@ -14,6 +13,7 @@ import { ListService } from "src/app/services/list.service";
   styleUrls: ["./auth.component.scss"],
 })
 export class AuthComponent {
+  currentUser:any;
   login: string = "";
   password: string = "";
   error: boolean = false;
@@ -29,9 +29,25 @@ export class AuthComponent {
   ) {}
 
   ngOnInit() {
+    if (localStorage.getItem("jwttirgomerhant")) {
+      let curUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      this.list.getMerchantById(curUser.sub).subscribe((res) => {
+        if (res.success) {
+          this.currentUser = res.data;
+        }
+      })
+    }
+    
     // this.router.navigate(['forgot-password']); 
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(["orders"]);
+      console.log(this.currentUser);
+      
+      if(this.currentUser?.completed) {
+        this.router.navigate(["orders"]);
+      }
+      else {
+        this.router.navigate(["documents"]);
+      }
     }
     // if (!this.authService.isAuthenticated()) {
     //    this.router.navigate(['/registration']);

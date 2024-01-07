@@ -135,7 +135,11 @@ export class AuthService {
    addMerchant(data: any) {
       const sUrl = API_URL + '/merchant';
       return this.http.post<any>(sUrl, data);
+   }
 
+   merchantComplete(data) {
+      const sUrl = API_URL + '/merchant/complete';
+      return this.http.post<any>(sUrl, data);
    }
 
    fileUpload(data: any) {
