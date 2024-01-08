@@ -6,7 +6,7 @@
    </div>
    <nav class="sidebar__menu menu" data-spollers>
       <ul class="menu__list">
-         <li class="menu__item">
+         <li class="menu__item" *ngIf="currentUser?.completed && currentUser?.verified">
             <a
                routerLink="/orders"
                routerLinkActive="_active"
@@ -18,7 +18,7 @@
             </a>
          </li>
 
-         <li class="menu__item">
+         <li class="menu__item" *ngIf="currentUser?.completed && currentUser?.verified">
             <a
                routerLink="/finance"
                routerLinkActive="_active"
@@ -30,7 +30,7 @@
             </a>
          </li>
 
-         <li class="menu__item" *ngIf="currentUser?.role?.name === 'Super admin'">
+         <li class="menu__item">
             <a
                routerLink="/documents"
                routerLinkActive="_active"
@@ -42,7 +42,7 @@
             </a>
          </li>
 
-         <li class="menu__item">
+         <li class="menu__item" *ngIf="currentUser?.completed && currentUser?.verified">
             <a
                routerLink="/profile"
                routerLinkActive="_active"
@@ -54,7 +54,7 @@
             </a>
          </li>
 
-         <li class="menu__item">
+         <li class="menu__item" *ngIf="currentUser?.completed && currentUser?.verified">
             <a
                routerLink="/support"
                routerLinkActive="_active"
@@ -66,7 +66,7 @@
             </a>
          </li>
 
-         <li class="menu__item" *ngIf="currentUser?.role?.name === 'Super admin'">
+         <li class="menu__item" *ngIf="selectedUser?.role?.name === 'Super admin' && currentUser?.completed && currentUser?.verified">
             <a
                routerLink="/users"
                routerLinkActive="_active"
@@ -78,7 +78,7 @@
             </a>
          </li>
 
-         <li class="menu__item" *ngIf="currentUser?.role?.name === 'Super admin'">
+         <li class="menu__item" *ngIf="selectedUser?.role?.name === 'Super admin' && currentUser?.completed && currentUser?.verified">
             <a
                routerLink="/analytics"
                routerLinkActive="_active"

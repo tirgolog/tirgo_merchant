@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/services/auth.service";
@@ -46,7 +47,8 @@ export class RegistrationComponent implements OnInit {
     public helper: HelperService,
     public list: ListService,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -98,7 +100,6 @@ export class RegistrationComponent implements OnInit {
       this.toastr.error('Пароль не совпадает')
     }
   }
-  saveMerchant() { }
   changedCountry(e) {
     this.phone = e.code;
     this.country = e.country;
@@ -154,61 +155,40 @@ export class RegistrationComponent implements OnInit {
       }
     }
   }
-  async createMerchant() {
+   createMerchant() {
+    // this.authService
+    //     .loginAdmin(this.data.email, this.data.password).subscribe((res:any) => {
+    //       if(res) {
+    //         this.authService.setJwt(res.data.access_token);
+    //         this.authService.setAdminJwt(res.data.admin_access_toke);
+    //         this.router.navigate(["documents"]);
+    //         }
+    //     })
     let patch = {
       email: this.data.email,
       password: this.data.password,
       companyName : this.data.companyName,
       phoneNumber: this.phone.toString()
     }
+    console.log(patch);
+    
     this.authService.addMerchant(patch).subscribe((res: any) => {
       if (res.success) {
         this.toastr.success("Мерчант успешно добавлен");
+        this.router
         this.loading = false;
-      }else {
+        this.authService
+        .loginAdmin(this.data.email, this.data.password).subscribe((res:any) => {
+          if(res) {
+            this.authService.setJwt(res.data.access_token);
+            this.router.navigate(['documents'])
+          }
+        })
+        }else {
         this.toastr.success("Что то пошло не так");
         this.loading = false;
       }
     })
-    // if (this.phone2) this.data.phoneNumbers.push(this.data.phone2);
-    // if (this.data.bankAccountCurrency) {
-    //   this.data.bankAccounts = [
-    //     { account: this.data.bankAccounts, currency: this.currency },
-    //     { account: this.data.bankAccountCurrency, currency: this.currency2 },
-    //   ];
-    // } else {
-    //   this.data.bankAccounts = [
-    //     { account: this.data.bankAccounts, currency: this.currency },
-    //   ];
-    // }
-    // let patch = {
-    //   bankAccounts: this.data.bankAccounts,
-    //   bankName: this.data.bankName,
-    //   companyName: this.data.companyName,
-    //   password: this.data.password,
-    //   notes: this.data.notes,
-    //   mfo: this.data.mfo,
-    //   inn: this.data.inn,
-    //   oked: this.data.oked,
-    //   dunsNumber: this.data.dunsNumber,
-    //   supervisorFullName: this.data.supervisorFullName,
-    //   legalAddress: this.data.legalAddress,
-    //   factAddress: this.data.factAddress,
-    //   email: this.data.email,
-    //   phoneNumber: this.countryCode.code + this.phone,
-    //   logoFilePath: this.data.logo,
-    //   passportFilePath: this.data.supervisor_passport,
-    //   registrationCertificateFilePath: this.data.certificate_registration,
-    // };
-    // const res = await this.authService.addMerchant(patch).toPromise();
-    // if (res) {
-    //   this.formDone = true;
-    //   this.toastr.success("Мерчант успешно добавлен");
-    //   this.loading = false;
-    // } else {
-    //   this.toastr.error(res.error);
-    //   this.loading = false;
-    // }
   }
   getCurrencies() {
     this.list.getCurrencies().subscribe((res) => {

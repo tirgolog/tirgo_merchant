@@ -44,37 +44,39 @@
       <!-- 2 STEP -->
       <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
-            <mat-form-field class="form__input">
-                <mat-label>Email</mat-label>
-                <input matInput type="email" name="email" [(ngModel)]="data.email" required />
-            </mat-form-field>
+          <mat-form-field class="form__input">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" name="email" [(ngModel)]="data.email" required />
+          </mat-form-field>
         </div>
-    </div>
-    
-    <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
+      </div>
+
+      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
-            <mat-form-field class="form__input">
-                <mat-label>Наименование фирмы</mat-label>
-                <input matInput type="text" name="companyName" [(ngModel)]="data.companyName" required />
-            </mat-form-field>
+          <mat-form-field class="form__input">
+            <mat-label>Наименование фирмы</mat-label>
+            <input matInput type="text" name="companyName" [(ngModel)]="data.companyName" required />
+          </mat-form-field>
         </div>
-    </div>
-    
-    <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
+      </div>
+
+      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
-            <mat-form-field class="form__input">
-                <mat-label>Ввести пароль</mat-label>
-                <input matInput type="{{ showPassword ? 'text' : 'password' }}" name="password" [(ngModel)]="data.password" required />
-                <button mat-icon-button matSuffix (click)="toggleShowPassword()">
-                    <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-                </button>
-            </mat-form-field>
+          <mat-form-field class="form__input">
+            <mat-label>Ввести пароль</mat-label>
+            <input matInput type="{{ showPassword ? 'text' : 'password' }}" name="password" [(ngModel)]="data.password"
+              required />
+            <button mat-icon-button matSuffix (click)="toggleShowPassword()">
+              <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
         </div>
-    </div>
-    
-    <button *ngIf="startVerficationCode && registrationStart" [disabled]="!form.valid" (click)="createMerchant()" style="margin: 20px auto" class="auth__btn btn-green">
+      </div>
+
+      <button *ngIf="startVerficationCode && registrationStart" [disabled]="!form.valid" (click)="createMerchant()"
+        style="margin: 20px auto" class="auth__btn btn-green">
         Сохранить
-    </button>
+      </button>
       <!-- 2 STEP -->
 
       <!-- <div class="form" *ngIf="startVerficationCode&& registrationStart" > 

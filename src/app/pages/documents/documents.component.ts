@@ -45,14 +45,11 @@ export class DocumentsComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     if (localStorage.getItem("jwttirgomerhant")) {
-      let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      console.log(curUser);
-      
+      let curUser: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
       this.list.getMerchantById(curUser.merchantId).subscribe((res) => {
         if (res) {
           this.spinner.hide();
           this.currentUser = res.data;
-          console.log(this.currentUser);
           this.getAllDocuments(this.currentUser);
           this.getCurrencies();
         }
@@ -110,7 +107,7 @@ export class DocumentsComponent implements OnInit {
       }
     }
   }
-  async createMerchant() {
+  createMerchant() {
     this.loading = true;
     if (this.data.bankAccountCurrency) {
       this.data.bankAccounts = [
@@ -122,67 +119,65 @@ export class DocumentsComponent implements OnInit {
         { account: this.data.bankAccounts, currency: this.currency }
       ];
     }
-      let patch = {
-        responsiblePerson: this.data.responsiblePerson,
-        bankName: this.data.bankName,
-        bankAccounts: this.data.bankAccounts,
-        notes: this.data.notes,
-        mfo: this.data.mfo,
-        inn: this.data.inn,
-        oked: this.data.oked,
-        dunsNumber: this.data.dunsNumber,
-        supervisorFullName: this.data.supervisorFullName,
-        legalAddress: this.data.legalAddress,
-        factAddress: this.data.factAddress,
-        email: this.data.email,
-        logoFilePath: this.data.logo,
-        passportFilePath: this.data.supervisor_passport,
-        registrationCertificateFilePath: this.data.certificate_registration,
-      };
-      this.authService.merchantComplete(patch).subscribe((res: any) => {
-        if (res) {
-          this.formDone = true;
-          this.toastr.success("Мерчант успешно добавлен");
-          this.loading = false;
-        } else {
-          this.toastr.error(res.error);
-          this.loading = false;
-        }
-      }, error => {
-        this.toastr.error(error.message);
+    let patch = {
+      id: this.data.id.toString(),
+      responsiblePerson: this.data.responsiblePerson,
+      bankName: this.data.bankName,
+      bankAccounts: this.data.bankAccounts,
+      notes: this.data.notes,
+      mfo: this.data.mfo,
+      inn: this.data.inn,
+      oked: this.data.oked,
+      dunsNumber: this.data.dunsNumber,
+      supervisorFullName: this.data.supervisorFullName,
+      legalAddress: this.data.legalAddress,
+      factAddress: this.data.factAddress,
+      email: this.data.email,
+      logoFilePath: this.data.logo,
+      passportFilePath: this.data.supervisor_passport,
+      registrationCertificateFilePath: this.data.certificate_registration,
+    };
+    this.authService.merchantComplete(patch).subscribe((res: any) => {
+      if (res) {
+        this.formDone = true;
+        this.toastr.success("Мерчант успешно добавлен");
         this.loading = false;
-      })
-    }
-    getCurrencies() {
-      this.list.getCurrencies().subscribe((res) => {
-        this.currencies = res;
-        this.currency = this.currencies[0].id;
-        this.currency2 = this.currencies[0].id;
-      });
-    }
-    selectFile(event: any, name: string) {
-      if (name == "logo") this.selectedFileNames = event.target.files[0].name;
-      if (name == "certificate_registration")
-        this.certificateNames = event.target.files[0].name;
-      if (name == "supervisor_passport")
-        this.passportNames = event.target.files[0].name;
-
-      const file = event.target.files[0];
-      const formData = new FormData();
-      formData.append("file", file, file.name);
-      this.authService.fileUpload(formData).subscribe(
-        (response) => {
-          if (response) {
-            this.toastr.success("Файл успешно загружен");
-            this.data[name] = response.filename;
-          }
-        },
-        (error) => {
-          this.toastr.error(error.message);
-        }
-      );
-    }
+      } else {
+        this.toastr.error(res.error);
+        this.loading = false;
+      }
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
   }
-// "responsiblePerson should not be empty"
-// "factAddress must be a string"
-// "bankName should not be empty"
+  getCurrencies() {
+    this.list.getCurrencies().subscribe((res) => {
+      this.currencies = res;
+      this.currency = this.currencies[0].id;
+      this.currency2 = this.currencies[0].id;
+    });
+  }
+  selectFile(event: any, name: string) {
+    if (name == "logo") this.selectedFileNames = event.target.files[0].name;
+    if (name == "certificate_registration")
+      this.certificateNames = event.target.files[0].name;
+    if (name == "supervisor_passport")
+      this.passportNames = event.target.files[0].name;
+
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+    this.authService.fileUpload(formData).subscribe(
+      (response) => {
+        if (response) {
+          this.toastr.success("Файл успешно загружен");
+          this.data[name] = response.filename;
+        }
+      },
+      (error) => {
+        this.toastr.error(error.message);
+      }
+    );
+  }
+}
