@@ -155,22 +155,13 @@ export class RegistrationComponent implements OnInit {
       }
     }
   }
-   createMerchant() {
-    // this.authService
-    //     .loginAdmin(this.data.email, this.data.password).subscribe((res:any) => {
-    //       if(res) {
-    //         this.authService.setJwt(res.data.access_token);
-    //         this.authService.setAdminJwt(res.data.admin_access_toke);
-    //         this.router.navigate(["documents"]);
-    //         }
-    //     })
+  createMerchant() {
     let patch = {
       email: this.data.email,
       password: this.data.password,
-      companyName : this.data.companyName,
+      companyName : this.data.companyType+ " " +this.data.companyName,
       phoneNumber: this.phone.toString()
     }
-    console.log(patch);
     
     this.authService.addMerchant(patch).subscribe((res: any) => {
       if (res.success) {
