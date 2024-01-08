@@ -29,12 +29,15 @@ export class SidebarComponent {
   }
   ngOnInit(): void {
     if (localStorage.getItem("jwttirgomerhant")) {
-      let curUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.listService.getMerchantById(curUser.sub).subscribe((res) => {
-        if (res.success) {
-          this.currentUser = res.data;
-        }
-      })
+      let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      this.currentUser = curUser
+      // this.listService.getMerchantById(curUser.merchantId).subscribe((res) => {
+      //   if (res.success) {
+      //     this.currentUser = res.data;
+      //     console.log(this.currentUser);
+          
+      //   }
+      // })
     }
     this.getAllUsers();
   }
