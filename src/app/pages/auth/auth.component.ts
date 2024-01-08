@@ -13,40 +13,35 @@ import { jwtDecode } from "jwt-decode";
   styleUrls: ["./auth.component.scss"],
 })
 export class AuthComponent {
-  currentUser:any;
+  currentUser: any;
   login: string = "";
   password: string = "";
   error: boolean = false;
   showForgotPassword: boolean = false;
   showPassword: boolean = false;
-  loading:boolean = false;
+  loading: boolean = false;
   constructor(
     public authService: AuthService,
     public list: ListService,
     private app: AppComponent,
     private router: Router,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (localStorage.getItem("jwttirgomerhant")) {
-      let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      let curUser: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
       this.list.getMerchantById(curUser.merchantId).subscribe((res) => {
         if (res.success) {
           this.currentUser = res.data;
           if (this.authService.isAuthenticated()) {
-            if(this.currentUser?.completed) {
+            if (this.currentUser?.completed) {
               this.router.navigate(["orders"]);
-            }
-            else {
-              this.router.navigate(["documents"]);
             }
           }
         }
       })
     }
-    
-   
   }
   getLogin() {
     if (this.login && this.login.indexOf('@') === -1) {
@@ -54,30 +49,42 @@ export class AuthComponent {
     }
     else {
       this.authService
-      .loginAdmin(this.login, this.password)
-      .subscribe((res: any) => {
-        if (res.success) {
-          this.authService.setJwt(res.data.access_token);
-          this.authService.setAdminJwt(res.data.admin_access_toke);
-          this.router.navigate(["orders"]);
-          this.error = false;
-        } 
-        else if(res.errors[0] == 'username is required') {
+        .loginAdmin(this.login, this.password)
+        .subscribe((res: any) => {
+          if (res.success) {
+            this.authService.setJwt(res.data.access_token);
+            this.authService.setAdminJwt(res.data.admin_access_toke);
+            if (localStorage.getItem("jwttirgomerhant")) {
+              let curUser: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+              this.list.getMerchantById(curUser.merchantId).subscribe((res) => {
+                if (res.success) {
+                  this.currentUser = res.data;
+                  if (this.currentUser?.completed) {
+                    this.router.navigate(["orders"]);
+                  }
+                  else if (!this.currentUser?.completed && !this.currentUser?.verified) {
+                    this.router.navigate(["documents"]);
+                  }
+                }
+              })
+            }
+          }
+          else if (res.errors[0] == 'username is required') {
+            this.error = true;
+            this.toastr.error("Требуется электронная почта");
+          }
+          else if (res.errors[0] == 'password is required') {
+            this.error = true;
+            this.toastr.error("Требуется пароль");
+          }
+          else {
+            this.error = true;
+            this.toastr.error("Пользователь не найден");
+          }
+        }, error => {
           this.error = true;
-          this.toastr.error("Требуется электронная почта");
-        }
-        else if(res.errors[0] == 'password is required') {
-          this.error = true;
-          this.toastr.error("Требуется пароль");
-        }
-        else {
-          this.error = true;
-          this.toastr.error("Пользователь не найден");
-        }
-      }, error => {
-        this.error = true;
-        this.toastr.error('Неверный пароль или адрес электронной почты')
-      });
+          this.toastr.error('Неверный пароль или адрес электронной почты')
+        });
     }
   }
   sendEmail() {
@@ -86,10 +93,10 @@ export class AuthComponent {
       (res: any) => {
         if (res.success) {
           this.toastr.success("Sms-код будет отправлен на вашу электронную почту");
-          this.router.navigate(["forgot-password",this.login]);
+          this.router.navigate(["forgot-password", this.login]);
           this.loading = false;
         }
-        else if(res.errors[0] == "Create data failed") {
+        else if (res.errors[0] == "Create data failed") {
           this.toastr.error("Адрес электронной почты не найден");
           this.loading = false;
         }

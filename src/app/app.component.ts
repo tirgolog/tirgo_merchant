@@ -51,6 +51,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             this.getAllOrders();
             this.getBalance();
           }
+          else if(!this.currentUser?.completed && !this.currentUser?.verified) {
+            this.router.navigate(["documents"]);
+          }
         }
       })
     }
@@ -70,7 +73,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
-
   socket() {
     this.sseSubscription = this.sseService.getUpdates().subscribe(
       (data) => {
@@ -133,7 +135,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       });
     }
   }
-  
   ngAfterViewInit() {
     if (localStorage.getItem("jwttirgomerhant")) {
       this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
