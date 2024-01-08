@@ -30,28 +30,23 @@ export class AuthComponent {
 
   ngOnInit() {
     if (localStorage.getItem("jwttirgomerhant")) {
-      let curUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.list.getMerchantById(curUser.sub).subscribe((res) => {
+      let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      this.list.getMerchantById(curUser.merchantId).subscribe((res) => {
         if (res.success) {
           this.currentUser = res.data;
+          if (this.authService.isAuthenticated()) {
+            if(this.currentUser?.completed) {
+              this.router.navigate(["orders"]);
+            }
+            else {
+              this.router.navigate(["documents"]);
+            }
+          }
         }
       })
     }
     
-    // this.router.navigate(['forgot-password']); 
-    if (this.authService.isAuthenticated()) {
-      console.log(this.currentUser);
-      
-      if(this.currentUser?.completed) {
-        this.router.navigate(["orders"]);
-      }
-      else {
-        this.router.navigate(["documents"]);
-      }
-    }
-    // if (!this.authService.isAuthenticated()) {
-    //    this.router.navigate(['/registration']);
-    // }
+   
   }
   getLogin() {
     this.authService
@@ -62,10 +57,22 @@ export class AuthComponent {
           this.authService.setAdminJwt(res.data.admin_access_toke);
           this.router.navigate(["orders"]);
           this.error = false;
-        } else {
+        } 
+        else if(res.errors[0] == 'username is required') {
+          this.error = true;
+          this.toastr.error("Требуется электронная почта");
+        }
+        else if(res.errors[0] == 'password is required') {
+          this.error = true;
+          this.toastr.error("Требуется пароль");
+        }
+        else {
           this.error = true;
           this.toastr.error("Пользователь не найден");
         }
+      }, error => {
+        this.error = true;
+        this.toastr.error('Неверный пароль или адрес электронной почты')
       });
   }
   sendEmail() {

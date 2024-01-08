@@ -163,7 +163,6 @@ export class RegistrationComponent implements OnInit {
     }
     this.authService.addMerchant(patch).subscribe((res: any) => {
       if (res.success) {
-        // this.formDone = true;
         this.toastr.success("Мерчант успешно добавлен");
         this.loading = false;
       }else {

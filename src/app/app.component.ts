@@ -42,8 +42,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     if (localStorage.getItem("jwttirgomerhant")) {
-      let curUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.listService.getMerchantById(curUser.sub).subscribe((res) => {
+      let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      this.listService.getMerchantById(curUser.merchantId).subscribe((res) => {
         if (res.success) {
           this.currentUser = res.data;
           if(this.currentUser.completed) {

@@ -43,19 +43,21 @@ export class DocumentsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.spinner.show();
     if (localStorage.getItem("jwttirgomerhant")) {
-      let curUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.list.getMerchantById(curUser.sub).subscribe((res) => {
-        if (res.success) {
+      let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      console.log(curUser);
+      
+      this.list.getMerchantById(curUser.merchantId).subscribe((res) => {
+        if (res) {
+          this.spinner.hide();
           this.currentUser = res.data;
           console.log(this.currentUser);
-          
           this.getAllDocuments(this.currentUser);
           this.getCurrencies();
         }
       })
     }
-    this.spinner.show();
     this.data = { supervisor_passport: "", certificate_registration: "", email: "", phoneNumbers: [""] };
   }
   getAllDocuments(user) {
