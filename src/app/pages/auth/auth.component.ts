@@ -49,7 +49,11 @@ export class AuthComponent {
    
   }
   getLogin() {
-    this.authService
+    if (this.login && this.login.indexOf('@') === -1) {
+      this.toastr.error('Ввод должен быть типа Email(@)');
+    }
+    else {
+      this.authService
       .loginAdmin(this.login, this.password)
       .subscribe((res: any) => {
         if (res.success) {
@@ -74,6 +78,7 @@ export class AuthComponent {
         this.error = true;
         this.toastr.error('Неверный пароль или адрес электронной почты')
       });
+    }
   }
   sendEmail() {
     this.loading = true;

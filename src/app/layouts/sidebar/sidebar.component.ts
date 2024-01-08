@@ -17,6 +17,8 @@ import { jwtDecode } from 'jwt-decode';
 
 export class SidebarComponent {
   currentUser: any;
+  selectedUser:any;
+  @Input() logo = "";
 
   constructor(
     public authService: AuthService,
@@ -24,25 +26,25 @@ export class SidebarComponent {
     public helper: HelperService,
     public listService: ListService,
     private toastr: ToastrService,
-    private app: AppComponent
-  ) {
-  }
+  ) {}
+
   ngOnInit(): void {
     if (localStorage.getItem("jwttirgomerhant")) {
       let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.currentUser = curUser
-      // this.listService.getMerchantById(curUser.merchantId).subscribe((res) => {
-      //   if (res.success) {
-      //     this.currentUser = res.data;
-      //     console.log(this.currentUser);
-          
-      //   }
-      // })
-    }
-    this.getAllUsers();
-  }
-  @Input() logo = ""
+      curUser;
+      this.listService.getUserById(curUser.sub).subscribe((res) => {
+        if (res.success) {
+          this.selectedUser = res.data;
+        }
+      })
 
+      this.listService.getMerchantById(curUser.merchantId).subscribe((res) => {
+        if (res.success) {
+          this.currentUser = res.data;
+        }
+      })
+    }
+  }
   closeMenu() {
     document.documentElement.classList.remove("menu-open")
   }
@@ -54,16 +56,6 @@ export class SidebarComponent {
   async refreshAll() {
     this.authService.globalLoading = true;
     this.authService.globalLoading = false;
-  }
-
-  getAllUsers() {
-    this.listService.getUsers().subscribe((res) => {
-      let curUser = jwtDecode(localStorage.getItem('jwttirgomerhant'));
-      if (res) {
-        this.helper.users = res.data;
-        this.currentUser = res.data.filter(user => user.id === curUser.sub)[0];
-      }
-    })
   }
 
 }
