@@ -152,7 +152,7 @@
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
-                <mat-label>Имя Ответственное лицо</mat-label>
+                <mat-label>Имя Ответственного лица</mat-label>
                 <input matInput required name="responsiblePersonFistName" [(ngModel)]="data.responsiblePersonFistName"
                   #responsiblePersonFistName="ngModel" />
                 <span style="margin-left: 0; color: red;"
@@ -165,23 +165,12 @@
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
-                <mat-label>Фамилия Ответственное лицо</mat-label>
+                <mat-label>Фамилия Ответственного лица</mat-label>
                 <input matInput required name="responsiblePersonLastName" [(ngModel)]="data.responsiblePersonLastName"
                   #responsiblePersonLastName="ngModel" />
                 <span style="margin-left: 0; color: red;"
                   *ngIf="responsiblePersonLastName.invalid && (responsiblePersonLastName.dirty || responsiblePersonLastName.touched)">
                   Обязательное поле </span>
-              </mat-form-field>
-            </div>
-          </div>
-
-          <div class="dynamic-inputs-wrapper">
-            <div class="dynamic-inputs">
-              <mat-form-field class="form__input">
-                <mat-label>Наименование банка</mat-label>
-                <input matInput name="bankName" required [(ngModel)]="data.bankName" #bankName="ngModel" />
-                <span style="margin-left: 0; color: red;"
-                  *ngIf="bankName.invalid && (bankName.dirty || bankName.touched)">Обязательное поле</span>
               </mat-form-field>
             </div>
           </div>
@@ -217,6 +206,17 @@
                   }}</mat-option>
               </mat-select>
             </div>
+          </div>
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Наименование банка</mat-label>
+                <input matInput name="bankName" required [(ngModel)]="data.bankName" #bankName="ngModel" />
+                <span style="margin-left: 0; color: red;"
+                  *ngIf="bankName.invalid && (bankName.dirty || bankName.touched)">Обязательное поле</span>
+              </mat-form-field>
+            </div>
+          </div>
 
             <div class="dynamic-inputs-wrapper">
               <div class="dynamic-inputs">
@@ -305,7 +305,6 @@
               </div>
             </div>
 
-          </div>
           <button [disabled]="!form.valid" style="margin: 20px 0" class="auth__btn btn-green"
             (click)="createMerchant()">
             Завершить

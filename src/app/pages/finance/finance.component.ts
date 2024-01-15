@@ -48,7 +48,6 @@ export class FinanceComponent implements OnInit {
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
     this.getAllFinance();
     this.getBalance();
-
     // this.sseSubscription = this.sseService.getUpdates().subscribe(
     //   (data) => {
     //     if (data.type == "transaction-verified") {
@@ -91,7 +90,7 @@ export class FinanceComponent implements OnInit {
         }
       );
     } else {
-      this.list.getTransactionsByUser(this.currentUser.sub).subscribe(
+      this.list.getTransactionsByUser(this.currentUser.merchantId).subscribe(
         (res) => {
           if (res) {
             this.spinner.hide();
