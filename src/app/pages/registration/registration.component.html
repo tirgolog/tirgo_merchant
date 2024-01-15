@@ -42,15 +42,6 @@
       <!-- 1 STEP -->
 
       <!-- 2 STEP -->
-      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
-        <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
-          <mat-form-field class="form__input">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" name="email" [(ngModel)]="data.email" required />
-          </mat-form-field>
-        </div>
-      </div>
-
       <div class="dynamic-inputs-wrapper" style="margin: 0 auto;display: flex;" *ngIf="startVerficationCode && registrationStart">
         <div class="dynamic-inputs-wrapper" style="margin: 0 auto; width: 25%">
           <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
@@ -82,6 +73,15 @@
               <input matInput type="text" name="companyName" [(ngModel)]="data.companyName" required />
             </mat-form-field>
           </div>
+        </div>
+      </div>
+
+      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && registrationStart">
+        <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
+          <mat-form-field class="form__input">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" name="email" [(ngModel)]="data.email" required />
+          </mat-form-field>
         </div>
       </div>
 

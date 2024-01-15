@@ -44,6 +44,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     if (localStorage.getItem("jwttirgomerhant")) {
       let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
       this.listService.getMerchantById(curUser.merchantId).subscribe((res) => {
+        // this.getBalance();
         if (res.success) {
           this.currentUser = res.data;
           if(this.currentUser.completed && this.currentUser.cverified) {
@@ -52,7 +53,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             this.getBalance();
           }
           else if(!this.currentUser?.completed || !this.currentUser?.verified) {
-            console.log('ok');
             this.router.navigate(["documents"]);
           }
         }
@@ -125,16 +125,17 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   }
   getBalance() {
-    if (localStorage.getItem("jwttirgomerhant")) {
-      const user: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.listService.getBalanceMerchant(this.currentUser.id).subscribe((res) => {
+    // if (localStorage.getItem("jwttirgomerhant")) {
+    //   const user: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      this.listService.getBalanceMerchant(this.currentUser.merchantId).subscribe((res) => {
+        console.log(res);
         if (res.success) {
           this.helper.merchantBalance.activeBalance = res.data.activeBalance;
           this.helper.merchantBalance.frozenBalance = res.data.frozenBalance;
           this.ref.detectChanges();
         }
       });
-    }
+    // }
   }
   ngAfterViewInit() {
     if (localStorage.getItem("jwttirgomerhant")) {
