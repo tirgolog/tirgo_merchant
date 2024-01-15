@@ -50,6 +50,11 @@ export class DocumentsComponent implements OnInit {
         if (res) {
           this.spinner.hide();
           this.currentUser = res.data;
+          console.log(this.currentUser);
+          
+          if(!this.currentUser.verified && this.currentUser.completed && !this.currentUser.rejected) { 
+           this.formDone = true; 
+          }
           this.getAllDocuments(this.currentUser);
           this.getCurrencies();
         }
@@ -121,7 +126,8 @@ export class DocumentsComponent implements OnInit {
     }
     let patch = {
       id: this.data.id.toString(),
-      responsiblePerson: this.data.responsiblePerson,
+      responsiblePersonFistName: this.data.responsiblePersonFistName,
+      responsiblePersonLastName: this.data.responsiblePersonLastName,
       bankName: this.data.bankName,
       bankAccounts: this.data.bankAccounts,
       notes: this.data.notes,
@@ -155,7 +161,7 @@ export class DocumentsComponent implements OnInit {
   getCurrencies() {
     this.list.getCurrencies().subscribe((res) => {
       this.currencies = res;
-      this.currency = this.currencies[0].id;
+      this.currency = this.currencies[1].id;
       this.currency2 = this.currencies[0].id;
     });
   }

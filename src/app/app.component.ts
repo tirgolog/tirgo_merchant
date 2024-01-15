@@ -46,12 +46,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       this.listService.getMerchantById(curUser.merchantId).subscribe((res) => {
         if (res.success) {
           this.currentUser = res.data;
-          if(this.currentUser.completed) {
+          if(this.currentUser.completed && this.currentUser.cverified) {
             this.socket();
             this.getAllOrders();
             this.getBalance();
           }
-          else if(!this.currentUser?.completed && !this.currentUser?.verified) {
+          else if(!this.currentUser?.completed || !this.currentUser?.verified) {
+            console.log('ok');
             this.router.navigate(["documents"]);
           }
         }

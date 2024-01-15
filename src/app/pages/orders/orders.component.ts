@@ -89,6 +89,8 @@ export class OrdersComponent {
 
   ngOnChanges() {
     this.dataSource.data = this.helper.orders
+    console.log(this.dataSource.data);
+    console.log('ok');
     this.ref.detectChanges();
   }
 
@@ -97,22 +99,20 @@ export class OrdersComponent {
     this.spoller.initSpollers();
   }
   getAllOrders() {
-    if (this.currentUser.completed) {
-      this.listService.getOrdersByMerchant(this.currentUser.merchantId).subscribe(
-        (res: any) => {
-          if (res) {
-            this.spinner.hide();
-            this.helper.orders = res.data;
-            this.dataSource.data = this.helper.orders;
-            this.ref.detectChanges();
-          }
-        },
-        (error) => {
+    this.listService.getOrdersByMerchant(this.currentUser.merchantId).subscribe(
+      (res: any) => {
+        if (res) {
           this.spinner.hide();
-          this.toastr.error(error.message);
+          this.helper.orders = res.data;
+          this.dataSource.data = this.helper.orders;
+          this.ref.detectChanges();
         }
-      );
-    }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.toastr.error(error.message);
+      }
+    );
     this.spinner.hide();
   }
   openCreateOrder(): void {
