@@ -35,8 +35,12 @@ export class AuthComponent {
         if (res.success) {
           this.currentUser = res.data;
           if (this.authService.isAuthenticated()) {
-            if (this.currentUser?.completed) {
+            if (this.currentUser?.completed && this.currentUser?.verified) {
               this.router.navigate(["orders"]);
+            }
+            else if (!this.currentUser?.completed || !this.currentUser?.verified) {
+              console.log('ok');
+              this.router.navigate(["documents"]);
             }
           }
         }
@@ -59,10 +63,11 @@ export class AuthComponent {
               this.list.getMerchantById(curUser.merchantId).subscribe((res) => {
                 if (res.success) {
                   this.currentUser = res.data;
-                  if (this.currentUser?.completed) {
+                  if (this.currentUser?.completed && this.currentUser?.verified) {
                     this.router.navigate(["orders"]);
                   }
-                  else if (!this.currentUser?.completed && !this.currentUser?.verified) {
+                  else if (!this.currentUser?.completed || !this.currentUser?.verified) {
+                    console.log(this.currentUser);
                     this.router.navigate(["documents"]);
                   }
                 }

@@ -42,6 +42,7 @@ export class RegistrationComponent implements OnInit {
   country: any;
   verifyCode: any;
   verificationCode: any;
+  confirmCode
   constructor(
     public authService: AuthService,
     public helper: HelperService,
@@ -70,6 +71,7 @@ export class RegistrationComponent implements OnInit {
       phone2: "",
       bankName: "",
       bankAccounts: [],
+      companyType: "ООО"
     };
   }
 
@@ -162,24 +164,30 @@ export class RegistrationComponent implements OnInit {
       companyName : this.data.companyType+ " " +this.data.companyName,
       phoneNumber: this.phone.toString()
     }
+    console.log(this.data.confirmCode, this.data.password);
     
-    this.authService.addMerchant(patch).subscribe((res: any) => {
-      if (res.success) {
-        this.toastr.success("Мерчант успешно добавлен");
-        this.router
-        this.loading = false;
-        this.authService
-        .loginAdmin(this.data.email, this.data.password).subscribe((res:any) => {
-          if(res) {
-            this.authService.setJwt(res.data.access_token);
-            this.router.navigate(['documents'])
-          }
-        })
-        }else {
-        this.toastr.success("Что то пошло не так");
-        this.loading = false;
-      }
-    })
+    if(this.data.confirmCode == this.data.password) {
+      this.authService.addMerchant(patch).subscribe((res: any) => {
+        if (res.success) {
+          this.toastr.success("Мерчант успешно добавлен");
+          this.router
+          this.loading = false;
+          this.authService
+          .loginAdmin(this.data.email, this.data.password).subscribe((res:any) => {
+            if(res) {
+              this.authService.setJwt(res.data.access_token);
+              this.router.navigate(['documents'])
+            }
+          })
+          }else {
+          this.toastr.error("Что то пошло не так");
+          this.loading = false;
+        }
+      })
+    } else {
+      this.loading = false;
+      this.toastr.error("Пароль не совпадает");
+    } 
   }
   getCurrencies() {
     this.list.getCurrencies().subscribe((res) => {
