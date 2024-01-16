@@ -38,9 +38,9 @@ export class FinanceComponent implements OnInit {
     private app: AppComponent,
     private spinner: NgxSpinnerService,
     private sseService: SseService,
-  ) {}
+  ) { }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   ngOnInit() {
     this.spinner.show();
@@ -48,16 +48,16 @@ export class FinanceComponent implements OnInit {
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
     this.getAllFinance();
     this.getBalance();
-    // this.sseSubscription = this.sseService.getUpdates().subscribe(
-    //   (data) => {
-    //     if (data.type == "transaction-verified") {
-    //       this.getAllFinance();
-    //     }
-    //   },
-    //   (error) => {
-    //     console.error(error);
-    //   }
-    // );
+    this.sseSubscription = this.sseService.getUpdates().subscribe(
+      (data) => {
+        if (data.type == "transaction-verified") {
+          this.getAllFinance();
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   openDialog(): void {
@@ -70,39 +70,24 @@ export class FinanceComponent implements OnInit {
   }
 
   getAllFinance() {
-    let transaction = []
-    if (this.app?.currentUser?.role?.name === "Super admin") {
-      this.list.getFinanceByMerchant(this.currentUser.merchantId).subscribe(
-        (res) => {
-          if (res) {
-            res.data.forEach((v,k) => {
-              if(v.rejected || v.verified) {
-                transaction.push(v)
-              }
-            })
-            this.spinner.hide();
-            this.helper.transactions_type = transaction
-          }
-        },
-        (error) => {
+    let transaction = [];
+    this.list.getFinanceByMerchant(this.currentUser.merchantId).subscribe(
+      (res) => {
+        if (res) {
+          res.data.forEach((v, k) => {
+            if (v.rejected || v.verified) {
+              transaction.push(v)
+            }
+          })
           this.spinner.hide();
-          this.toastr.error(error.message);
+          this.helper.transactions_type = transaction
         }
-      );
-    } else {
-      this.list.getTransactionsByUser(this.currentUser.merchantId).subscribe(
-        (res) => {
-          if (res) {
-            this.spinner.hide();
-            this.helper.transactions_type = res.data;
-          }
-        },
-        (error) => {
-          this.spinner.hide();
-          this.toastr.error(error.message);
-        }
-      );
-    }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.toastr.error(error.message);
+      }
+    );
   }
 
   getBalance() {

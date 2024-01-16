@@ -40,7 +40,7 @@ export class CreateorderComponent {
   currentUser;
   timeHeader = MatDatepickerTimeHeaderComponent;
   data = {
-    transportTypeId: "",
+    transportTypeIds: "",
     cargoTypeId: "",
     offeredPrice: "",
     cargoWeight: "",
@@ -68,7 +68,7 @@ export class CreateorderComponent {
     public dialog: MatDialog,
     private toastr: ToastrService,
     private authService: AuthService,
-    public listService: ListService
+    public listService: ListService,
   ) {
     this.listService.getTypeCargo().subscribe((res) => {
       if (res) {
@@ -96,7 +96,6 @@ export class CreateorderComponent {
       return city.split(":")[0];
     }
   }
-
   async findCity(ev: any) {
     try {
       const findText = ev.target.value.toString().trim().toLowerCase();
@@ -111,7 +110,6 @@ export class CreateorderComponent {
       console.error("Error fetching city data:", error);
     }
   }
-
   selectAdr(ev: any) {
     this.data.isDangrousCargo = ev.checked;
   }
@@ -121,52 +119,70 @@ export class CreateorderComponent {
   selectIsSafe(ev: any) {
     if (ev.checked) {
       this.isSafeModal = true;
+      this.data.isCashlessPayment = ev.checked;
       this.data.isSafe = ev.checked;
     } else {
       this.isSafeModal = false;
+      this.data.isCashlessPayment = false;
     }
   }
-
   addTwoDays(ev: any) {
     this.data.isUrgent = ev.checked;
   }
-
-  async addOrder() {
-    const confirm = await this.helper.openDialogConfirm(
-      "Вы уверены?",
-      "Вы уверены что хотите создать заказ?",
-      2
-    );
-    if (confirm) {
-      await this.helper.loadingCreate();
+  addOrder() {
+    if (new Date(this.sendCargoDate).getTime() < new Date().getTime()) {
+      this.toastr.error("Выбранная дата не может быть меньше текущей даты.");
+    }
+    else if (this.citystart == '') {
+      this.toastr.error('Не можем создать заказ, Нужно выбрать место отправки груза');
+    }
+    else if (this.cityfinish == '') {
+      this.toastr.error('Не можем создать заказ, Нужно выбрать место доставки груза');
+    }
+    else if (this.data.cargoTypeId == '') {
+      this.toastr.error('Не можем создать заказ, Нужно выбрать тип груза');
+    }
+    else if (this.data.transportTypeIds == '') {
+      this.toastr.error('Не можем создать заказ, Нужно выбрать тип транспорта');
+    }
+    else if (this.sendCargoDate == undefined) {
+      this.toastr.error('Не можем создать заказ, Нужно выбрать дата отправки груза');
+    }
+    else if (this.sendCargoTime == undefined) {
+      this.toastr.error('Не можем создать заказ, Нужно выбрать время отправки груза');
+    }
+    else if (this.data.cargoWeight == '') {
+      this.toastr.error('Не можем создать заказ, Нужно выбрать вес груза');
+    }
+    else {
       this.data.sendLocation = this.citystart.split(":")[0];
       this.data.cargoDeliveryLocation = this.cityfinish.split(":")[0];
       this.data.sendCargoDate = this.sendCargoDate;
       this.data.sendCargoTime = this.sendCargoTime;
       this.data.merchantId = this.currentUser.merchantId;
+      this.data.currencyId = '74d13e0a-4cd0-4fb1-ae66-5f87e25d67f4'
 
       this.data.start_lat = this.citystart.split(":")[1];
       this.data.start_lng = this.citystart.split(":")[2];
       this.data.finish_lat = this.cityfinish.split(":")[1];
       this.data.finish_lng = this.cityfinish.split(":")[2];
-
-      if (new Date(this.sendCargoDate).getTime() < new Date().getTime()) {
-        await this.helper.loadingClose();
-        this.toastr.error("Выбранная дата не может быть меньше текущей даты.");
-      } else {
-        try {
-          const res = await this.authService.createOrder(this.data).toPromise();
-          if (res.success) {
-            await this.helper.loadingClose();
-            this.toastr.success("Заказ успешно создан");
-            this.dialog.closeAll();
-          }
-        } catch (err) {
-          await this.helper.loadingClose();
-          this.toastr.error("Что то пошло не так");
+      try {
+        const res: any = this.authService.createOrder(this.data).toPromise();
+         if (res.success) {
+          this.helper.loadingClose();
+          this.toastr.success("Заказ успешно создан");
+          this.dialog.closeAll();
+        }
+        else {
+          this.toastr.error(res.message[0])
         }
       }
+      catch (err) {
+        this.helper.loadingClose();
+        this.toastr.error("Что то пошло не так");
+      }
     }
+
   }
 
   getTypes() {
@@ -181,6 +197,7 @@ export class CreateorderComponent {
   changeIsSafe(type) {
     this.isSafeModal = false;
     this.data.isSafe = type;
+    this.data.isCashlessPayment = type;
   }
 
   getFormattedValue(city: any): string {

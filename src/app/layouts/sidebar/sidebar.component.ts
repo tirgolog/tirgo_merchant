@@ -1,11 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { spollers } from 'src/assets/scripts/functions';
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { HelperService } from "../../services/helper.service";
 import { ListService } from "../../services/list.service";
-import { AppComponent } from "../../app.component";
 import { jwtDecode } from 'jwt-decode';
 
 @Component({

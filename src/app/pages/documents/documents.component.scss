@@ -40,3 +40,11 @@
   height: 90px;
   width: 90px;
 }
+
+::ng-deep .select-currency .mat-mdc-select-trigger {
+  gap: 10px;
+}
+
+::ng-deep .select-currency .mat-mdc-select-value {
+   width: auto !important;
+}

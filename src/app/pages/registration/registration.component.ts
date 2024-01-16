@@ -164,8 +164,6 @@ export class RegistrationComponent implements OnInit {
       companyName : this.data.companyType+ " " +this.data.companyName,
       phoneNumber: this.phone.toString()
     }
-    console.log(this.data.confirmCode, this.data.password);
-    
     if(this.data.confirmCode == this.data.password) {
       this.authService.addMerchant(patch).subscribe((res: any) => {
         if (res.success) {

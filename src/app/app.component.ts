@@ -42,17 +42,16 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     if (localStorage.getItem("jwttirgomerhant")) {
-      let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+      let curUser: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
       this.listService.getMerchantById(curUser.merchantId).subscribe((res) => {
-        // this.getBalance();
         if (res.success) {
-          this.currentUser = res.data;
-          if(this.currentUser.completed && this.currentUser.cverified) {
+          this.currentUser = res.data;          
+          if (this.currentUser.completed && this.currentUser.verified) {
             this.socket();
             this.getAllOrders();
             this.getBalance();
           }
-          else if(!this.currentUser?.completed || !this.currentUser?.verified) {
+          else if (!this.currentUser?.completed || !this.currentUser?.verified) {
             this.router.navigate(["documents"]);
           }
         }
@@ -67,7 +66,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
     this.authService.authenticationState.subscribe(async (res) => {
       if (res) {
-        // await this.checkSession();
         this.authService.globalLoading = false;
       } else {
         await this.router.navigate(["auth"]);
@@ -81,7 +79,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           const user: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
           if (data.type == "update-balance") {
             this.getBalance();
-          } else if (data.type == "transaction-verified") {
+          }
+          else if (data.type == "transaction-verified") {
             if (this.currentUser.role.name === "Super admin") {
               this.listService.getFinanceByMerchant(this.currentUser.id).subscribe(
                 (res) => {
@@ -106,11 +105,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
                 }
               );
             }
-          } else if (
-            data.type == "driver-finish" ||
-            data.type == "driver-offer"
-          ) {
+          }
+          else if (data.type == "driver-finish" || data.type == "driver-offer" || data.type == "admin-cancel-order") {
             this.getAllOrders();
+          }
+          else if (data.type == "merchant-verified") {
+            this.authService.logout()
+            this.router.navigate(['auth'], { replaceUrl: true })
           }
         }
       },
@@ -125,17 +126,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   }
   getBalance() {
-    // if (localStorage.getItem("jwttirgomerhant")) {
-    //   const user: any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-      this.listService.getBalanceMerchant(this.currentUser.merchantId).subscribe((res) => {
-        console.log(res);
-        if (res.success) {
-          this.helper.merchantBalance.activeBalance = res.data.activeBalance;
-          this.helper.merchantBalance.frozenBalance = res.data.frozenBalance;
-          this.ref.detectChanges();
-        }
-      });
-    // }
+    this.listService.getBalanceMerchant(this.currentUser.id).subscribe((res) => {
+      if (res.success) {
+        this.helper.merchantBalance.activeBalance = res.data.activeBalance;
+        this.helper.merchantBalance.frozenBalance = res.data.frozenBalance;
+        this.ref.detectChanges();
+      }
+    });
   }
   ngAfterViewInit() {
     if (localStorage.getItem("jwttirgomerhant")) {

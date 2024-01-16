@@ -69,10 +69,10 @@
             <span>{{data.notes ? data.notes : 'Не введен' }}</span>
           </p>
 
-          <p class="tw-flex tw-justify-between" *ngFor="let phone of data.phoneNumbers"
-            [style.color]="phone ? 'black' : 'red'">
+          <p class="tw-flex tw-justify-between"
+            [style.color]="data.phoneNumber ? 'black' : 'red'">
             <span>Телефон: </span>
-            <span>{{phone ? phone : 'Не введен' }}</span>
+            <span>{{data.phoneNumber ? data.phoneNumber : 'Не введен' }}</span>
           </p>
           <p class="tw-flex tw-justify-between" [style.color]="data.legalAddress ? 'black' : 'red'">
             <span>Юридический адрес: </span>
@@ -186,7 +186,7 @@
                   *ngIf="bankAccounts.invalid && (bankAccounts.dirty || bankAccounts.touched)"> Обязательное поле
                 </span>
               </mat-form-field>
-              <mat-select class="form__input" name="currency" [(ngModel)]="currency"
+              <mat-select class="form__input select-currency" name="currency" [(ngModel)]="currency"
                 style="width: 18%; margin-left: 5px;">
                 <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name
                   }}</mat-option>

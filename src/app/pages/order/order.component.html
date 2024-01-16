@@ -38,7 +38,7 @@
           <div class="view__list">
             <p class="tw-flex tw-justify-between">
               <span>Пользователь:</span>
-              <span class="cursor-pointer" (click)="viewUser(data.merchant.id)">{{data.merchant.companyName}}</span>
+              <span>{{data.merchant.companyName}}</span>
             </p>
             <p class="tw-flex tw-justify-between">
               <span>Вес груза: </span>
@@ -55,8 +55,7 @@
             </p>
             <div class="tw-flex tw-justify-between">
               <p>Заказ назначен на:</p>
-              <span>{{ data.sendCargoDate | formatTime: 'DD MMMM YYYY'}} {{data.sendCargoDate | formatTime:
-                "HH:mm"}}</span>
+              <span>{{ data.sendCargoDate | formatTime: 'DD MMMM YYYY'}} {{data.sendCargoTime }}</span>
             </div>
             <p class="tw-flex tw-justify-between">
               <span>Статус</span>
@@ -75,11 +74,11 @@
                      Завершить заказ
                   </button>
                </ng-container> -->
-          <ng-container>
+          <!-- <ng-container>
             <button class="view__btn btn-red" type="button" (click)="closeOrder()">
               Отменить заказ
             </button>
-          </ng-container>
+          </ng-container> -->
           <ng-container>
             <!-- <button class="view__btn btn-green" *ngIf="data.status !== 3" type="button" (click)="selectdriver = !selectdriver">
               Назначить водителя
@@ -171,10 +170,10 @@
             <li><b>В итоге:</b></li>
           </ul>
           <ul>
-            <li>1 200 000 сум</li>
+            <li>{{serviceSafe | number}} сум</li>
             <li>{{returnTax() | number}} сум</li>
             <li>{{selectDriver.priceorder | number}} сум</li>
-            <li>{{returnAmount() | number}} сумқ</li>
+            <li>{{returnAmount() | number}} сум</li>
           </ul>
         </div>
       </mat-card-content>
@@ -202,7 +201,7 @@
             <li><b>В итоге:</b></li>
           </ul>
           <ul>
-            <li>1 200 000 сум</li>
+            <li>{{serviceSafe | number}} сум</li>
             <li>{{returnTax() | number}} сум</li>
             <li>{{selectDriver.priceorder | number}} сум</li>
             <li>{{returnAmount() | number}} сум</li>
