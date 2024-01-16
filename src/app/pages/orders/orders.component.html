@@ -28,10 +28,10 @@
           </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="userinfo.name">
+      <!-- <ng-container matColumnDef="userinfo.name">
         <mat-header-cell *matHeaderCellDef>Клиент</mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.createdBy.fullName}} </mat-cell>
-      </ng-container>
+        <mat-cell *matCellDef="let row"> {{row.createdBy.supervisorFirstName}} {{row.createdBy.supervisorLastName}}</mat-cell>
+      </ng-container> -->
       <ng-container matColumnDef="route.from_city">
         <mat-header-cell *matHeaderCellDef>Маршрут Откуда</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.sendLocation}} </mat-cell>
@@ -80,9 +80,9 @@
       </ng-container>
 
       <mat-header-row
-        *matHeaderRowDef="['action','id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type',  'price', 'secure_transaction', 'date_create', 'date_send']"></mat-header-row>
+        *matHeaderRowDef="['action','id',  'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type',  'price', 'secure_transaction', 'date_create', 'date_send']"></mat-header-row>
       <mat-row (click)="viewOrder(row)"
-        *matRowDef="let row; columns: ['action','id', 'userinfo.name', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type',  'price', 'secure_transaction', 'date_create', 'date_send']"></mat-row>
+        *matRowDef="let row; columns: ['action','id', 'route.from_city', 'route.to_city', 'status', 'type_cargo', 'transport_type',  'price', 'secure_transaction', 'date_create', 'date_send']"></mat-row>
     </table>
     <mat-paginator [length]="helper.orders.length" showFirstLastButtons [pageSizeOptions]="sizespage"
       (page)="handlePage($event)"></mat-paginator>

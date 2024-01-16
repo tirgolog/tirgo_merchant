@@ -26,7 +26,8 @@ export class OrderComponent {
    selectDriver: any;
    driverid: number = 0;
    price: string = '';
-   currentUser
+   currentUser;
+   serviceSafe:number = 1200000
    public citiesSelected: FormControl = new FormControl();
    public selectTechnicalRoomFilterCtrl: FormControl = new FormControl();
    constructor(
@@ -186,10 +187,10 @@ export class OrderComponent {
 
    returnTax() {
       this.tax = 0;
-      return this.tax = (12 / 100) * (this.selectDriver.priceorder / 0.88)
+      return this.tax = (12 / this.serviceSafe) * (this.selectDriver.priceorder / 0.88)
    }
 
    returnAmount() {
-      return this.selectDriver.priceorder + this.tax + 100
+      return this.selectDriver.priceorder + this.tax + this.serviceSafe
    }
 }
