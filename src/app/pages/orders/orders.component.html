@@ -56,7 +56,13 @@
       </ng-container>
       <ng-container matColumnDef="transport_type">
         <mat-header-cell *matHeaderCellDef>Тип транспорта</mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.transportType.name}} </mat-cell>
+        <mat-cell *matCellDef="let row"> 
+          <div style="display: flex; flex-direction: column;">
+            <div *ngFor="let type of row.transportTypes">
+              {{ type.name }}
+            </div>
+          </div>
+         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="price">
         <mat-header-cell *matHeaderCellDef>Предлагаемая стоимость</mat-header-cell>
