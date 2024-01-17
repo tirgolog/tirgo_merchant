@@ -89,8 +89,6 @@ export class OrdersComponent {
 
   ngOnChanges() {
     this.dataSource.data = this.helper.orders
-    console.log(this.dataSource.data);
-    console.log('ok');
     this.ref.detectChanges();
   }
 
@@ -194,9 +192,6 @@ export class OrdersComponent {
           this.helper.global_loading = false;
         }
       });
-    console.log(e);
-    console.log(e.pageIndex);
-    console.log(e.pageSize);
   }
   async onScroll() {
     let neworders = await this.listService

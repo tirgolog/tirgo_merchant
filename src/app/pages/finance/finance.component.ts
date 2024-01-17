@@ -123,8 +123,6 @@ export class FinanceComponent implements OnInit {
       this.toastr.error("Недостаточно стредств");
       this.helper.loadingClose();
     } else {
-      console.log(this.payment.amount, this.activeBalance);
-
       this.helper.loadingClose();
       this.toastr.error("Что то пошло не так");
     }

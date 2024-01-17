@@ -34,7 +34,7 @@
 
           <p class="tw-flex tw-justify-between" [style.color]="data.supervisorLastName ? 'black' : 'red'">
             <span>Имя ответственного лица: </span>
-            <span>{{data.responsiblePersonFirstName ? data.responsiblePersonFirstName : 'Не введен'}}</span>
+            <span>{{data.responsiblePersonFistName ? data.responsiblePersonFistName : 'Не введен'}}</span>
           </p>
 
           <p class="tw-flex tw-justify-between" [style.color]="data.supervisorLastName ? 'black' : 'red'">
@@ -85,8 +85,7 @@
           <p class="tw-flex tw-justify-between" *ngFor="let account of data.bankAccounts"
             [style.color]="data.bankAccounts ? 'black' : 'red'">
             <span>Расчетный счет: </span>
-            <span>{{account.account ? account.account : 'Не введен' }} ({{account.currencyName ? account.currencyName :
-              ''}})</span>
+            <span>{{account.account ? account.account : 'Не введен' }} {{account.currencyName ? (account.currencyName) : ''}}</span>
           </p>
 
         </div>
@@ -194,13 +193,13 @@
             </div>
 
             <div class="dynamic-inputs" *ngIf="bankAccountCurrency">
-              <mat-form-field class="form__input">
+              <mat-form-field class="form__input ">
                 <mat-label>Расчетный счет</mat-label>
                 <input matInput type="text" name="bankAccountCurrency" [(ngModel)]="data.bankAccountCurrency"
                   mask="99999999999999999999" />
                 <mat-icon matSuffix (click)="bankAccountCurrency = false">delete</mat-icon>
               </mat-form-field>
-              <mat-select class="form__input" name="currency2" [(ngModel)]="currency2"
+              <mat-select class="form__input select-currency" name="currency2" [(ngModel)]="currency2"
                 style="width: 18%; margin-left: 5px;">
                 <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name
                   }}</mat-option>

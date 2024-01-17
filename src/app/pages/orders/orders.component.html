@@ -10,22 +10,23 @@
     </div>
   </section>
   <div class="table">
-    <table class="mat-elevation-z8" [dataSource]="dataSource" matSort mat-table (matSortChange)="announceSortChange($event)">
+    <table class="mat-elevation-z8" [dataSource]="dataSource" matSort mat-table
+      (matSortChange)="announceSortChange($event)">
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef>Операция</mat-header-cell>
         <mat-cell *matCellDef="let row">
           <div [matBadgeHidden]="row.acceptedOrders?.length == 0 || row.status != 0"
-          matBadge="{{ row.acceptedOrders?.length }}" matBadgePosition="after" matBadgeColor="warn"
-          *ngIf="row.acceptedOrders?.length && row.status !== 1 && row.status !== 2"></div>
+            matBadge="{{ row.acceptedOrders?.length }}" matBadgePosition="after" matBadgeColor="warn"
+            *ngIf="row.acceptedOrders?.length && row.status !== 1 && row.status !== 2"></div>
           <button *ngIf="row.status == 2" class="btn-green" (click)="orderFinished(row)">Завершить</button>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">ID </mat-header-cell>
-          <mat-cell *matCellDef="let row; let i = index">
-            {{row.id}}
-          </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">ID </mat-header-cell>
+        <mat-cell *matCellDef="let row; let i = index">
+          {{row.id}}
+        </mat-cell>
       </ng-container>
 
       <!-- <ng-container matColumnDef="userinfo.name">
@@ -42,12 +43,13 @@
       </ng-container>
 
       <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">Статус</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          sortActionDescription="Sort by status">Статус</mat-header-cell>
         <mat-cell *matCellDef="let row" [class]="returnClassStatusOrder(row.status)">
-          <span >{{statusOrderCheck(row.status)}}</span>
+          <span>{{statusOrderCheck(row.status)}}</span>
         </mat-cell>
       </ng-container>
-     
+
       <ng-container matColumnDef="type_cargo">
         <mat-header-cell *matHeaderCellDef>Тип груза</mat-header-cell>
         <mat-cell class="hoverTextOrder" *matCellDef="let row">
@@ -56,13 +58,13 @@
       </ng-container>
       <ng-container matColumnDef="transport_type">
         <mat-header-cell *matHeaderCellDef>Тип транспорта</mat-header-cell>
-        <mat-cell *matCellDef="let row"> 
-          <div style="display: flex; flex-direction: column;">
-            <div *ngFor="let type of row.transportTypes">
-              {{ type.name }}
-            </div>
-          </div>
-         </mat-cell>
+        <mat-cell *matCellDef="let row">
+          <span *ngIf="row.transportTypes">
+            <span *ngFor="let type of row.transportTypes;let i=index">
+              {{type.name}}
+            </span>
+          </span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="price">
         <mat-header-cell *matHeaderCellDef>Предлагаемая стоимость</mat-header-cell>

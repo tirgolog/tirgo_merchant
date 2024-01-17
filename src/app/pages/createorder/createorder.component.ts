@@ -166,25 +166,20 @@ export class CreateorderComponent {
       this.data.start_lng = this.citystart.split(":")[2];
       this.data.finish_lat = this.cityfinish.split(":")[1];
       this.data.finish_lng = this.cityfinish.split(":")[2];
-      try {
-        const res: any = this.authService.createOrder(this.data).toPromise();
-         if (res.success) {
+
+      this.authService.createOrder(this.data).subscribe((res:any) => {
+        if (res.success) {
           this.helper.loadingClose();
           this.toastr.success("Заказ успешно создан");
           this.dialog.closeAll();
         }
         else {
-          this.toastr.error(res.message[0])
+          this.helper.loadingClose();
+          this.toastr.error("Что то пошло не так");
         }
-      }
-      catch (err) {
-        this.helper.loadingClose();
-        this.toastr.error("Что то пошло не так");
-      }
+      })
     }
-
   }
-
   getTypes() {
     this.listService.getTypeCargo().subscribe((res) => {
       if (res) this.types = res;
@@ -193,13 +188,11 @@ export class CreateorderComponent {
       if (res) this.transportTypes = res;
     });
   }
-
   changeIsSafe(type) {
     this.isSafeModal = false;
     this.data.isSafe = type;
     this.data.isCashlessPayment = type;
   }
-
   getFormattedValue(city: any): string {
     return city.data.city + ", " + city.data.country;
   }
