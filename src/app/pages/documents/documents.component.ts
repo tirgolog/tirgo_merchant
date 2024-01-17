@@ -50,8 +50,6 @@ export class DocumentsComponent implements OnInit {
         if (res) {
           this.spinner.hide();
           this.currentUser = res.data;
-          console.log(this.currentUser);
-          
           if(!this.currentUser.verified && this.currentUser.completed && !this.currentUser.rejected) { 
            this.formDone = true; 
           }
@@ -161,8 +159,11 @@ export class DocumentsComponent implements OnInit {
   getCurrencies() {
     this.list.getCurrencies().subscribe((res) => {
       this.currencies = res;
-      this.currency = this.currencies[1].id;
-      this.currency2 = this.currencies[0].id;
+      const targetCurrency = this.currencies.find(currency => currency.name === 'UZS');
+      if (targetCurrency) {
+        this.currency = targetCurrency.id;
+        this.currency2 = targetCurrency.id;
+      }
     });
   }
   selectFile(event: any, name: string) {

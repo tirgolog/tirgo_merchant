@@ -28,7 +28,9 @@
             </p>
             <p class="tw-flex tw-justify-between">
               <span>Тип транспорта:</span>
-              <span>{{data.transportType.name}}</span>
+              <span>
+                <span *ngFor="let item of data.transportTypes">{{item.name}} <br></span>
+              </span>
             </p>
             <p class="tw-flex tw-justify-between">
               <span>Размер груза:</span>
@@ -47,7 +49,10 @@
 
             <p class="tw-flex tw-justify-between">
               <span>Стоимость: </span>
-              <span class="tw-uppercase">{{data.offeredPrice}} {{data.currency.name}}</span>
+              <span class="tw-uppercase">
+                <span *ngIf="data.offeredPrice">{{data.offeredPrice}} {{data.currency.name}}</span>
+                <span *ngIf="!data.offeredPrice">Не указана</span>
+                </span>
             </p>
             <p class="tw-flex tw-justify-between">
               <span>Дата оформления заказа: </span>
@@ -64,46 +69,18 @@
                 <span *ngIf="data.status == 1">Принято</span>
                 <span *ngIf="data.status == 2">Выполнен</span>
                 <span *ngIf="data.status == 3">Завершен</span>
+                <span *ngIf="data.status == 4">Отменен</span>
               </span>
             </p>
           </div>
         </div>
         <div class="view__buttons">
-          <!-- <ng-container>
-                  <button class="view__btn btn-red" type="button" (click)="endOrder()">
-                     Завершить заказ
-                  </button>
-               </ng-container> -->
-          <!-- <ng-container>
-            <button class="view__btn btn-red" type="button" (click)="closeOrder()">
-              Отменить заказ
-            </button>
-          </ng-container> -->
           <ng-container>
-            <!-- <button class="view__btn btn-green" *ngIf="data.status !== 3" type="button" (click)="selectdriver = !selectdriver">
-              Назначить водителя
-            </button> -->
           </ng-container>
           <button class="view__btn btn-yellow" type="button" (click)="close()">
             Закрыть
           </button>
         </div>
-
-        <!-- <span [hidden]="!selectdriver && data.status != 0">
-          <div class="sed-driver-block">
-            <mat-form-field class="form__input">
-              <mat-label>Водитель</mat-label>
-              <input matInput type="text" name="name" placeholder="ID водителя" [(ngModel)]="driverid" />
-            </mat-form-field>
-            <mat-form-field class="form__input">
-              <mat-label>Предложенная сумма</mat-label>
-              <input matInput type="text" name="name" placeholder="Предложенная сумма" [(ngModel)]="price" />
-            </mat-form-field>
-            <button class="view__btn btn-yellow ion-ni-margin ion-no-padding" type="button" (click)="saveNewDriver()">
-              Сохранить
-            </button>
-          </div>
-        </span> -->
 
         <div class="offers" *ngIf="data.acceptedOrders.length">
           <h2 style="margin-bottom: 10px; font-size: 18px; font-weight: 500;">Предложение</h2>
