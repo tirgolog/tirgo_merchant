@@ -81,7 +81,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             this.getBalance();
           }
           else if (data.type == "transaction-verified") {
-            if (this.currentUser.role.name === "Super admin") {
               this.listService.getFinanceByMerchant(this.currentUser.id).subscribe(
                 (res) => {
                   if (res) {
@@ -93,18 +92,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
                   this.toastr.error(error.message);
                 }
               );
-            } else {
-              this.listService.getTransactionsByUser(user.sub).subscribe(
-                (res) => {
-                  if (res) {
-                    this.helper.transactions_type = res.data;
-                  }
-                },
-                (error) => {
-                  this.toastr.error(error.message);
-                }
-              );
-            }
           }
           else if (data.type == "driver-finish" || data.type == "driver-offer" || data.type == "admin-cancel-order") {
             this.getAllOrders();
