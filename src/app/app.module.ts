@@ -64,7 +64,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { ReviewComponent } from './components/review/review.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
+import {CommonModule, DatePipe, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './services/api.interceptor';
 import { AuthComponent } from './pages/auth/auth.component';
@@ -129,7 +129,7 @@ import { AddDaysPipe } from './pipes/add-days.pipe';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { CodeInputModule } from 'angular-code-input';
-import {NgxMatIntlTelInputComponent} from 'ngx-mat-intl-tel-input';
+import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 
 registerLocaleData(ruLocale);
 
@@ -269,6 +269,7 @@ const mapConfig: YaConfig = {
    ],
 
    providers: [
+      DatePipe,
       { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' },
       {
          provide: HTTP_INTERCEPTORS,

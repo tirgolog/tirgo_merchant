@@ -69,11 +69,16 @@
             <span>{{data.notes ? data.notes : 'Не введен' }}</span>
           </p>
 
-          <p class="tw-flex tw-justify-between"
-            [style.color]="data.phoneNumber ? 'black' : 'red'">
+          <p class="tw-flex tw-justify-between" [style.color]="data.phoneNumber ? 'black' : 'red'">
             <span>Телефон: </span>
             <span>{{data.phoneNumber ? data.phoneNumber : 'Не введен' }}</span>
           </p>
+
+          <p class="tw-flex tw-justify-between" [style.color]="data.responsbilePersonPhoneNumber ? 'black' : 'red'">
+            <span>Номер телефона ответственного лица: </span>
+            <span>{{data.responsbilePersonPhoneNumber ? data.responsbilePersonPhoneNumber : 'Не введен' }}</span>
+          </p>
+
           <p class="tw-flex tw-justify-between" [style.color]="data.legalAddress ? 'black' : 'red'">
             <span>Юридический адрес: </span>
             <span>{{data.legalAddress ? data.legalAddress : 'Не введен' }}</span>
@@ -85,10 +90,13 @@
           <p class="tw-flex tw-justify-between" *ngFor="let account of data.bankAccounts"
             [style.color]="data.bankAccounts ? 'black' : 'red'">
             <span>Расчетный счет: </span>
-            <span>{{account.account ? account.account : 'Не введен' }} ({{account.currencyName ? account.currencyName :
-              ''}})</span>
+            <span>{{account.account ? account.account : 'Не введен' }}</span>
           </p>
 
+          <p class="tw-flex tw-justify-between" [style.color]="data.taxPayerCode ? 'black' : 'red'">
+            <span>Код плательщика НДС: </span>
+            <span>{{data.taxPayerCode ? data.taxPayerCode : 'Не введен' }}</span>
+          </p>
         </div>
       </div>
 
@@ -149,31 +157,7 @@
             </div>
           </div>
 
-          <div class="dynamic-inputs-wrapper">
-            <div class="dynamic-inputs">
-              <mat-form-field class="form__input">
-                <mat-label>Имя Ответственного лица</mat-label>
-                <input matInput required name="responsiblePersonFistName" [(ngModel)]="data.responsiblePersonFistName"
-                  #responsiblePersonFistName="ngModel" />
-                <span style="margin-left: 0; color: red;"
-                  *ngIf="responsiblePersonFistName.invalid && (responsiblePersonFistName.dirty || responsiblePersonFistName.touched)">
-                  Обязательное поле </span>
-              </mat-form-field>
-            </div>
-          </div>
 
-          <div class="dynamic-inputs-wrapper">
-            <div class="dynamic-inputs">
-              <mat-form-field class="form__input">
-                <mat-label>Фамилия Ответственного лица</mat-label>
-                <input matInput required name="responsiblePersonLastName" [(ngModel)]="data.responsiblePersonLastName"
-                  #responsiblePersonLastName="ngModel" />
-                <span style="margin-left: 0; color: red;"
-                  *ngIf="responsiblePersonLastName.invalid && (responsiblePersonLastName.dirty || responsiblePersonLastName.touched)">
-                  Обязательное поле </span>
-              </mat-form-field>
-            </div>
-          </div>
 
           <div class="dynamic-inputs-wrapper">
             <div class="dynamic-inputs" style="align-items: center">
@@ -218,92 +202,145 @@
             </div>
           </div>
 
-            <div class="dynamic-inputs-wrapper">
-              <div class="dynamic-inputs">
-                <mat-form-field class="form__input">
-                  <mat-label>ИНН</mat-label>
-                  <input type="text" required mask="999999999" matInput name="inn" [(ngModel)]="data.inn" maxlength="9"
-                    #inn="ngModel" />
-                  <span style="margin-left: 0; color: red;" *ngIf="inn.invalid && (inn.dirty || inn.touched)">
-                    Обязательное
-                    поле </span>
-                </mat-form-field>
-              </div>
+
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>ИНН</mat-label>
+                <input type="text" required mask="999999999" matInput name="inn" [(ngModel)]="data.inn" maxlength="9"
+                  #inn="ngModel" />
+                <span style="margin-left: 0; color: red;" *ngIf="inn.invalid && (inn.dirty || inn.touched)">
+                  Обязательное
+                  поле </span>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>ОКЭД</mat-label>
+                <input type="text" required mask="99999" matInput name="oked" [(ngModel)]="data.oked" maxlength="5"
+                  #oked="ngModel" />
+                <span style="margin-left: 0; color: red;" *ngIf="oked.invalid && (oked.dirty || oked.touched)">
+                  Обязательное поле </span>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Код плательщика НДС</mat-label>
+                <input type="text" matInput name="taxPayerCode" mask="999999999999" [(ngModel)]="data.taxPayerCode"
+                  #taxPayerCode="ngModel" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Имя Ответственного лица</mat-label>
+                <input matInput required name="responsiblePersonFistName" [(ngModel)]="data.responsiblePersonFistName"
+                  #responsiblePersonFistName="ngModel" />
+                <span style="margin-left: 0; color: red;"
+                  *ngIf="responsiblePersonFistName.invalid && (responsiblePersonFistName.dirty || responsiblePersonFistName.touched)">
+                  Обязательное поле </span>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Фамилия Ответственного лица</mat-label>
+                <input matInput required name="responsiblePersonLastName" [(ngModel)]="data.responsiblePersonLastName"
+                  #responsiblePersonLastName="ngModel" />
+                <span style="margin-left: 0; color: red;"
+                  *ngIf="responsiblePersonLastName.invalid && (responsiblePersonLastName.dirty || responsiblePersonLastName.touched)">
+                  Обязательное поле </span>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Телефон Ответственного лица</mat-label>
+                <input (paste)="onPaste($event)" type="text" mask="+999999999999" matInput required
+                  name="responsbilePersonPhoneNumber" [(ngModel)]="data.responsbilePersonPhoneNumber"
+                  #responsbilePersonPhoneNumber="ngModel" />
+                <span style="margin-left: 0; color: red;"
+                  *ngIf="responsbilePersonPhoneNumber.invalid && (responsbilePersonPhoneNumber.dirty || responsbilePersonPhoneNumber.touched)">
+                  Обязательное поле </span>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>МФО</mat-label>
+                <input type="text" matInput required name="mfo" [(ngModel)]="data.mfo" mask="99999" maxlength="5"
+                  #mfo="ngModel" />
+                <span style="margin-left: 0; color: red;" *ngIf="mfo.invalid && (mfo.dirty || mfo.touched)">
+                  Обязательное
+                  поле </span>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>DUNS номер</mat-label>
+                <input type="text" matInput name="dunsNumber" [(ngModel)]="data.dunsNumber" mask="999999999"
+                  maxlength="9" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>IBAN номер</mat-label>
+                <input type="text" matInput name="ibanNumber" [(ngModel)]="data.ibanNumber" mask="999999999"
+                  maxlength="9" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Заметки</mat-label>
+                <input matInput name="notes" [(ngModel)]="data.notes" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="dynamic-inputs-wrapper">
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Юридический адрес</mat-label>
+                <input matInput required type="text" name="legalAddress" [(ngModel)]="data.legalAddress"
+                  #legalAddress="ngModel" />
+                <span style="margin-left: 0; color: red;"
+                  *ngIf="legalAddress.invalid && (legalAddress.dirty || legalAddress.touched)"> Обязательное поле
+                </span>
+              </mat-form-field>
             </div>
 
-            <div class="dynamic-inputs-wrapper">
-              <div class="dynamic-inputs">
-                <mat-form-field class="form__input">
-                  <mat-label>ОКЭД</mat-label>
-                  <input type="text" required mask="99999" matInput name="oked" [(ngModel)]="data.oked" maxlength="5"
-                    #oked="ngModel" />
-                  <span style="margin-left: 0; color: red;" *ngIf="oked.invalid && (oked.dirty || oked.touched)">
-                    Обязательное поле </span>
-                </mat-form-field>
-              </div>
+            <div class="dynamic-inputs">
+              <mat-form-field class="form__input">
+                <mat-label>Фактический адрес</mat-label>
+                <input matInput type="text" name="factAddress" [(ngModel)]="data.factAddress" />
+              </mat-form-field>
             </div>
-
-            <div class="dynamic-inputs-wrapper">
-              <div class="dynamic-inputs">
-                <mat-form-field class="form__input">
-                  <mat-label>МФО</mat-label>
-                  <input type="text" matInput required name="mfo" [(ngModel)]="data.mfo" mask="99999" maxlength="5"
-                    #mfo="ngModel" />
-                  <span style="margin-left: 0; color: red;" *ngIf="mfo.invalid && (mfo.dirty || mfo.touched)">
-                    Обязательное
-                    поле </span>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="dynamic-inputs-wrapper">
-              <div class="dynamic-inputs">
-                <mat-form-field class="form__input">
-                  <mat-label>DUNS номер</mat-label>
-                  <input type="text" matInput name="dunsNumber" [(ngModel)]="data.dunsNumber" mask="999999999"
-                    maxlength="9" />
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="dynamic-inputs-wrapper">
-              <div class="dynamic-inputs">
-                <mat-form-field class="form__input">
-                  <mat-label>IBAN номер</mat-label>
-                  <input type="text" matInput name="ibanNumber" [(ngModel)]="data.ibanNumber" mask="999999999"
-                    maxlength="9" />
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="dynamic-inputs-wrapper">
-              <div class="dynamic-inputs">
-                <mat-form-field class="form__input">
-                  <mat-label>Заметки</mat-label>
-                  <input matInput name="notes" [(ngModel)]="data.notes" />
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="dynamic-inputs-wrapper">
-              <div class="dynamic-inputs">
-                <mat-form-field class="form__input">
-                  <mat-label>Юридический адрес</mat-label>
-                  <input matInput required type="text" name="legalAddress" [(ngModel)]="data.legalAddress"
-                    #legalAddress="ngModel" />
-                  <span style="margin-left: 0; color: red;"
-                    *ngIf="legalAddress.invalid && (legalAddress.dirty || legalAddress.touched)"> Обязательное поле
-                  </span>
-                </mat-form-field>
-              </div>
-
-              <div class="dynamic-inputs">
-                <mat-form-field class="form__input">
-                  <mat-label>Фактический адрес</mat-label>
-                  <input matInput type="text" name="factAddress" [(ngModel)]="data.factAddress" />
-                </mat-form-field>
-              </div>
-            </div>
+          </div>
 
           <button [disabled]="!form.valid" style="margin: 20px 0" class="auth__btn btn-green"
             (click)="createMerchant()">

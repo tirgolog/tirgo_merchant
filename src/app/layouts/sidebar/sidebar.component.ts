@@ -30,11 +30,11 @@ export class SidebarComponent {
     if (localStorage.getItem("jwttirgomerhant")) {
       let curUser:any = jwtDecode(localStorage.getItem("jwttirgomerhant"));
       curUser;
-      this.listService.getUserById(curUser.sub).subscribe((res) => {
-        if (res.success) {
-          this.selectedUser = res.data;
-        }
-      })
+      // this.listService.getUserById(curUser.merchantId).subscribe((res) => {
+      //   if (res.success) {
+      //     this.selectedUser = res.data;
+      //   }
+      // })
 
       this.listService.getMerchantById(curUser.merchantId).subscribe((res) => {
         if (res.success) {

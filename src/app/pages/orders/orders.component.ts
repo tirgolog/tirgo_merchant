@@ -91,7 +91,6 @@ export class OrdersComponent {
     this.dataSource.data = this.helper.orders
     this.ref.detectChanges();
   }
-
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.spoller.initSpollers();
@@ -261,6 +260,7 @@ export class OrdersComponent {
     this.helper.isLoading = false;
   }
   orderFinished(item) {
+    item.id = item.id.toString().split('M')[1] ? +item.id.toString().split('M')[1] : item.id;
     this.authService.finishOrder(item).subscribe(
       (res: any) => {
         if (res) {

@@ -31,12 +31,12 @@
         <mat-header-cell *matHeaderCellDef>ID </mat-header-cell>
         <mat-cell *matCellDef="let row; let i = index"> {{ i + 1 }} </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="user">
+      <!-- <ng-container matColumnDef="user">
         <mat-header-cell *matHeaderCellDef>Пользователь </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{ row.createdBy.fullName }}
+          {{ row?.createdBy?.fullName }}
         </mat-cell>
-      </ng-container>
+      </ng-container> -->
       <ng-container matColumnDef="type">
         <mat-header-cell *matHeaderCellDef>Тип </mat-header-cell>
         <mat-cell *matCellDef="let row">
@@ -55,8 +55,8 @@
         </mat-cell>
       </ng-container>
 
-      <mat-header-row *matHeaderRowDef="['id', 'user', 'type', 'sum', 'date']"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: ['id', 'user', 'type', 'sum', 'date']"></mat-row>
+      <mat-header-row *matHeaderRowDef="['id', 'type', 'sum', 'date']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['id', 'type', 'sum', 'date']"></mat-row>
     </mat-table>
     <mat-paginator [length]="helper?.transactions_type?.length" showFirstLastButtons [pageSizeOptions]="sizespage"
       (page)="handlePage($event)"></mat-paginator>

@@ -43,13 +43,14 @@ export class RegistrationComponent implements OnInit {
   verifyCode: any;
   verificationCode: any;
   confirmCode
+  codeEntered: boolean = false;
   constructor(
     public authService: AuthService,
     public helper: HelperService,
     public list: ListService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -77,7 +78,7 @@ export class RegistrationComponent implements OnInit {
 
   sendSms() {
     this.spinner.show();
-    this.authService.phoneVerify({ phone: this.countryCode.code + this.phone, countryCode: this.countryCode.country }).subscribe((res: any) => {
+    this.authService.phoneVerify({ phone: this.phone, countryCode: this.countryCode.country }).subscribe((res: any) => {
       if (res.success) {
         this.spinner.hide();
         this.verificationCode = res.data.code;
@@ -161,23 +162,23 @@ export class RegistrationComponent implements OnInit {
     let patch = {
       email: this.data.email,
       password: this.data.password,
-      companyName : this.data.companyType+ " " +this.data.companyName,
+      companyName: this.data.companyType + " " + this.data.companyName,
       phoneNumber: this.phone.toString()
     }
-    if(this.data.confirmCode == this.data.password) {
+    if (this.data.confirmCode == this.data.password) {
       this.authService.addMerchant(patch).subscribe((res: any) => {
         if (res.success) {
           this.toastr.success("Мерчант успешно добавлен");
           this.router
           this.loading = false;
           this.authService
-          .loginAdmin(this.data.email, this.data.password).subscribe((res:any) => {
-            if(res) {
-              this.authService.setJwt(res.data.access_token);
-              this.router.navigate(['documents'])
-            }
-          })
-          }else {
+            .loginAdmin(this.data.email, this.data.password).subscribe((res: any) => {
+              if (res) {
+                this.authService.setJwt(res.data.access_token);
+                this.router.navigate(['documents'])
+              }
+            })
+        } else {
           this.toastr.error("Что то пошло не так");
           this.loading = false;
         }
@@ -185,7 +186,7 @@ export class RegistrationComponent implements OnInit {
     } else {
       this.loading = false;
       this.toastr.error("Пароль не совпадает");
-    } 
+    }
   }
   getCurrencies() {
     this.list.getCurrencies().subscribe((res) => {
@@ -219,4 +220,18 @@ export class RegistrationComponent implements OnInit {
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
   }
+
+  onCodeChanged(code: string) {
+    code.length == 6 ? (this.codeEntered = true) : (this.codeEntered = false);
+    this.verifyCode = code;
+  }
+
+  onCodeCompleted(code: string) {
+    if (this.verificationCode == this.verifyCode) {
+      this.spinner.hide();
+      this.registrationStart = true;
+      this.codeEntered = true;
+    }
+  }
+
 }

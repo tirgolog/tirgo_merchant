@@ -5,7 +5,7 @@
 
     <form #form="ngForm">
       <!-- 1 STEP -->
-      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="!registrationStart">
+      <!-- <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="!registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
           <mat-select class="form__input" style="width: 25%; margin-left: 10px;" name="countryCode"
             [(ngModel)]="countryCode" (ngModelChange)="changedCountry($event)">
@@ -20,29 +20,47 @@
             <input matInput type="number" name="phone" [(ngModel)]="phone" required #phoneNumbers="ngModel" required />
           </mat-form-field>
         </div>
-      </div>
+      </div> -->
 
-      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && !registrationStart">
+      <!-- <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && !registrationStart">
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
           <mat-form-field class="form__input">
             <mat-label>Введите код</mat-label>
             <input matInput type="number" name="verifyCode" [(ngModel)]="verifyCode" required required />
           </mat-form-field>
         </div>
+      </div> -->
+
+
+      <div class="dynamic-inputs-wrapper input-tel" style="margin: 0 auto" *ngIf="!registrationStart">
+        <mat-form-field class="form__input">
+          <mat-label>Телефон</mat-label>
+          <ngx-mat-intl-tel-input class="w-full" [disabled]="startVerficationCode && !registrationStart" [preferredCountries]="['uz']"
+            [onlyCountries]="['uz','kz','tj','kg','ru','af']" name="phone" [(ngModel)]="phone" #phoneNumbers="ngModel">
+          </ngx-mat-intl-tel-input>
+        </mat-form-field>
       </div>
 
-      <button *ngIf="!startVerficationCode" [disabled]="!form.valid" (click)="sendSms()" style="margin: 20px auto"
+      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;" *ngIf="startVerficationCode && !registrationStart">
+        <div class="dynamic-inputs" style="margin-left: 0 !important;">
+          <code-input [isCodeHidden]="false" [codeLength]="6" (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)"></code-input>
+        </div>
+      </div>
+
+      
+      <button *ngIf="!startVerficationCode" [disabled]=" loading" (click)="sendSms()" style="margin: 20px auto"
         class="auth__btn btn-green">
         Отправить код
       </button>
-      <button *ngIf="startVerficationCode && !registrationStart" [disabled]="!form.valid" (click)="startRegistr()"
+      <button [disabled]="!codeEntered || loading" *ngIf="startVerficationCode && !registrationStart" (click)="startRegistr()"
         style="margin: 20px auto" class="auth__btn btn-green">
         Продолжить
       </button>
       <!-- 1 STEP -->
 
       <!-- 2 STEP -->
-      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;display: flex;" *ngIf="startVerficationCode && registrationStart">
+      <div class="dynamic-inputs-wrapper" style="margin: 0 auto;display: flex;"
+        *ngIf="startVerficationCode && registrationStart">
         <div class="dynamic-inputs-wrapper" style="margin: 0 auto; width: 25%">
           <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
             <mat-form-field class="form__input">
@@ -102,8 +120,8 @@
         <div class="dynamic-inputs" style="gap: 10px; align-items: baseline;">
           <mat-form-field class="form__input">
             <mat-label>Подтвердите пароль</mat-label>
-            <input matInput type="{{ showPassword ? 'text' : 'password' }}" name="confirmCode" [(ngModel)]="data.confirmCode"
-              required />
+            <input matInput type="{{ showPassword ? 'text' : 'password' }}" name="confirmCode"
+              [(ngModel)]="data.confirmCode" required />
             <button mat-icon-button matSuffix (click)="toggleShowPassword()">
               <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
@@ -115,7 +133,7 @@
         style="margin: 20px auto" class="auth__btn btn-green">
         Сохранить
       </button>
-     
+
     </form>
   </div>
 </main>

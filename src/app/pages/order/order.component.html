@@ -52,7 +52,7 @@
               <span class="tw-uppercase">
                 <span *ngIf="data.offeredPrice">{{data.offeredPrice}} {{data.currency.name}}</span>
                 <span *ngIf="!data.offeredPrice">Не указана</span>
-                </span>
+              </span>
             </p>
             <p class="tw-flex tw-justify-between">
               <span>Дата оформления заказа: </span>
@@ -111,6 +111,7 @@
                   <span *ngIf="item.status_order == 3">Завершен</span>
                 </td>
                 <td>
+
                   <button [disabled]="item.status_order != 0" class="view__btn btn-green ion-ni-margin ion-no-padding"
                     type="button" (click)="showAcceptOffer(item)">
                     Принять
@@ -132,7 +133,7 @@
   </section>
 </main>
 
-<ng-template #dialogRef>
+<!-- <ng-template #dialogRef>
   <form #form="ngForm">
     <mat-card>
       <mat-card-header><span class="title">Счёт</span>
@@ -161,7 +162,7 @@
       </mat-card-actions>
     </mat-card>
   </form>
-</ng-template>
+</ng-template> -->
 
 <ng-template #dialogRef>
   <form #form="ngForm">

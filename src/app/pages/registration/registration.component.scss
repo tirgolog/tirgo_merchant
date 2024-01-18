@@ -144,3 +144,14 @@ input::-webkit-inner-spin-button {
 }
 
 
+::ng-deep .input-tel .mat-mdc-form-field-infix {
+  display: flex;
+  align-items: center;
+}
+::ng-deep .country-selector .mdc-button__label {
+  margin-right: 5px !important;
+}
+
+:host ::ng-deep code-input {
+  --item-height: 50px !important;
+}
