@@ -188,4 +188,20 @@ export class DocumentsComponent implements OnInit {
       }
     );
   }
+
+  onPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+    const clipboardData = event.clipboardData || (window as any).clipboardData;
+    const pastedText = clipboardData.getData('text/plain');
+
+    // Check if the pasted text contains only numbers
+    if (/^[+\d]+$/.test(pastedText)) {
+      // If it contains only numbers, update the input field
+      document.execCommand('insertText', false, pastedText);
+    } else {
+      // If the pasted text contains non-numeric characters, prevent the paste
+      console.log('Invalid paste. Only numbers are allowed.');
+    }
+  }
+
 }

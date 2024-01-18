@@ -61,6 +61,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     this.authService.checkToken();
     if (this.authService.currentUser) {
       this.authService.globalLoading = false;
+      await this.router.navigate(["registration"]);
     } else {
       await this.router.navigate(["auth"]);
     }
