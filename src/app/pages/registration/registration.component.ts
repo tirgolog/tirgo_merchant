@@ -162,6 +162,7 @@ export class RegistrationComponent implements OnInit {
     let patch = {
       email: this.data.email,
       password: this.data.password,
+      companyType: this.data.companyType,
       companyName: this.data.companyType + " " + this.data.companyName,
       phoneNumber: this.phone.toString()
     }
@@ -220,12 +221,10 @@ export class RegistrationComponent implements OnInit {
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
   }
-
   onCodeChanged(code: string) {
     code.length == 6 ? (this.codeEntered = true) : (this.codeEntered = false);
     this.verifyCode = code;
   }
-
   onCodeCompleted(code: string) {
     if (this.verificationCode == this.verifyCode) {
       this.spinner.hide();

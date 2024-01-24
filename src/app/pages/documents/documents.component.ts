@@ -141,6 +141,7 @@ export class DocumentsComponent implements OnInit {
       logoFilePath: this.data.logo,
       passportFilePath: this.data.supervisor_passport,
       registrationCertificateFilePath: this.data.certificate_registration,
+      responsbilePersonPhoneNumber: this.data.responsbilePersonPhoneNumber 
     };
     this.authService.merchantComplete(patch).subscribe((res: any) => {
       if (res) {
