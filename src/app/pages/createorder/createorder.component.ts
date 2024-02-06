@@ -88,6 +88,11 @@ export class CreateorderComponent {
       }
     });
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    this.sendCargoTime = `${hours}:${minutes}`;
+
   }
   returnCity(city: string) {
     if (city) {
@@ -130,7 +135,11 @@ export class CreateorderComponent {
     this.data.isUrgent = ev.checked;
   }
   addOrder() {
-    if (new Date(this.sendCargoDate).getTime() < new Date().getTime()) {
+    const [hours, minutes] = this.sendCargoTime.split(':').map(Number);
+    const sendCargoDateTime = new Date(this.sendCargoDate);
+    sendCargoDateTime.setHours(hours, minutes, 0, 0);
+
+    if (sendCargoDateTime.getTime() < new Date().getTime()) {
       this.toastr.error("Выбранная дата не может быть меньше текущей даты.");
     }
     else if (this.citystart == '') {
@@ -167,7 +176,7 @@ export class CreateorderComponent {
       this.data.finish_lat = this.cityfinish.split(":")[1];
       this.data.finish_lng = this.cityfinish.split(":")[2];
 
-      this.authService.createOrder(this.data).subscribe((res:any) => {
+      this.authService.createOrder(this.data).subscribe((res: any) => {
         if (res.success) {
           this.helper.loadingClose();
           this.toastr.success("Заказ успешно создан");
