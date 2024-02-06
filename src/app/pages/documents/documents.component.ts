@@ -114,8 +114,8 @@ export class DocumentsComponent implements OnInit {
     this.loading = true;
     if (this.data.bankAccountCurrency) {
       this.data.bankAccounts = [
-        { account: +this.data.bankAccounts, currency: this.currency },
-        { account: +this.data.bankAccountCurrency, currency: this.currency2 },
+        { account: this.data.bankAccounts, currency: this.currency },
+        { account: this.data.bankAccountCurrency, currency: this.currency2 },
       ];
     } else {
       this.data.bankAccounts = [
@@ -143,6 +143,8 @@ export class DocumentsComponent implements OnInit {
       registrationCertificateFilePath: this.data.certificate_registration,
       responsbilePersonPhoneNumber: this.data.responsbilePersonPhoneNumber 
     };
+    console.log(patch);
+    
     this.authService.merchantComplete(patch).subscribe((res: any) => {
       if (res) {
         this.formDone = true;

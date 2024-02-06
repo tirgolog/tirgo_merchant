@@ -184,7 +184,7 @@
                   mask="99999999999999999999" />
                 <mat-icon matSuffix (click)="bankAccountCurrency = false">delete</mat-icon>
               </mat-form-field>
-              <mat-select class="form__input" name="currency2" [(ngModel)]="currency2"
+              <mat-select class="form__input select-currency" name="currency2" [(ngModel)]="currency2"
                 style="width: 18%; margin-left: 5px;">
                 <mat-option *ngFor="let currency of currencies" value="{{ currency.id }}">{{ currency.name
                   }}</mat-option>
@@ -337,14 +337,17 @@
             <div class="dynamic-inputs">
               <mat-form-field class="form__input">
                 <mat-label>Фактический адрес</mat-label>
-                <input matInput type="text" name="factAddress" [(ngModel)]="data.factAddress" />
+                <input matInput type="text" name="factAddress" [(ngModel)]="data.factAddress" required="" />
+                <span style="margin-left: 0; color: red;"
+                  *ngIf="legalAddress.invalid && (legalAddress.dirty || legalAddress.touched)"> Обязательное поле
+                </span>
               </mat-form-field>
             </div>
           </div>
 
           <button [disabled]="!form.valid" style="margin: 20px 0" class="auth__btn btn-green"
             (click)="createMerchant()">
-            Завершить
+            Отправить
           </button>
         </div>
 
@@ -384,11 +387,11 @@
               <mat-toolbar>
                 <input matInput [value]="
                   passportNames.length ? passportNames : 'Паспорт руководителя'
-                " />
+                " required />
               </mat-toolbar>
 
               <input type="file" class="fileInput" name="supervisor_passport" [(ngModel)]="data.supervisor_passport"
-                accept="image/*" (change)="selectFile($event, 'supervisor_passport')" />
+                accept="image/*" (change)="selectFile($event, 'supervisor_passport')" required />
               <mat-icon matSuffix>file_download</mat-icon>
             </mat-form-field>
           </div>
