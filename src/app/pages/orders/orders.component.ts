@@ -86,7 +86,6 @@ export class OrdersComponent {
       }
     );
   }
-
   ngOnChanges() {
     this.dataSource.data = this.helper.orders
     this.ref.detectChanges();
