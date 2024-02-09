@@ -88,11 +88,6 @@ export class CreateorderComponent {
       }
     });
     this.currentUser = jwtDecode(localStorage.getItem("jwttirgomerhant"));
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    this.sendCargoTime = `${hours}:${minutes}`;
-
   }
   returnCity(city: string) {
     if (city) {
@@ -135,11 +130,11 @@ export class CreateorderComponent {
     this.data.isUrgent = ev.checked;
   }
   addOrder() {
-    const [hours, minutes] = this.sendCargoTime.split(':').map(Number);
-    const sendCargoDateTime = new Date(this.sendCargoDate);
-    sendCargoDateTime.setHours(hours, minutes, 0, 0);
-
-    if (sendCargoDateTime.getTime() < new Date().getTime()) {
+    const sendCargoDateOnly = new Date(this.sendCargoDate);
+    sendCargoDateOnly.setHours(0, 0, 0, 0);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    if (sendCargoDateOnly.getTime() < currentDate.getTime()) {
       this.toastr.error("Выбранная дата не может быть меньше текущей даты.");
     }
     else if (this.citystart == '') {
