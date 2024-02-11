@@ -95,7 +95,7 @@ export class FinanceComponent implements OnInit {
     this.frozenBalance = this.helper.merchantBalance?.frozenBalance;
   }
   createTransaction() {
-    this.helper.loadingCreate();
+    // this.helper.loadingCreate();
     this.payment.merchantId = this.currentUser.merchantId;
     if (
       this.payment.transactionType === "topup" ||
@@ -116,16 +116,14 @@ export class FinanceComponent implements OnInit {
           this.toastr.error("Что то пошло не так");
         }
       );
-    } else if (
+    }
+     else if (
       this.payment.transactionType == "withdrow" &&
       this.payment.amount > this.activeBalance
     ) {
       this.toastr.error("Недостаточно стредств");
       this.helper.loadingClose();
-    } else {
-      this.helper.loadingClose();
-      this.toastr.error("Что то пошло не так");
-    }
+    } 
   }
   async handlePage(e: any) {
     this.helper.global_loading = true;

@@ -75,10 +75,10 @@
           </mat-form-field>
 
 
-          <mat-form-field class="form__input">
+          <!-- <mat-form-field class="form__input">
             <mat-label>Время отправки груза</mat-label>
             <input matInput type="time" name="sendCargoTime" [(ngModel)]="sendCargoTime" />
-          </mat-form-field>
+          </mat-form-field> -->
 
           <mat-form-field class="form__input">
             <mat-label>Вес груза</mat-label>
@@ -100,11 +100,11 @@
             <input matInput type="text" name="cargoHeight" [(ngModel)]="data.cargoHeight" />
           </mat-form-field>
 
-          <div class="form__status">
+          <!-- <div class="form__status">
             <mat-slide-toggle color="primary" name="isUrgent" [(ngModel)]="data.isUrgent" [checked]="data.isUrgent"
               (change)="addTwoDays($event)">+2 дня (Оставьте тумблер выключенным если это срочный
               заказ)</mat-slide-toggle>
-          </div>
+          </div> -->
 
           <div class="form__status">
             <mat-slide-toggle color="primary" name="isDangrousCargo" [(ngModel)]="data.isDangrousCargo"
@@ -113,7 +113,7 @@
           </div>
 
           <div class="form__status">
-            <mat-slide-toggle color="primary" name="isCashlessPayment" [(ngModel)]="data.isCashlessPayment"
+            <mat-slide-toggle color="primary" [disabled]="data.isSafe" name="isCashlessPayment" [(ngModel)]="data.isCashlessPayment"
               [checked]="data.isCashlessPayment" (change)="selectNoCash($event)">Безналичная оплата</mat-slide-toggle>
           </div>
 
