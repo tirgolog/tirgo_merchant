@@ -152,9 +152,6 @@ export class CreateorderComponent {
     else if (this.sendCargoDate == undefined) {
       this.toastr.error('Не можем создать заказ, Нужно выбрать дата отправки груза');
     }
-    else if (this.sendCargoTime == undefined) {
-      this.toastr.error('Не можем создать заказ, Нужно выбрать время отправки груза');
-    }
     else if (this.data.cargoWeight == '') {
       this.toastr.error('Не можем создать заказ, Нужно выбрать вес груза');
     }
