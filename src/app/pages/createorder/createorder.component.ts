@@ -167,7 +167,7 @@ export class CreateorderComponent {
       this.data.start_lng = this.citystart.split(":")[2];
       this.data.finish_lat = this.cityfinish.split(":")[1];
       this.data.finish_lng = this.cityfinish.split(":")[2];
-
+      this.data.sendCargoTime  = '00:00';
       this.authService.createOrder(this.data).subscribe((res: any) => {
         if (res.success) {
           this.helper.loadingClose();
