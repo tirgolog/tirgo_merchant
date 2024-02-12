@@ -151,7 +151,6 @@ export class OrderComponent {
       this.toastr.error('Невозможно назначить водителя. Не все поля заполнены')
     }
   }
-
   acceptOffer(): void {
     const obj = {
       clientId: this.currentUser.merchantId,
@@ -169,33 +168,27 @@ export class OrderComponent {
       this.dialog.closeAll();
     })
   }
-
   showAcceptOffer(item) {
-    if (!item.isSafe) {
+    if (!this.data.isSafe) {
       this.selectDriver = item;
       this.acceptOffer();
     }
-    else if (item.isSafe) {
-      this.listService.getBalanceMerchant(this.currentUser.merchantId).subscribe((res) => {
-        if (res.success) {
-          if (res.data.activeBalance >= (item.priceorder + item.additional_price)) {
-            this.selectDriver = item;
-            const dialogRef = this.dialog.open(this.dialogRef, {
-              data: '',
-            });
-          } else {
-            this.toastr.error('Недостатончо стредств на балансе чтобы принять заказ. Пополните баланс')
-          }
-        }
-      })
+    else if (this.data.isSafe) {
+      if(this.helper.merchantBalance?.activeBalance >= (item.priceorder + item.additional_price)) {
+        this.selectDriver = item;
+        const dialogRef = this.dialog.open(this.dialogRef, {
+          data: '',
+        });
+      }
+      else {
+        this.toastr.error('Недостатончо стредств на балансе чтобы принять заказ. Пополните баланс')
+      }
     }
   }
-
   returnTax() {
     this.tax = 0;
     return this.tax = (12 / 100) * (this.selectDriver.priceorder / 0.88);
   }
-
   returnAmount() {
     return this.selectDriver.priceorder + this.tax + this.serviceSafe;
   }
