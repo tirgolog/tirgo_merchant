@@ -101,8 +101,8 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.priceorder + item.additional_price}}</td>
                 <td>
-                  <span *ngIf="item.status_order != 0">{{ item.phone }}</span>
-                  <span *ngIf="item.status_order == 0"></span>
+                  <span *ngIf="item.status_order == 1">{{ item.phone }}</span>
+                  <span *ngIf="item.status_order != 1"></span>
                 </td>
                 <td>
                   <span *ngIf="item.status_order == 0">Ожидающий</span>
